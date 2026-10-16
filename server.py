@@ -5,9 +5,12 @@ import socket
 from datetime import datetime
 from typing import List, Optional
 
+import io
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Depends
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
+from fastapi.responses import HTMLResponse, FileResponse, JSONResponse, Response
+import qrcode
+import qrcode.image.svg
 from pydantic import BaseModel
 
 from database import get_db, init_db
@@ -120,6 +123,14 @@ def get_system_info():
         "kitchen_url": f"http://{ip}:8000/kitchen",
         "admin_url": f"http://{ip}:8000/admin"
     }
+
+@app.get("/api/qr")
+def get_qr_code(text: str):
+    factory = qrcode.image.svg.SvgPathImage
+    img = qrcode.make(text, image_factory=factory)
+    stream = io.BytesIO()
+    img.save(stream)
+    return Response(content=stream.getvalue(), media_type="image/svg+xml")
 
 @app.get("/api/settings")
 def get_settings():
