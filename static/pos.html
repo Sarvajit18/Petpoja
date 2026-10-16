@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petpooja POS - Main Billing Station</title>
+    <style>
+        :root {
+            --bg-dark: #12151c;
+            --bg-panel: #1b202c;
+            --bg-card: #242b3b;
+            --bg-hover: #2e374d;
+            --border-color: #313a52;
+            --primary: #ff5722;
+            --primary-hover: #e64a19;
+            --green: #10b981;
+            --red: #ef4444;
+            --amber: #f59e0b;
+            --blue: #3b82f6;
+            --text-light: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Bar */
+        header {
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            height: 56px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            background: var(--primary);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .rest-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .lan-badge {
+            background: #1e3a8a;
+            color: #93c5fd;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .lan-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-nav {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn-nav:hover { background: var(--bg-hover); }
+
+        /* Main POS Layout */
+        .pos-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            height: calc(100vh - 56px);
+            overflow: hidden;
+        }
+
+        /* Left Section: Floor & Tables / Menu */
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .section-bar {
+            background: var(--bg-panel);
+            padding: 10px 16px;
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .sec-tab {
+            background: var(--bg-card);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .sec-tab.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* Tables Grid */
+        .tables-scroll {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 14px;
+        }
+
+        .table-card {
+            background: var(--bg-panel);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 110px;
+            cursor: pointer;
+            transition: transform 0.15s, border-color 0.15s;
+            position: relative;
+        }
+
+        .table-card:hover {
+            transform: translateY(-2px);
+            border-color: #4b5563;
+        }
+
+        .table-card.selected {
+            border-color: var(--blue) !important;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+        }
+
+        .table-card.available {
+            border-top: 4px solid var(--green);
+        }
+        .table-card.occupied {
+            border-top: 4px solid var(--red);
+            background: #25161c;
+        }
+        .table-card.billed {
+            border-top: 4px solid var(--amber);
+            background: #2b2311;
+        }
+
+        .t-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .t-num {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .t-cap {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .t-info {
+            margin-top: 8px;
+        }
+
+        .t-amount {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .t-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 4px;
+        }
+
+        .badge-available { background: rgba(16, 185, 129, 0.2); color: var(--green); }
+        .badge-occupied { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+        .badge-billed { background: rgba(245, 158, 11, 0.2); color: var(--amber); }
+
+        /* Quick Menu Punch Drawer below or toggled */
+        .menu-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .menu-modal {
+            background: var(--bg-panel);
+            width: 800px;
+            max-width: 95vw;
+            height: 600px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 14px 20px;
+            background: var(--bg-card);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .menu-modal-body {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .cat-list {
+            background: var(--bg-dark);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+        }
+
+        .cat-btn {
+            width: 100%;
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            text-align: left;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cat-btn.active {
+            background: var(--bg-card);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+            font-weight: 700;
+        }
+
+        .items-grid {
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            overflow-y: auto;
+            align-content: start;
+        }
+
+        .item-tile {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 80px;
+            transition: all 0.15s;
+        }
+
+        .item-tile:hover {
+            border-color: var(--primary);
+            background: var(--bg-hover);
+        }
+
+        .food-icon {
+            font-size: 10px;
+            display: inline-block;
+            margin-right: 4px;
+        }
+
+        /* Right Section: Billing & Order Summary */
+        .right-panel {
+            background: var(--bg-panel);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .order-header {
+            padding: 14px 16px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .captain-tag {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .items-table-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 12px;
+        }
+
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .order-table th {
+            text-align: left;
+            color: var(--text-muted);
+            padding: 8px 6px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .order-table td {
+            padding: 10px 6px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            vertical-align: middle;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .qty-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .bill-totals {
+            padding: 14px 16px;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+        }
+
+        .calc-row.total-row {
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .pos-actions {
+            padding: 12px 16px;
+            background: var(--bg-panel);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-action {
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.15s;
+        }
+
+        .btn-add-items { background: var(--bg-hover); color: #fff; border: 1px solid var(--border-color); }
+        .btn-punch-kot { background: #0284c7; color: #fff; }
+        .btn-print-bill { background: #d97706; color: #fff; }
+        .btn-settle { background: var(--green); color: #fff; grid-column: span 2; font-size: 16px; padding: 14px; }
+
+        .btn-action:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Settlement Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-card {
+            background: var(--bg-panel);
+            width: 440px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+        }
+
+        .pay-modes {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .pay-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .pay-btn.selected {
+            background: var(--green);
+            border-color: var(--green);
+        }
+
+        /* Printable Receipt (CSS for 80mm ESC/POS Thermal) */
+        @media print {
+            body * { visibility: hidden; }
+            #thermal-receipt, #thermal-receipt * { visibility: visible; }
+            #thermal-receipt {
+                position: absolute;
+                left: 0; top: 0;
+                width: 80mm;
+                font-family: monospace;
+                color: #000;
+                background: #fff;
+                padding: 5mm;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="brand-area">
+            <span class="brand-logo">PETPOOJA</span>
+            <span class="rest-name" id="disp-rest-name">Royal Feast POS</span>
+            <div class="lan-badge">
+                <span class="lan-dot"></span>
+                <span id="disp-lan-ip">LAN: 127.0.0.1:8000</span>
+            </div>
+        </div>
+        <div class="header-actions">
+            <a href="/captain" target="_blank" class="btn-nav">📱 Captain App</a>
+            <a href="/kitchen" target="_blank" class="btn-nav">👨‍🍳 Kitchen (KDS)</a>
+            <a href="/admin" target="_blank" class="btn-nav">⚙️ Reports & Admin</a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="pos-container">
+        
+        <!-- Left Panel: Tables & Sections -->
+        <div class="left-panel">
+            <div class="section-bar" id="section-tabs">
+                <button class="sec-tab active" onclick="filterSection('ALL')">All Tables</button>
+            </div>
+
+            <div class="tables-scroll">
+                <div class="tables-grid" id="tables-container">
+                    <!-- Tables rendered dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Current Bill / Order Details -->
+        <div class="right-panel">
+            <div class="order-header">
+                <div>
+                    <div class="order-title" id="active-table-title">Select a Table</div>
+                    <div class="captain-tag" id="active-captain-name">No Table Selected</div>
+                </div>
+                <div id="order-status-badge"></div>
+            </div>
+
+            <!-- Items Table -->
+            <div class="items-table-container">
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th style="width: 70px;">Qty</th>
+                            <th style="text-align: right; width: 60px;">Price</th>
+                            <th style="text-align: right; width: 70px;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="order-items-body">
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 40px 0;">
+                                Select a table or punch a new order.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Calculation Totals -->
+            <div class="bill-totals">
+                <div class="calc-row">
+                    <span>Subtotal</span>
+                    <span id="calc-subtotal">₹ 0.00</span>
+                </div>
+                <div class="calc-row">
+                    <span>Discount (<span id="calc-disc-pct">0</span>%)</span>
+                    <span id="calc-discount">₹ 0.00</span>
+                </div>
+                <div class="calc-row">
+                    <span>GST (<span id="calc-gst-pct">5.0</span>%)</span>
+                    <span id="calc-gst">₹ 0.00</span>
+                </div>
+                <div class="calc-row total-row">
+                    <span>Grand Total</span>
+                    <span id="calc-grandtotal">₹ 0.00</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="pos-actions">
+                <button class="btn-action btn-add-items" id="btn-add-items" onclick="openMenuModal()" disabled>
+                    ➕ Add Items
+                </button>
+                <button class="btn-action btn-punch-kot" id="btn-punch-kot" onclick="punchNewKOT()" disabled>
+                    🖨️ Punch KOT
+                </button>
+                <button class="btn-action btn-print-bill" id="btn-print-bill" onclick="printReceipt()" disabled>
+                    🧾 Print Bill
+                </button>
+                <button class="btn-action btn-settle" id="btn-settle" onclick="openSettleModal()" disabled>
+                    💳 Settle & Pay (₹ <span id="btn-settle-amount">0</span>)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Item Selection Modal for Counter Punching -->
+    <div class="menu-modal-overlay" id="menu-modal">
+        <div class="menu-modal">
+            <div class="modal-header">
+                <h3 id="menu-modal-title">Add Items to Table</h3>
+                <button class="modal-close" onclick="closeMenuModal()">✕</button>
+            </div>
+            <div class="menu-modal-body">
+                <div class="cat-list" id="modal-cat-list"></div>
+                <div class="items-grid" id="modal-items-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settlement Modal -->
+    <div class="modal" id="settle-modal">
+        <div class="modal-card">
+            <h3>Settle Payment</h3>
+            <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">Select payment method and confirm bill closure.</p>
+            
+            <div style="font-size: 28px; font-weight: 800; text-align: center; margin: 18px 0; color: var(--green);">
+                ₹ <span id="settle-display-total">0.00</span>
+            </div>
+
+            <div class="pay-modes">
+                <button class="pay-btn selected" onclick="selectPayMode('cash', this)">💵 Cash</button>
+                <button class="pay-btn" onclick="selectPayMode('upi', this)">📱 UPI / QR</button>
+                <button class="pay-btn" onclick="selectPayMode('card', this)">💳 Card</button>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn-action" style="flex: 1; background: var(--bg-hover); color: #fff;" onclick="closeSettleModal()">Cancel</button>
+                <button class="btn-action" style="flex: 2; background: var(--green); color: #fff;" onclick="confirmSettlement()">Complete Settlement</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Thermal Receipt for ESC/POS Printing -->
+    <div id="thermal-receipt" style="display: none;"></div>
+
+    <script>
+        let allTables = [];
+        let allCategories = [];
+        let selectedTableId = null;
+        let activeOrder = null;
+        let stagedItems = []; // items added before punching KOT
+        let selectedPayModeValue = 'cash';
+        let currentSection = 'ALL';
+
+        // Initialize WebSockets for real-time LAN communication
+        const loc = window.location;
+        const wsProtocol = loc.protocol === 'https:' ? 'wss:' : 'ws:';
+        const socket = new WebSocket(`${wsProtocol}//${loc.host}/ws`);
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            console.log("Real-time event:", data);
+            loadTables();
+            if (selectedTableId) {
+                reloadActiveOrder();
+            }
+        };
+
+        // Fetch System LAN info & settings
+        async function initSystem() {
+            try {
+                const infoRes = await fetch('/api/info');
+                const info = await infoRes.json();
+                document.getElementById('disp-lan-ip').innerText = `LAN: ${info.local_ip}:8000`;
+
+                const setRes = await fetch('/api/settings');
+                const settings = await setRes.json();
+                if (settings.restaurant_name) {
+                    document.getElementById('disp-rest-name').innerText = settings.restaurant_name;
+                }
+
+                await loadMenu();
+                await loadTables();
+            } catch (err) {
+                console.error("Init failed:", err);
+            }
+        }
+
+        async function loadMenu() {
+            const res = await fetch('/api/menu');
+            allCategories = await res.json();
+            renderMenuModalCategories();
+        }
+
+        async function loadTables() {
+            const res = await fetch('/api/tables');
+            allTables = await res.json();
+            renderSectionTabs();
+            renderTables();
+        }
+
+        function renderSectionTabs() {
+            const sections = ['ALL', ...new Set(allTables.map(t => t.section))];
+            const container = document.getElementById('section-tabs');
+            container.innerHTML = sections.map(sec => `
+                <button class="sec-tab ${currentSection === sec ? 'active' : ''}" onclick="filterSection('${sec}')">
+                    ${sec === 'ALL' ? 'All Tables' : sec}
+                </button>
+            `).join('');
+        }
+
+        function filterSection(sec) {
+            currentSection = sec;
+            renderSectionTabs();
+            renderTables();
+        }
+
+        function renderTables() {
+            const container = document.getElementById('tables-container');
+            const filtered = currentSection === 'ALL' ? allTables : allTables.filter(t => t.section === currentSection);
+            
+            container.innerHTML = filtered.map(t => {
+                const isSelected = t.id === selectedTableId;
+                const status = t.status;
+                const grandTotal = t.order ? Math.round(t.order.grand_total) : 0;
+                const capName = t.order ? t.order.captain_name : '';
+
+                return `
+                    <div class="table-card ${status} ${isSelected ? 'selected' : ''}" onclick="selectTable(${t.id})">
+                        <div class="t-header">
+                            <span class="t-num">${t.name}</span>
+                            <span class="t-cap">${t.capacity} Pax</span>
+                        </div>
+                        <div class="t-info">
+                            ${status === 'available' ? '<div style="font-size:12px;color:var(--text-muted)">Vacant</div>' : `
+                                <div class="t-amount">₹ ${grandTotal}</div>
+                                <div style="font-size:11px;color:var(--text-muted)">${t.item_count} items • ${capName}</div>
+                            `}
+                            <span class="t-badge badge-${status}">${status}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function selectTable(id) {
+            selectedTableId = id;
+            stagedItems = [];
+            renderTables();
+            await reloadActiveOrder();
+        }
+
+        async function reloadActiveOrder() {
+            const tbl = allTables.find(t => t.id === selectedTableId);
+            if (!tbl) return;
+
+            document.getElementById('active-table-title').innerText = `${tbl.name} (${tbl.section})`;
+            document.getElementById('btn-add-items').disabled = false;
+
+            if (tbl.current_order_id) {
+                const res = await fetch(`/api/orders/${tbl.current_order_id}`);
+                activeOrder = await res.json();
+                document.getElementById('active-captain-name').innerText = `Captain: ${activeOrder.captain_name}`;
+                document.getElementById('btn-print-bill').disabled = false;
+                document.getElementById('btn-settle').disabled = false;
+                document.getElementById('btn-settle-amount').innerText = Math.round(activeOrder.grand_total);
+            } else {
+                activeOrder = null;
+                document.getElementById('active-captain-name').innerText = `Table Vacant - Ready for new order`;
+                document.getElementById('btn-print-bill').disabled = true;
+                document.getElementById('btn-settle').disabled = true;
+                document.getElementById('btn-settle-amount').innerText = '0';
+            }
+
+            renderOrderItems();
+        }
+
+        function renderOrderItems() {
+            const tbody = document.getElementById('order-items-body');
+            let combinedItems = [];
+
+            if (activeOrder && activeOrder.items) {
+                combinedItems = [...activeOrder.items];
+            }
+            // Add staged items (items added in POS but not yet punched to kitchen)
+            stagedItems.forEach(si => combinedItems.push({...si, isStaged: true}));
+
+            if (combinedItems.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted); padding: 40px 0;">No items yet. Click "+ Add Items" to punch.</td></tr>`;
+                updateCalculations(0, 0, 0, 0);
+                document.getElementById('btn-punch-kot').disabled = true;
+                return;
+            }
+
+            tbody.innerHTML = combinedItems.map(item => `
+                <tr style="${item.isStaged ? 'background: rgba(2, 132, 199, 0.1);' : ''}">
+                    <td>
+                        <div style="font-weight:600;">${item.item_name} ${item.isStaged ? '<span style="font-size:10px;color:#38bdf8;">(NEW)</span>' : ''}</div>
+                        ${item.notes ? `<div style="font-size:11px;color:var(--amber);">${item.notes}</div>` : ''}
+                    </td>
+                    <td>
+                        ${item.isStaged ? `
+                            <div class="qty-controls">
+                                <button class="qty-btn" onclick="adjustStagedQty(${item.item_id}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="qty-btn" onclick="adjustStagedQty(${item.item_id}, 1)">+</button>
+                            </div>
+                        ` : `<span>${item.quantity}</span>`}
+                    </td>
+                    <td style="text-align: right;">₹ ${item.price}</td>
+                    <td style="text-align: right; font-weight:600;">₹ ${item.price * item.quantity}</td>
+                </tr>
+            `).join('');
+
+            // Totals
+            let subtotal = combinedItems.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
+            let gstPercent = activeOrder ? activeOrder.gst_percent : 5.0;
+            let gstAmt = Math.round((subtotal * gstPercent) / 100);
+            let grandTotal = subtotal + gstAmt;
+
+            updateCalculations(subtotal, 0, gstAmt, grandTotal);
+            document.getElementById('btn-punch-kot').disabled = stagedItems.length === 0;
+        }
+
+        function updateCalculations(sub, disc, gst, grand) {
+            document.getElementById('calc-subtotal').innerText = `₹ ${sub.toFixed(2)}`;
+            document.getElementById('calc-discount').innerText = `₹ ${disc.toFixed(2)}`;
+            document.getElementById('calc-gst').innerText = `₹ ${gst.toFixed(2)}`;
+            document.getElementById('calc-grandtotal').innerText = `₹ ${grand.toFixed(2)}`;
+        }
+
+        // Menu Modal logic
+        function openMenuModal() {
+            document.getElementById('menu-modal').style.display = 'flex';
+            if (allCategories.length > 0) {
+                selectCategory(allCategories[0].id);
+            }
+        }
+        function closeMenuModal() {
+            document.getElementById('menu-modal').style.display = 'none';
+        }
+
+        function renderMenuModalCategories() {
+            const list = document.getElementById('modal-cat-list');
+            list.innerHTML = allCategories.map((c, i) => `
+                <button class="cat-btn ${i === 0 ? 'active' : ''}" id="cat-btn-${c.id}" onclick="selectCategory(${c.id})">
+                    <span>${c.icon}</span> ${c.name}
+                </button>
+            `).join('');
+        }
+
+        function selectCategory(catId) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            const activeBtn = document.getElementById(`cat-btn-${catId}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            const cat = allCategories.find(c => c.id === catId);
+            const grid = document.getElementById('modal-items-grid');
+            if (!cat) return;
+
+            grid.innerHTML = cat.items.map(it => `
+                <div class="item-tile" onclick="addItemToStaged(${it.id}, '${it.name.replace(/'/g, "\\'")}', ${it.price})">
+                    <div style="font-weight: 600; font-size: 13px;">
+                        <span class="food-icon">${it.food_type === 'veg' ? '🟢' : '🔴'}</span>${it.name}
+                    </div>
+                    <div style="color: var(--primary); font-weight: 700; margin-top: 8px;">₹ ${it.price}</div>
+                </div>
+            `).join('');
+        }
+
+        function addItemToStaged(itemId, itemName, price) {
+            const existing = stagedItems.find(i => i.item_id === itemId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                stagedItems.push({
+                    item_id: itemId,
+                    item_name: itemName,
+                    price: price,
+                    quantity: 1,
+                    notes: ''
+                });
+            }
+            renderOrderItems();
+        }
+
+        function adjustStagedQty(itemId, delta) {
+            const idx = stagedItems.findIndex(i => i.item_id === itemId);
+            if (idx > -1) {
+                stagedItems[idx].quantity += delta;
+                if (stagedItems[idx].quantity <= 0) {
+                    stagedItems.splice(idx, 1);
+                }
+            }
+            renderOrderItems();
+        }
+
+        async function punchNewKOT() {
+            if (stagedItems.length === 0 || !selectedTableId) return;
+
+            const payload = {
+                order_type: "dine_in",
+                table_id: selectedTableId,
+                captain_name: "Billing Counter",
+                items: stagedItems
+            };
+
+            try {
+                const res = await fetch('/api/orders/punch', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const result = await res.json();
+                stagedItems = [];
+                closeMenuModal();
+                await loadTables();
+                await reloadActiveOrder();
+                alert(`KOT #${result.kot_number} punched and sent to kitchen!`);
+            } catch (err) {
+                alert("Failed to punch KOT: " + err);
+            }
+        }
+
+        async function printReceipt() {
+            if (!activeOrder) return;
+
+            // Mark table as billed
+            await fetch(`/api/orders/${activeOrder.id}/mark_billed`, { method: 'POST' });
+
+            const setRes = await fetch('/api/settings');
+            const s = await setRes.json();
+
+            let itemsHtml = activeOrder.items.map(it => `
+                <tr>
+                    <td>${it.item_name}</td>
+                    <td style="text-align:center;">${it.quantity}</td>
+                    <td style="text-align:right;">₹${it.price}</td>
+                    <td style="text-align:right;">₹${it.price * it.quantity}</td>
+                </tr>
+            `).join('');
+
+            const receiptDiv = document.getElementById('thermal-receipt');
+            receiptDiv.style.display = 'block';
+            receiptDiv.innerHTML = `
+                <div style="text-align: center; margin-bottom: 8px;">
+                    <h2 style="margin: 0; font-size: 18px;">${s.restaurant_name || 'Restaurant'}</h2>
+                    <p style="margin: 2px 0;">${s.address || ''}</p>
+                    <p style="margin: 2px 0;">Ph: ${s.phone || ''} | GSTIN: ${s.gstin || ''}</p>
+                </div>
+                <hr style="border: 0.5px dashed #000; margin: 6px 0;">
+                <div>
+                    <div><strong>Bill No:</strong> ${activeOrder.order_number}</div>
+                    <div><strong>Table:</strong> ${activeOrder.table_name} | <strong>Cap:</strong> ${activeOrder.captain_name}</div>
+                    <div><strong>Date:</strong> ${activeOrder.created_at}</div>
+                </div>
+                <hr style="border: 0.5px dashed #000; margin: 6px 0;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid #000;">
+                            <th style="text-align:left;">Item</th>
+                            <th>Qty</th>
+                            <th style="text-align:right;">Rate</th>
+                            <th style="text-align:right;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>${itemsHtml}</tbody>
+                </table>
+                <hr style="border: 0.5px dashed #000; margin: 6px 0;">
+                <div style="text-align: right; font-size: 13px;">
+                    <div>Subtotal: ₹ ${activeOrder.subtotal.toFixed(2)}</div>
+                    <div>GST (${activeOrder.gst_percent}%): ₹ ${activeOrder.gst_amount.toFixed(2)}</div>
+                    <div style="font-size: 16px; font-weight: bold; margin-top: 4px;">Grand Total: ₹ ${activeOrder.grand_total.toFixed(2)}</div>
+                </div>
+                <div style="text-align: center; margin-top: 14px;">
+                    <p>*** THANK YOU & VISIT AGAIN ***</p>
+                </div>
+            `;
+
+            window.print();
+            receiptDiv.style.display = 'none';
+        }
+
+        // Settle & Payment logic
+        function openSettleModal() {
+            if (!activeOrder) return;
+            document.getElementById('settle-display-total').innerText = activeOrder.grand_total.toFixed(2);
+            document.getElementById('settle-modal').style.display = 'flex';
+        }
+        function closeSettleModal() {
+            document.getElementById('settle-modal').style.display = 'none';
+        }
+
+        function selectPayMode(mode, btn) {
+            selectedPayModeValue = mode;
+            document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        async function confirmSettlement() {
+            if (!activeOrder) return;
+            try {
+                const res = await fetch(`/api/orders/${activeOrder.id}/settle`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        payment_mode: selectedPayModeValue,
+                        discount_percent: 0.0,
+                        discount_amount: 0.0
+                    })
+                });
+                closeSettleModal();
+                selectedTableId = null;
+                activeOrder = null;
+                await loadTables();
+                alert("Order Settled & Table Marked Vacant!");
+            } catch (err) {
+                alert("Settlement error: " + err);
+            }
+        }
+
+        // On load
+        window.addEventListener('DOMContentLoaded', initSystem);
+    </script>
+</body>
+</html>
