@@ -159,13 +159,11 @@ def init_db():
     cursor.execute("SELECT COUNT(*) FROM dining_tables")
     if cursor.fetchone()[0] == 0:
         tables = [
-            # Main AC Floor
-            ("T-1", "Main AC Hall", 2),
-            ("T-2", "Main AC Hall", 4),
-            ("T-3", "Main AC Hall", 4),
-            ("T-4", "Main AC Hall", 6),
-            ("T-5", "Main AC Hall", 6),
-            ("T-6", "Main AC Hall", 8),
+            # Dining Area
+            ("T-1", "Dining Area", 2),
+            ("T-2", "Dining Area", 4),
+            ("T-3", "Dining Area", 4),
+            ("T-4", "Dining Area", 6),
             # First Floor Family Section
             ("FF-1", "Family Floor", 4),
             ("FF-2", "Family Floor", 4),

@@ -17,6 +17,7 @@
             --red: #ef4444;
             --amber: #f59e0b;
             --blue: #3b82f6;
+            --purple: #8b5cf6;
             --text-light: #f3f4f6;
             --text-muted: #9ca3af;
         }
@@ -42,8 +43,8 @@
         header {
             background-color: var(--bg-panel);
             border-bottom: 1px solid var(--border-color);
-            height: 56px;
-            padding: 0 20px;
+            height: 60px;
+            padding: 0 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -58,17 +59,37 @@
         .brand-logo {
             background: var(--primary);
             color: #fff;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 6px;
             font-weight: 800;
             font-size: 16px;
             letter-spacing: 0.5px;
         }
 
+        .rest-info-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .rest-name {
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
         }
+
+        .btn-edit-inline {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-edit-inline:hover { background: var(--bg-hover); border-color: var(--primary); }
 
         .lan-badge {
             background: #1e3a8a;
@@ -92,7 +113,7 @@
 
         .header-actions {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
         }
 
@@ -100,10 +121,10 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             color: var(--text-light);
-            padding: 6px 14px;
+            padding: 7px 13px;
             border-radius: 6px;
             font-size: 13px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
@@ -118,11 +139,11 @@
             flex: 1;
             display: grid;
             grid-template-columns: 1fr 420px;
-            height: calc(100vh - 56px);
+            height: calc(100vh - 60px);
             overflow: hidden;
         }
 
-        /* Left Section: Floor & Tables / Menu */
+        /* Left Section: Floor & Tables */
         .left-panel {
             display: flex;
             flex-direction: column;
@@ -135,28 +156,65 @@
             background: var(--bg-panel);
             padding: 10px 16px;
             display: flex;
+            align-items: center;
             gap: 10px;
             border-bottom: 1px solid var(--border-color);
             overflow-x: auto;
         }
 
-        .sec-tab {
+        .sec-tab-wrap {
+            display: flex;
+            align-items: center;
             background: var(--bg-card);
-            color: var(--text-muted);
             border: 1px solid var(--border-color);
-            padding: 8px 16px;
             border-radius: 6px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .sec-tab-wrap.active {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+
+        .sec-tab {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 8px 14px;
             font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .sec-tab-wrap.active .sec-tab {
+            color: #fff;
+        }
+
+        .sec-opt-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 8px;
+            cursor: pointer;
+            font-size: 11px;
+            border-left: 1px solid rgba(255,255,255,0.1);
+        }
+        .sec-tab-wrap.active .sec-opt-btn { color: #fff; }
+        .sec-opt-btn:hover { background: rgba(0,0,0,0.2); }
+
+        .sec-add-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
         }
-
-        .sec-tab.active {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary);
-        }
+        .sec-add-btn:hover { border-color: var(--green); color: var(--green); }
 
         /* Tables Grid */
         .tables-scroll {
@@ -167,7 +225,7 @@
 
         .tables-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
             gap: 14px;
         }
 
@@ -195,28 +253,41 @@
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
         }
 
-        .table-card.available {
-            border-top: 4px solid var(--green);
-        }
-        .table-card.occupied {
-            border-top: 4px solid var(--red);
-            background: #25161c;
-        }
-        .table-card.billed {
-            border-top: 4px solid var(--amber);
-            background: #2b2311;
-        }
+        .table-card.available { border-top: 4px solid var(--green); }
+        .table-card.occupied { border-top: 4px solid var(--red); background: #25161c; }
+        .table-card.billed { border-top: 4px solid var(--amber); background: #2b2311; }
 
         .t-header {
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
+            align-items: flex-start;
         }
 
         .t-num {
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 17px;
+            font-weight: 800;
         }
+
+        .t-tools {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .t-edit-icon {
+            background: rgba(255,255,255,0.08);
+            border: none;
+            color: var(--text-muted);
+            border-radius: 4px;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        .t-edit-icon:hover { background: var(--blue); color: #fff; }
 
         .t-cap {
             font-size: 11px;
@@ -247,115 +318,6 @@
         .badge-occupied { background: rgba(239, 68, 68, 0.2); color: var(--red); }
         .badge-billed { background: rgba(245, 158, 11, 0.2); color: var(--amber); }
 
-        /* Quick Menu Punch Drawer below or toggled */
-        .menu-modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-        }
-
-        .menu-modal {
-            background: var(--bg-panel);
-            width: 800px;
-            max-width: 95vw;
-            height: 600px;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-        }
-
-        .modal-header {
-            padding: 14px 20px;
-            background: var(--bg-card);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .modal-close {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .menu-modal-body {
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .cat-list {
-            background: var(--bg-dark);
-            border-right: 1px solid var(--border-color);
-            overflow-y: auto;
-        }
-
-        .cat-btn {
-            width: 100%;
-            padding: 12px 16px;
-            background: transparent;
-            border: none;
-            color: var(--text-light);
-            text-align: left;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .cat-btn.active {
-            background: var(--bg-card);
-            color: var(--primary);
-            border-left: 4px solid var(--primary);
-            font-weight: 700;
-        }
-
-        .items-grid {
-            padding: 16px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 12px;
-            overflow-y: auto;
-            align-content: start;
-        }
-
-        .item-tile {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 80px;
-            transition: all 0.15s;
-        }
-
-        .item-tile:hover {
-            border-color: var(--primary);
-            background: var(--bg-hover);
-        }
-
-        .food-icon {
-            font-size: 10px;
-            display: inline-block;
-            margin-right: 4px;
-        }
-
         /* Right Section: Billing & Order Summary */
         .right-panel {
             background: var(--bg-panel);
@@ -374,15 +336,8 @@
             align-items: center;
         }
 
-        .order-title {
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .captain-tag {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
+        .order-title { font-size: 16px; font-weight: 700; }
+        .captain-tag { font-size: 12px; color: var(--text-muted); }
 
         .items-table-container {
             flex: 1;
@@ -477,13 +432,178 @@
         .btn-punch-kot { background: #0284c7; color: #fff; }
         .btn-print-bill { background: #d97706; color: #fff; }
         .btn-settle { background: var(--green); color: #fff; grid-column: span 2; font-size: 16px; padding: 14px; }
+        .btn-action:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        .btn-action:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
+        /* Menu Picker & Manager Modal */
+        .menu-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
         }
 
-        /* Settlement Modal */
+        .menu-modal {
+            background: var(--bg-panel);
+            width: 880px;
+            max-width: 96vw;
+            height: 640px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 14px 20px;
+            background: var(--bg-card);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .menu-modal-body {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .cat-list {
+            background: var(--bg-dark);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cat-btn {
+            width: 100%;
+            padding: 12px 14px;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            text-align: left;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cat-btn.active {
+            background: var(--bg-card);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+            font-weight: 700;
+        }
+
+        .cat-btn-add {
+            padding: 10px;
+            background: rgba(255,255,255,0.04);
+            border: 1px dashed var(--border-color);
+            color: var(--text-muted);
+            margin: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .cat-btn-add:hover { border-color: var(--primary); color: #fff; }
+
+        .items-area {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .items-toolbar {
+            padding: 10px 16px;
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .items-grid {
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            overflow-y: auto;
+            align-content: start;
+            flex: 1;
+        }
+
+        .item-tile {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 95px;
+            transition: all 0.15s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .item-tile:hover {
+            border-color: var(--primary);
+            background: var(--bg-hover);
+        }
+
+        .item-tile.out-of-stock {
+            opacity: 0.5;
+            filter: grayscale(1);
+        }
+
+        .item-tile-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .item-tile-tools {
+            display: flex;
+            gap: 4px;
+        }
+
+        .btn-tile-tool {
+            background: rgba(255,255,255,0.08);
+            border: none;
+            color: var(--text-muted);
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-tile-tool:hover { background: var(--blue); color: #fff; }
+
+        /* Standard Form Modals */
         .modal {
             display: none;
             position: fixed;
@@ -497,9 +617,40 @@
         .modal-card {
             background: var(--bg-panel);
             width: 440px;
+            max-width: 95vw;
             border-radius: 12px;
             border: 1px solid var(--border-color);
             padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+        input:focus, select:focus { border-color: var(--primary); }
+
+        .modal-btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
         }
 
         .pay-modes {
@@ -519,13 +670,8 @@
             cursor: pointer;
             text-align: center;
         }
+        .pay-btn.selected { background: var(--green); border-color: var(--green); }
 
-        .pay-btn.selected {
-            background: var(--green);
-            border-color: var(--green);
-        }
-
-        /* Printable Receipt (CSS for 80mm ESC/POS Thermal) */
         @media print {
             body * { visibility: hidden; }
             #thermal-receipt, #thermal-receipt * { visibility: visible; }
@@ -548,17 +694,29 @@
     <header>
         <div class="brand-area">
             <span class="brand-logo">PETPOOJA</span>
-            <span class="rest-name" id="disp-rest-name">Royal Feast POS</span>
+            <div class="rest-info-group">
+                <span class="rest-name" id="disp-rest-name">Royal Feast POS</span>
+                <button class="btn-edit-inline" onclick="openProfileModal()" title="Edit Restaurant Profile & GST">
+                    ✏️ Edit Profile & GST
+                </button>
+            </div>
             <div class="lan-badge">
                 <span class="lan-dot"></span>
                 <span id="disp-lan-ip">LAN: 127.0.0.1:8000</span>
             </div>
         </div>
         <div class="header-actions">
-            <button class="btn-nav" style="background:#0284c7; border-color:#0284c7; color:#fff; font-weight:700;" onclick="openQrModal()">📲 Connect Captain App</button>
-            <a href="/captain" target="_blank" class="btn-nav">📱 Captain Screen</a>
-            <a href="/kitchen" target="_blank" class="btn-nav">👨‍🍳 Kitchen (KDS)</a>
-            <a href="/admin" target="_blank" class="btn-nav">⚙️ Reports & Admin</a>
+            <button class="btn-nav" style="background:#4f46e5; border-color:#4f46e5; color:#fff;" onclick="openMenuModal(true)">
+                🍽️ Manage Dishes & Prices
+            </button>
+            <button class="btn-nav" style="background:#059669; border-color:#059669; color:#fff;" onclick="openAddTableModal()">
+                ➕ Add Table
+            </button>
+            <button class="btn-nav" style="background:#0284c7; border-color:#0284c7; color:#fff; font-weight:700;" onclick="openQrModal()">
+                📲 Connect Captain
+            </button>
+            <a href="/kitchen" target="_blank" class="btn-nav">👨‍🍳 Kitchen</a>
+            <a href="/admin" target="_blank" class="btn-nav">⚙️ Reports</a>
         </div>
     </header>
 
@@ -568,12 +726,12 @@
         <!-- Left Panel: Tables & Sections -->
         <div class="left-panel">
             <div class="section-bar" id="section-tabs">
-                <button class="sec-tab active" onclick="filterSection('ALL')">All Tables</button>
+                <!-- Dynamically generated sections -->
             </div>
 
             <div class="tables-scroll">
                 <div class="tables-grid" id="tables-container">
-                    <!-- Tables rendered dynamically -->
+                    <!-- Dynamically generated tables with edit icons -->
                 </div>
             </div>
         </div>
@@ -631,7 +789,7 @@
 
             <!-- Action Buttons -->
             <div class="pos-actions">
-                <button class="btn-action btn-add-items" id="btn-add-items" onclick="openMenuModal()" disabled>
+                <button class="btn-action btn-add-items" id="btn-add-items" onclick="openMenuModal(false)" disabled>
                     ➕ Add Items
                 </button>
                 <button class="btn-action btn-punch-kot" id="btn-punch-kot" onclick="punchNewKOT()" disabled>
@@ -647,16 +805,135 @@
         </div>
     </div>
 
-    <!-- Menu Item Selection Modal for Counter Punching -->
+    <!-- Menu Selection & Management Modal -->
     <div class="menu-modal-overlay" id="menu-modal">
         <div class="menu-modal">
             <div class="modal-header">
-                <h3 id="menu-modal-title">Add Items to Table</h3>
+                <div style="display:flex; align-items:center; gap: 12px;">
+                    <h3 id="menu-modal-title">Menu & Dishes</h3>
+                    <button class="btn-edit-inline" style="background:#059669; color:#fff;" onclick="openAddDishModal()">
+                        ➕ Add New Dish
+                    </button>
+                </div>
                 <button class="modal-close" onclick="closeMenuModal()">✕</button>
             </div>
             <div class="menu-modal-body">
                 <div class="cat-list" id="modal-cat-list"></div>
-                <div class="items-grid" id="modal-items-grid"></div>
+                <div class="items-area">
+                    <div class="items-toolbar">
+                        <input type="text" id="dish-search-input" placeholder="🔍 Search dishes..." style="max-width: 240px; padding: 6px 10px; font-size: 12px;" oninput="filterDishGrid()">
+                        <span id="dish-count-label" style="font-size: 12px; color: var(--text-muted);">0 items</span>
+                    </div>
+                    <div class="items-grid" id="modal-items-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add / Edit Table Modal -->
+    <div class="modal" id="table-modal">
+        <div class="modal-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 id="table-modal-title">Add Table</h3>
+                <button class="modal-close" onclick="closeTableModal()">✕</button>
+            </div>
+            <input type="hidden" id="edit-table-id" value="">
+            <div class="form-group" style="margin-top: 14px;">
+                <label>Table Name (e.g. T-1, Table 5, Rooftop-2)</label>
+                <input type="text" id="table-name-input" placeholder="Enter Table Name">
+            </div>
+            <div class="form-group">
+                <label>Floor / Section</label>
+                <select id="table-section-select" onchange="checkCustomSection(this)">
+                    <!-- Populated dynamically -->
+                </select>
+                <input type="text" id="table-custom-section-input" placeholder="Or type new section name..." style="display:none; margin-top: 8px;">
+            </div>
+            <div class="form-group">
+                <label>Capacity (Pax)</label>
+                <input type="number" id="table-capacity-input" value="4" min="1" max="50">
+            </div>
+            <div class="modal-btn-row">
+                <button class="btn-action" style="background:var(--bg-hover); color:#fff; flex:1;" onclick="closeTableModal()">Cancel</button>
+                <button class="btn-action" id="btn-delete-table" style="background:var(--red); color:#fff; display:none; flex:1;" onclick="deleteCurrentTable()">🗑️ Delete</button>
+                <button class="btn-action" style="background:var(--green); color:#fff; flex:2;" onclick="saveTable()">Save Table</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add / Edit Dish Modal -->
+    <div class="modal" id="dish-modal">
+        <div class="modal-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 id="dish-modal-title">Add New Dish</h3>
+                <button class="modal-close" onclick="closeDishModal()">✕</button>
+            </div>
+            <input type="hidden" id="edit-dish-id" value="">
+            <div class="form-group" style="margin-top: 14px;">
+                <label>Dish Name</label>
+                <input type="text" id="dish-name-input" placeholder="e.g. Paneer Tikka Masala">
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="dish-category-select"></select>
+            </div>
+            <div class="form-group">
+                <label>Price (₹)</label>
+                <input type="number" id="dish-price-input" placeholder="e.g. 280">
+            </div>
+            <div class="form-group">
+                <label>Food Type</label>
+                <select id="dish-foodtype-select">
+                    <option value="veg">🟢 Veg</option>
+                    <option value="non-veg">🔴 Non-Veg</option>
+                    <option value="egg">🟡 Egg</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Availability</label>
+                <select id="dish-available-select">
+                    <option value="1">In Stock</option>
+                    <option value="0">Out of Stock (86)</option>
+                </select>
+            </div>
+            <div class="modal-btn-row">
+                <button class="btn-action" style="background:var(--bg-hover); color:#fff; flex:1;" onclick="closeDishModal()">Cancel</button>
+                <button class="btn-action" id="btn-delete-dish" style="background:var(--red); color:#fff; display:none; flex:1;" onclick="deleteCurrentDish()">🗑️ Delete</button>
+                <button class="btn-action" style="background:var(--green); color:#fff; flex:2;" onclick="saveDish()">Save Dish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Restaurant Profile & GST Modal -->
+    <div class="modal" id="profile-modal">
+        <div class="modal-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3>🏢 Restaurant Profile & GST Setup</h3>
+                <button class="modal-close" onclick="closeProfileModal()">✕</button>
+            </div>
+            <div class="form-group" style="margin-top: 14px;">
+                <label>Restaurant Name</label>
+                <input type="text" id="prof-name">
+            </div>
+            <div class="form-group">
+                <label>Address / Location</label>
+                <input type="text" id="prof-address">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" id="prof-phone">
+            </div>
+            <div class="form-group">
+                <label>GSTIN</label>
+                <input type="text" id="prof-gstin">
+            </div>
+            <div class="form-group">
+                <label>GST Rate (%)</label>
+                <input type="number" step="0.1" id="prof-gst-percent">
+            </div>
+            <div class="modal-btn-row">
+                <button class="btn-action" style="background:var(--bg-hover); color:#fff; flex:1;" onclick="closeProfileModal()">Cancel</button>
+                <button class="btn-action" style="background:var(--green); color:#fff; flex:2;" onclick="saveProfile()">Save Settings</button>
             </div>
         </div>
     </div>
@@ -715,39 +992,32 @@
         let allCategories = [];
         let selectedTableId = null;
         let activeOrder = null;
-        let stagedItems = []; // items added before punching KOT
+        let stagedItems = [];
         let selectedPayModeValue = 'cash';
         let currentSection = 'ALL';
         let captainAppUrl = '';
+        let activeMenuCategory = null;
+        let isMenuManageMode = false;
 
-        function openQrModal() {
-            if (!captainAppUrl) {
-                captainAppUrl = `${window.location.protocol}//${window.location.hostname}:8000/captain`;
-            }
-            document.getElementById('qr-img').src = `/api/qr?text=${encodeURIComponent(captainAppUrl)}`;
-            document.getElementById('qr-url-text').innerText = captainAppUrl;
-            document.getElementById('qr-modal').style.display = 'flex';
-        }
-
-        function closeQrModal() {
-            document.getElementById('qr-modal').style.display = 'none';
-        }
-
-        // Initialize WebSockets for real-time LAN communication
+        // WebSockets
         const loc = window.location;
         const wsProtocol = loc.protocol === 'https:' ? 'wss:' : 'ws:';
         const socket = new WebSocket(`${wsProtocol}//${loc.host}/ws`);
 
         socket.onmessage = function(event) {
             const data = JSON.parse(event.data);
-            console.log("Real-time event:", data);
-            loadTables();
-            if (selectedTableId) {
-                reloadActiveOrder();
+            if (data.event === 'MENU_UPDATED') {
+                loadMenu();
+            } else if (data.event === 'SETTINGS_UPDATED') {
+                loadSettings();
+            } else {
+                loadTables();
+                if (selectedTableId) {
+                    reloadActiveOrder();
+                }
             }
         };
 
-        // Fetch System LAN info & settings
         async function initSystem() {
             try {
                 const infoRes = await fetch('/api/info');
@@ -755,16 +1025,22 @@
                 document.getElementById('disp-lan-ip').innerText = `LAN: ${info.local_ip}:8000`;
                 captainAppUrl = info.captain_url;
 
-                const setRes = await fetch('/api/settings');
-                const settings = await setRes.json();
-                if (settings.restaurant_name) {
-                    document.getElementById('disp-rest-name').innerText = settings.restaurant_name;
-                }
-
+                await loadSettings();
                 await loadMenu();
                 await loadTables();
             } catch (err) {
-                console.error("Init failed:", err);
+                console.error("Init error:", err);
+            }
+        }
+
+        async function loadSettings() {
+            const res = await fetch('/api/settings');
+            const settings = await res.json();
+            if (settings.restaurant_name) {
+                document.getElementById('disp-rest-name').innerText = settings.restaurant_name;
+            }
+            if (settings.gst_percent) {
+                document.getElementById('calc-gst-pct').innerText = settings.gst_percent;
             }
         }
 
@@ -772,6 +1048,12 @@
             const res = await fetch('/api/menu');
             allCategories = await res.json();
             renderMenuModalCategories();
+            if (allCategories.length > 0 && !activeMenuCategory) {
+                activeMenuCategory = allCategories[0].id;
+            }
+            if (activeMenuCategory) {
+                renderDishesGrid(activeMenuCategory);
+            }
         }
 
         async function loadTables() {
@@ -783,12 +1065,28 @@
 
         function renderSectionTabs() {
             const sections = ['ALL', ...new Set(allTables.map(t => t.section))];
+            if (!sections.includes(currentSection)) {
+                currentSection = 'ALL';
+            }
             const container = document.getElementById('section-tabs');
-            container.innerHTML = sections.map(sec => `
-                <button class="sec-tab ${currentSection === sec ? 'active' : ''}" onclick="filterSection('${sec}')">
-                    ${sec === 'ALL' ? 'All Tables' : sec}
-                </button>
-            `).join('');
+            let html = '';
+
+            sections.forEach(sec => {
+                const isActive = currentSection === sec;
+                html += `
+                    <div class="sec-tab-wrap ${isActive ? 'active' : ''}">
+                        <button class="sec-tab" onclick="filterSection('${sec}')">
+                            ${sec === 'ALL' ? 'All Tables' : sec}
+                        </button>
+                        ${sec !== 'ALL' ? `
+                            <button class="sec-opt-btn" onclick="manageSectionPrompt('${sec}')" title="Rename or Delete Section">⚙️</button>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            html += `<button class="sec-add-btn" onclick="promptAddSection()">➕ Add Section</button>`;
+            container.innerHTML = html;
         }
 
         function filterSection(sec) {
@@ -801,6 +1099,15 @@
             const container = document.getElementById('tables-container');
             const filtered = currentSection === 'ALL' ? allTables : allTables.filter(t => t.section === currentSection);
             
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
+                        No tables in this section. Click <strong>"➕ Add Table"</strong> above to create one.
+                    </div>
+                `;
+                return;
+            }
+
             container.innerHTML = filtered.map(t => {
                 const isSelected = t.id === selectedTableId;
                 const status = t.status;
@@ -810,8 +1117,13 @@
                 return `
                     <div class="table-card ${status} ${isSelected ? 'selected' : ''}" onclick="selectTable(${t.id})">
                         <div class="t-header">
-                            <span class="t-num">${t.name}</span>
-                            <span class="t-cap">${t.capacity} Pax</span>
+                            <div>
+                                <span class="t-num">${t.name}</span>
+                                <div class="t-cap">${t.capacity} Pax</div>
+                            </div>
+                            <div class="t-tools">
+                                <button class="t-edit-icon" onclick="event.stopPropagation(); openEditTableModal(${t.id}, '${t.name.replace(/'/g, "\\'")}', '${t.section.replace(/'/g, "\\'")}', ${t.capacity})" title="Edit / Delete Table">✏️</button>
+                            </div>
                         </div>
                         <div class="t-info">
                             ${status === 'available' ? '<div style="font-size:12px;color:var(--text-muted)">Vacant</div>' : `
@@ -864,7 +1176,6 @@
             if (activeOrder && activeOrder.items) {
                 combinedItems = [...activeOrder.items];
             }
-            // Add staged items (items added in POS but not yet punched to kitchen)
             stagedItems.forEach(si => combinedItems.push({...si, isStaged: true}));
 
             if (combinedItems.length === 0) {
@@ -894,9 +1205,8 @@
                 </tr>
             `).join('');
 
-            // Totals
             let subtotal = combinedItems.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
-            let gstPercent = activeOrder ? activeOrder.gst_percent : 5.0;
+            let gstPercent = activeOrder ? activeOrder.gst_percent : parseFloat(document.getElementById('calc-gst-pct').innerText || 5);
             let gstAmt = Math.round((subtotal * gstPercent) / 100);
             let grandTotal = subtotal + gstAmt;
 
@@ -911,43 +1221,250 @@
             document.getElementById('calc-grandtotal').innerText = `₹ ${grand.toFixed(2)}`;
         }
 
-        // Menu Modal logic
-        function openMenuModal() {
-            document.getElementById('menu-modal').style.display = 'flex';
-            if (allCategories.length > 0) {
-                selectCategory(allCategories[0].id);
+        // ================= Table & Section Management =================
+        function openAddTableModal() {
+            document.getElementById('table-modal-title').innerText = "➕ Add New Table";
+            document.getElementById('edit-table-id').value = "";
+            document.getElementById('table-name-input').value = "";
+            document.getElementById('table-capacity-input').value = "4";
+            document.getElementById('btn-delete-table').style.display = "none";
+
+            populateSectionDropdown();
+            document.getElementById('table-modal').style.display = 'flex';
+        }
+
+        function openEditTableModal(id, name, section, capacity) {
+            document.getElementById('table-modal-title').innerText = "✏️ Edit Table " + name;
+            document.getElementById('edit-table-id').value = id;
+            document.getElementById('table-name-input').value = name;
+            document.getElementById('table-capacity-input').value = capacity;
+            document.getElementById('btn-delete-table').style.display = "block";
+
+            populateSectionDropdown(section);
+            document.getElementById('table-modal').style.display = 'flex';
+        }
+
+        function closeTableModal() {
+            document.getElementById('table-modal').style.display = 'none';
+        }
+
+        function populateSectionDropdown(selectedSection = null) {
+            const select = document.getElementById('table-section-select');
+            const customInput = document.getElementById('table-custom-section-input');
+            customInput.style.display = 'none';
+            customInput.value = '';
+
+            const sections = [...new Set(allTables.map(t => t.section))];
+            if (sections.length === 0) sections.push("Dining Area");
+
+            select.innerHTML = sections.map(s => `
+                <option value="${s}" ${s === selectedSection ? 'selected' : ''}>${s}</option>
+            `).join('') + `<option value="__NEW__">+ Create New Section...</option>`;
+        }
+
+        function checkCustomSection(select) {
+            const customInput = document.getElementById('table-custom-section-input');
+            if (select.value === '__NEW__') {
+                customInput.style.display = 'block';
+                customInput.focus();
+            } else {
+                customInput.style.display = 'none';
             }
         }
+
+        async function saveTable() {
+            const id = document.getElementById('edit-table-id').value;
+            const name = document.getElementById('table-name-input').value.trim();
+            const capacity = parseInt(document.getElementById('table-capacity-input').value) || 4;
+            
+            let section = document.getElementById('table-section-select').value;
+            if (section === '__NEW__') {
+                section = document.getElementById('table-custom-section-input').value.trim();
+            }
+
+            if (!name) { alert("Please enter table name"); return; }
+            if (!section) { alert("Please select or enter section"); return; }
+
+            try {
+                if (id) {
+                    await fetch(`/api/tables/${id}`, {
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ name, section, capacity })
+                    });
+                } else {
+                    const res = await fetch('/api/tables', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ name, section, capacity })
+                    });
+                    if (!res.ok) {
+                        const err = await res.json();
+                        alert(err.detail || "Error creating table");
+                        return;
+                    }
+                }
+                closeTableModal();
+                await loadTables();
+            } catch (err) {
+                alert("Failed to save table: " + err);
+            }
+        }
+
+        async function deleteCurrentTable() {
+            const id = document.getElementById('edit-table-id').value;
+            if (!id) return;
+            if (!confirm("Are you sure you want to delete this table?")) return;
+
+            try {
+                const res = await fetch(`/api/tables/${id}`, { method: 'DELETE' });
+                if (!res.ok) {
+                    const err = await res.json();
+                    alert(err.detail || "Cannot delete table");
+                    return;
+                }
+                closeTableModal();
+                if (selectedTableId == id) selectedTableId = null;
+                await loadTables();
+            } catch (err) {
+                alert("Error deleting table: " + err);
+            }
+        }
+
+        async function promptAddSection() {
+            const sec = prompt("Enter new Floor / Section name (e.g. Terrace, Family AC, Rooftop):");
+            if (sec && sec.trim()) {
+                const defaultTableName = prompt(`Enter first table name for "${sec.trim()}" (e.g. ${sec.trim().substring(0,2)}-1):`, `${sec.trim().substring(0,2)}-1`);
+                if (defaultTableName && defaultTableName.trim()) {
+                    await fetch('/api/tables', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ name: defaultTableName.trim(), section: sec.trim(), capacity: 4 })
+                    });
+                    currentSection = sec.trim();
+                    await loadTables();
+                }
+            }
+        }
+
+        async function manageSectionPrompt(secName) {
+            const action = prompt(`Section: "${secName}"\nType 'R' to RENAME\nType 'D' to DELETE all tables in this section:`);
+            if (!action) return;
+            const act = action.trim().toUpperCase();
+
+            if (act === 'R') {
+                const newName = prompt(`Enter new name for section "${secName}":`, secName);
+                if (newName && newName.trim() && newName.trim() !== secName) {
+                    await fetch('/api/sections/rename', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ old_name: secName, new_name: newName.trim() })
+                    });
+                    currentSection = newName.trim();
+                    await loadTables();
+                }
+            } else if (act === 'D') {
+                if (confirm(`Are you sure you want to DELETE section "${secName}" and all its tables?`)) {
+                    const res = await fetch(`/api/sections/${encodeURIComponent(secName)}`, { method: 'DELETE' });
+                    if (!res.ok) {
+                        const err = await res.json();
+                        alert(err.detail || "Error deleting section");
+                    } else {
+                        currentSection = 'ALL';
+                        await loadTables();
+                    }
+                }
+            }
+        }
+
+        // ================= Menu & Dish Management =================
+        function openMenuModal(manageMode = false) {
+            isMenuManageMode = manageMode;
+            document.getElementById('menu-modal-title').innerText = manageMode ? "🍽️ Manage Menu & Prices" : "Add Items to Table";
+            document.getElementById('menu-modal').style.display = 'flex';
+            if (allCategories.length > 0) {
+                selectCategory(activeMenuCategory || allCategories[0].id);
+            }
+        }
+
         function closeMenuModal() {
             document.getElementById('menu-modal').style.display = 'none';
         }
 
         function renderMenuModalCategories() {
             const list = document.getElementById('modal-cat-list');
-            list.innerHTML = allCategories.map((c, i) => `
-                <button class="cat-btn ${i === 0 ? 'active' : ''}" id="cat-btn-${c.id}" onclick="selectCategory(${c.id})">
-                    <span>${c.icon}</span> ${c.name}
+            let html = allCategories.map(c => `
+                <button class="cat-btn ${activeMenuCategory === c.id ? 'active' : ''}" id="cat-btn-${c.id}" onclick="selectCategory(${c.id})">
+                    <span>${c.icon} ${c.name}</span>
+                    <span style="font-size:11px; color:var(--text-muted);">${c.items.length}</span>
                 </button>
             `).join('');
+
+            html += `<button class="cat-btn-add" onclick="promptAddCategory()">➕ Add Category</button>`;
+            list.innerHTML = html;
         }
 
         function selectCategory(catId) {
+            activeMenuCategory = catId;
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             const activeBtn = document.getElementById(`cat-btn-${catId}`);
             if (activeBtn) activeBtn.classList.add('active');
+            renderDishesGrid(catId);
+        }
 
+        function filterDishGrid() {
+            if (activeMenuCategory) {
+                renderDishesGrid(activeMenuCategory);
+            }
+        }
+
+        function renderDishesGrid(catId) {
             const cat = allCategories.find(c => c.id === catId);
             const grid = document.getElementById('modal-items-grid');
             if (!cat) return;
 
-            grid.innerHTML = cat.items.map(it => `
-                <div class="item-tile" onclick="addItemToStaged(${it.id}, '${it.name.replace(/'/g, "\\'")}', ${it.price})">
-                    <div style="font-weight: 600; font-size: 13px;">
-                        <span class="food-icon">${it.food_type === 'veg' ? '🟢' : '🔴'}</span>${it.name}
+            const search = document.getElementById('dish-search-input').value.toLowerCase();
+            let items = cat.items;
+            if (search) {
+                items = items.filter(i => i.name.toLowerCase().includes(search));
+            }
+
+            document.getElementById('dish-count-label').innerText = `${items.length} dishes`;
+
+            grid.innerHTML = items.map(it => {
+                const vegIcon = it.food_type === 'veg' ? '🟢' : (it.food_type === 'egg' ? '🟡' : '🔴');
+                const outOfStock = it.is_available === 0;
+
+                return `
+                    <div class="item-tile ${outOfStock ? 'out-of-stock' : ''}" onclick="handleDishClick(${it.id}, '${it.name.replace(/'/g, "\\'")}', ${it.price}, ${it.is_available})">
+                        <div class="item-tile-top">
+                            <span style="font-size: 11px;">${vegIcon}</span>
+                            <div class="item-tile-tools">
+                                <button class="btn-tile-tool" onclick="event.stopPropagation(); openEditDishModal(${it.id})" title="Edit Dish & Price">✏️</button>
+                            </div>
+                        </div>
+                        <div style="font-weight: 600; font-size: 13px; margin: 4px 0;">
+                            ${it.name}
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                            <span style="color: var(--primary); font-weight: 700;">₹ ${it.price}</span>
+                            ${outOfStock ? '<span style="font-size:10px; color:var(--red); font-weight:bold;">OUT</span>' : ''}
+                        </div>
                     </div>
-                    <div style="color: var(--primary); font-weight: 700; margin-top: 8px;">₹ ${it.price}</div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
+        }
+
+        function handleDishClick(itemId, itemName, price, isAvailable) {
+            if (isMenuManageMode) {
+                openEditDishModal(itemId);
+                return;
+            }
+            if (isAvailable === 0) {
+                alert("This item is marked Out of Stock (86).");
+                return;
+            }
+            addItemToStaged(itemId, itemName, price);
         }
 
         function addItemToStaged(itemId, itemName, price) {
@@ -977,6 +1494,144 @@
             renderOrderItems();
         }
 
+        function openAddDishModal() {
+            document.getElementById('dish-modal-title').innerText = "➕ Add New Dish";
+            document.getElementById('edit-dish-id').value = "";
+            document.getElementById('dish-name-input').value = "";
+            document.getElementById('dish-price-input').value = "";
+            document.getElementById('dish-foodtype-select').value = "veg";
+            document.getElementById('dish-available-select').value = "1";
+            document.getElementById('btn-delete-dish').style.display = "none";
+
+            populateCategoryDropdown(activeMenuCategory);
+            document.getElementById('dish-modal').style.display = 'flex';
+        }
+
+        function openEditDishModal(itemId) {
+            let dish = null;
+            allCategories.forEach(c => {
+                const found = c.items.find(i => i.id === itemId);
+                if (found) dish = found;
+            });
+            if (!dish) return;
+
+            document.getElementById('dish-modal-title').innerText = "✏️ Edit Dish";
+            document.getElementById('edit-dish-id').value = dish.id;
+            document.getElementById('dish-name-input').value = dish.name;
+            document.getElementById('dish-price-input').value = dish.price;
+            document.getElementById('dish-foodtype-select').value = dish.food_type;
+            document.getElementById('dish-available-select').value = dish.is_available;
+            document.getElementById('btn-delete-dish').style.display = "block";
+
+            populateCategoryDropdown(dish.category_id);
+            document.getElementById('dish-modal').style.display = 'flex';
+        }
+
+        function closeDishModal() {
+            document.getElementById('dish-modal').style.display = 'none';
+        }
+
+        function populateCategoryDropdown(selectedCatId) {
+            const select = document.getElementById('dish-category-select');
+            select.innerHTML = allCategories.map(c => `
+                <option value="${c.id}" ${c.id === selectedCatId ? 'selected' : ''}>${c.icon} ${c.name}</option>
+            `).join('');
+        }
+
+        async function saveDish() {
+            const id = document.getElementById('edit-dish-id').value;
+            const name = document.getElementById('dish-name-input').value.trim();
+            const category_id = parseInt(document.getElementById('dish-category-select').value);
+            const price = parseFloat(document.getElementById('dish-price-input').value);
+            const food_type = document.getElementById('dish-foodtype-select').value;
+            const is_available = parseInt(document.getElementById('dish-available-select').value);
+
+            if (!name) { alert("Please enter dish name"); return; }
+            if (isNaN(price) || price < 0) { alert("Please enter a valid price"); return; }
+
+            try {
+                if (id) {
+                    await fetch(`/api/menu/items/${id}`, {
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ name, price, category_id, food_type, is_available })
+                    });
+                } else {
+                    await fetch('/api/menu/items', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ name, price, category_id, food_type })
+                    });
+                }
+                closeDishModal();
+                await loadMenu();
+            } catch (err) {
+                alert("Failed to save dish: " + err);
+            }
+        }
+
+        async function deleteCurrentDish() {
+            const id = document.getElementById('edit-dish-id').value;
+            if (!id || !confirm("Are you sure you want to delete this dish?")) return;
+
+            try {
+                await fetch(`/api/menu/items/${id}`, { method: 'DELETE' });
+                closeDishModal();
+                await loadMenu();
+            } catch (err) {
+                alert("Failed to delete dish: " + err);
+            }
+        }
+
+        async function promptAddCategory() {
+            const name = prompt("Enter category name (e.g. Soups, Pizzas, Mocktails):");
+            if (name && name.trim()) {
+                const icon = prompt("Enter emoji icon for category:", "🍽️") || "🍽️";
+                await fetch('/api/categories', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ name: name.trim(), icon: icon.trim() })
+                });
+                await loadMenu();
+            }
+        }
+
+        // ================= Restaurant Profile & GST Setup =================
+        async function openProfileModal() {
+            const res = await fetch('/api/settings');
+            const s = await res.json();
+            document.getElementById('prof-name').value = s.restaurant_name || '';
+            document.getElementById('prof-address').value = s.address || '';
+            document.getElementById('prof-phone').value = s.phone || '';
+            document.getElementById('prof-gstin').value = s.gstin || '';
+            document.getElementById('prof-gst-percent').value = s.gst_percent || '5.0';
+            document.getElementById('profile-modal').style.display = 'flex';
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').style.display = 'none';
+        }
+
+        async function saveProfile() {
+            const payload = {
+                restaurant_name: document.getElementById('prof-name').value.trim(),
+                address: document.getElementById('prof-address').value.trim(),
+                phone: document.getElementById('prof-phone').value.trim(),
+                gstin: document.getElementById('prof-gstin').value.trim(),
+                gst_percent: document.getElementById('prof-gst-percent').value.trim()
+            };
+            await fetch('/api/settings', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            closeProfileModal();
+            await loadSettings();
+            if (selectedTableId) await reloadActiveOrder();
+            alert("Restaurant Profile & GST updated successfully!");
+        }
+
+        // ================= KOT & Billing Actions =================
         async function punchNewKOT() {
             if (stagedItems.length === 0 || !selectedTableId) return;
 
@@ -1006,8 +1661,6 @@
 
         async function printReceipt() {
             if (!activeOrder) return;
-
-            // Mark table as billed
             await fetch(`/api/orders/${activeOrder.id}/mark_billed`, { method: 'POST' });
 
             const setRes = await fetch('/api/settings');
@@ -1063,7 +1716,6 @@
             receiptDiv.style.display = 'none';
         }
 
-        // Settle & Payment logic
         function openSettleModal() {
             if (!activeOrder) return;
             document.getElementById('settle-display-total').innerText = activeOrder.grand_total.toFixed(2);
@@ -1082,7 +1734,7 @@
         async function confirmSettlement() {
             if (!activeOrder) return;
             try {
-                const res = await fetch(`/api/orders/${activeOrder.id}/settle`, {
+                await fetch(`/api/orders/${activeOrder.id}/settle`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
@@ -1101,7 +1753,20 @@
             }
         }
 
-        // On load
+        // ================= QR Code Modal =================
+        function openQrModal() {
+            if (!captainAppUrl) {
+                captainAppUrl = `${window.location.protocol}//${window.location.hostname}:8000/captain`;
+            }
+            document.getElementById('qr-img').src = `/api/qr?text=${encodeURIComponent(captainAppUrl)}`;
+            document.getElementById('qr-url-text').innerText = captainAppUrl;
+            document.getElementById('qr-modal').style.display = 'flex';
+        }
+
+        function closeQrModal() {
+            document.getElementById('qr-modal').style.display = 'none';
+        }
+
         window.addEventListener('DOMContentLoaded', initSystem);
     </script>
 </body>

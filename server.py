@@ -99,6 +99,37 @@ class TransferTableIn(BaseModel):
 class StaffLoginIn(BaseModel):
     pin: str
 
+class TableCreateIn(BaseModel):
+    name: str
+    section: str = "Dining Area"
+    capacity: int = 4
+
+class TableUpdateIn(BaseModel):
+    name: str
+    section: str
+    capacity: int
+
+class SectionRenameIn(BaseModel):
+    old_name: str
+    new_name: str
+
+class MenuItemIn(BaseModel):
+    name: str
+    price: float
+    category_id: int
+    food_type: str = "veg"
+
+class MenuItemUpdateIn(BaseModel):
+    name: str
+    price: float
+    category_id: int
+    food_type: str = "veg"
+    is_available: int = 1
+
+class CategoryCreateIn(BaseModel):
+    name: str
+    icon: str = "🍽️"
+
 # ----------------- API Endpoints -----------------
 
 @app.websocket("/ws")
@@ -210,6 +241,133 @@ def get_tables():
 
     conn.close()
     return tables
+
+@app.post("/api/tables")
+async def create_table(payload: TableCreateIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("INSERT INTO dining_tables (name, section, capacity, status) VALUES (?, ?, ?, 'available')",
+                       (payload.name.strip(), payload.section.strip(), payload.capacity))
+        conn.commit()
+        tbl_id = cursor.lastrowid
+        conn.close()
+        await manager.broadcast({"event": "TABLES_UPDATED"})
+        return {"status": "ok", "id": tbl_id}
+    except Exception:
+        conn.close()
+        raise HTTPException(status_code=400, detail="Table name already exists or invalid")
+
+@app.put("/api/tables/{table_id}")
+async def update_table(table_id: int, payload: TableUpdateIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE dining_tables SET name = ?, section = ?, capacity = ? WHERE id = ?",
+                   (payload.name.strip(), payload.section.strip(), payload.capacity, table_id))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "TABLES_UPDATED"})
+    return {"status": "ok"}
+
+@app.delete("/api/tables/{table_id}")
+async def delete_table(table_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT current_order_id FROM dining_tables WHERE id = ?", (table_id,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Table not found")
+    if row[0]:
+        conn.close()
+        raise HTTPException(status_code=400, detail="Cannot delete table with active order. Please settle or transfer order first.")
+    cursor.execute("DELETE FROM dining_tables WHERE id = ?", (table_id,))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "TABLES_UPDATED"})
+    return {"status": "ok"}
+
+@app.post("/api/sections/rename")
+async def rename_section(payload: SectionRenameIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE dining_tables SET section = ? WHERE section = ?", (payload.new_name.strip(), payload.old_name.strip()))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "TABLES_UPDATED"})
+    return {"status": "ok"}
+
+@app.delete("/api/sections/{section_name}")
+async def delete_section(section_name: str):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM dining_tables WHERE section = ? AND current_order_id IS NOT NULL", (section_name,))
+    if cursor.fetchone()[0] > 0:
+        conn.close()
+        raise HTTPException(status_code=400, detail="Cannot delete section with active table orders")
+    cursor.execute("DELETE FROM dining_tables WHERE section = ?", (section_name,))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "TABLES_UPDATED"})
+    return {"status": "ok"}
+
+@app.post("/api/menu/items")
+async def create_menu_item(payload: MenuItemIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO menu_items (name, price, category_id, food_type, is_available) VALUES (?, ?, ?, ?, 1)",
+                   (payload.name.strip(), payload.price, payload.category_id, payload.food_type))
+    conn.commit()
+    item_id = cursor.lastrowid
+    conn.close()
+    await manager.broadcast({"event": "MENU_UPDATED"})
+    return {"status": "ok", "id": item_id}
+
+@app.put("/api/menu/items/{item_id}")
+async def update_menu_item(item_id: int, payload: MenuItemUpdateIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE menu_items 
+        SET name = ?, price = ?, category_id = ?, food_type = ?, is_available = ?
+        WHERE id = ?
+    """, (payload.name.strip(), payload.price, payload.category_id, payload.food_type, payload.is_available, item_id))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "MENU_UPDATED"})
+    return {"status": "ok"}
+
+@app.delete("/api/menu/items/{item_id}")
+async def delete_menu_item(item_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM menu_items WHERE id = ?", (item_id,))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "MENU_UPDATED"})
+    return {"status": "ok"}
+
+@app.post("/api/categories")
+async def create_category(payload: CategoryCreateIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO categories (name, icon) VALUES (?, ?)", (payload.name.strip(), payload.icon.strip()))
+    conn.commit()
+    cat_id = cursor.lastrowid
+    conn.close()
+    await manager.broadcast({"event": "MENU_UPDATED"})
+    return {"status": "ok", "id": cat_id}
+
+@app.delete("/api/categories/{category_id}")
+async def delete_category(category_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM menu_items WHERE category_id = ?", (category_id,))
+    cursor.execute("DELETE FROM categories WHERE id = ?", (category_id,))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "MENU_UPDATED"})
+    return {"status": "ok"}
 
 @app.post("/api/orders/punch")
 async def punch_order(payload: PunchOrderIn):
