@@ -7,7 +7,11 @@ cd /d "%~dp0"
 echo Starting Petpooja POS Server...
 
 :: Start server in background if not running
-powershell -Command "if (!(Test-NetConnection -ComputerName 127.0.0.1 -Port 8000 -InformationLevel Quiet -WarningAction SilentlyContinue)) { Start-Process python -ArgumentList 'server.py' -WorkingDirectory '%~dp0' -WindowStyle Hidden; Start-Sleep -Seconds 2 }"
+netstat -ano | findstr :8000 >nul 2>&1
+if errorlevel 1 (
+    start /B python server.py >nul 2>&1
+    timeout /t 2 /nobreak >nul
+)
 
 :: Detect Edge or Chrome for Desktop App Window Mode
 set "EDGE_EXE=C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
