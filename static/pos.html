@@ -237,17 +237,7 @@
         .header-tool-btn:hover { color: var(--pet-red); }
 
         .btn-help-pill {
-            background: #fce4ec;
-            color: #c2185b;
-            border: 1px solid #f8bbd0;
-            padding: 5px 12px;
-            border-radius: 16px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            display: none !important;
         }
 
         .btn-back {
@@ -266,7 +256,7 @@
         .btn-back:hover { background: #f1f5f9; }
 
         /* VIEW CONTAINER SYSTEM */
-        .view-panel { display: none; width: 100%; height: calc(100vh - 52px); overflow: hidden; }
+        .view-panel { display: none; width: 100%; height: 100vh; overflow: hidden; }
         .view-panel.active { display: flex; }
 
         /* ================= VIEW 1: OPERATIONS DASHBOARD (Image 1 & 2 from earlier) ================= */
@@ -1283,7 +1273,9 @@
     <!-- 3. MAIN WORKSPACE CONTAINER -->
     <div class="main-workspace">
 
-        <!-- GLOBAL TOP HEADER -->
+        <div class="view-panel active" id="view-operations" style="flex-direction:column;">
+            <!-- Operations Top Header -->
+<!-- GLOBAL TOP HEADER -->
         <div class="pos-header-bar">
             <div class="header-title-group">
                 <span class="header-title" id="page-main-title">Operations</span>
@@ -1320,15 +1312,10 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                     <span>Alerts</span>
                 </button>
-
-                <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344\nEmail: support@petpooja.com')">
-                    Need Help ? 07969 223344
-                </div>
             </div>
         </div>
 
         <!-- ================= VIEW 1: OPERATIONS (Dashboard from user photos) ================= -->
-        <div class="view-panel active" id="view-operations">
             <div class="ops-body-layout" style="width:100%;">
                 
                 <!-- Center Operations Cards Grid -->
@@ -1764,7 +1751,6 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                         <span>Alerts</span>
                     </button>
-                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
                 </div>
             </div>
 
@@ -1849,7 +1835,6 @@
                 <div style="font-size:16px; font-weight:800; color:#1e293b;">Biller Profile Listing</div>
                 <div style="display:flex; align-items:center; gap:10px;">
                     <button class="btn-back" onclick="switchView('operations')">‹ Back</button>
-                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
                 </div>
             </div>
             <div class="orders-table-wrapper" style="padding:16px 20px;">
@@ -1872,7 +1857,6 @@
                 <div style="font-size:16px; font-weight:800; color:#1e293b;">Menu Configuration</div>
                 <div style="display:flex; align-items:center; gap:10px;">
                     <button class="btn-back" onclick="switchView('operations')">‹ Back</button>
-                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
                 </div>
             </div>
             
@@ -1899,7 +1883,6 @@
                 <div style="display:flex; align-items:center; gap:10px;">
                     <button class="btn-red-pill" onclick="openAddItemModal()">+ Add Item</button>
                     <button class="btn-back" onclick="switchView('menu-config')">‹ Back</button>
-                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
                 </div>
             </div>
 
@@ -1968,7 +1951,6 @@
                     </div>
                     <button class="btn-red-pill" onclick="openAddAreaModal()">+ Add Area</button>
                     <button class="btn-back" onclick="switchView('menu-config')">‹ Back</button>
-                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
                 </div>
             </div>
 
@@ -2009,7 +1991,6 @@
                 </div>
                 <div style="display:flex; align-items:center; gap:12px;">
                     <button class="btn-back" onclick="switchView('operations')">&lt; Back</button>
-                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344\nEmail: support@petpooja.com')">Need Help ? 07969 223344</div>
                 </div>
             </div>
 
@@ -2105,7 +2086,6 @@
                 <span style="font-size:16px; font-weight:800; color:#1e293b;">Connect Captain &amp; Secondary POS</span>
                 <div style="display:flex; align-items:center; gap:12px;">
                     <button class="btn-back" onclick="switchView('operations')">&lt; Back</button>
-                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
                 </div>
             </div>
 
@@ -2226,7 +2206,6 @@
                 <div style="display:flex; align-items:center; gap:12px;">
                     <span style="font-size:12px; color:#64748b; font-weight:700;">Version: 128.0.1</span>
                     <button class="btn-back" onclick="switchView('operations')">&lt; Back</button>
-                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
                 </div>
             </div>
 
