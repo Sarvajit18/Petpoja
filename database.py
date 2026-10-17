@@ -113,11 +113,14 @@ def init_db():
     )
     ''')
 
-    # Restaurant Settings
+    # Expenses table
     cursor.execute('''
-    CREATE TABLE IF NOT EXISTS settings (
-        key TEXT PRIMARY KEY,
-        value TEXT
+    CREATE TABLE IF NOT EXISTS expenses (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        amount REAL NOT NULL,
+        category TEXT DEFAULT 'General',
+        created_at TEXT NOT NULL
     )
     ''')
 

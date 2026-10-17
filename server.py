@@ -130,6 +130,11 @@ class CategoryCreateIn(BaseModel):
     name: str
     icon: str = "🍽️"
 
+class ExpenseIn(BaseModel):
+    title: str
+    amount: float
+    category: Optional[str] = "General"
+
 # ----------------- API Endpoints -----------------
 
 @app.websocket("/ws")
@@ -367,6 +372,45 @@ async def delete_category(category_id: int):
     conn.commit()
     conn.close()
     await manager.broadcast({"event": "MENU_UPDATED"})
+    return {"status": "ok"}
+
+@app.post("/api/menu/items/{item_id}/toggle_stock")
+async def toggle_item_stock(item_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT is_available FROM menu_items WHERE id = ?", (item_id,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Item not found")
+    new_status = 0 if row[0] == 1 else 1
+    cursor.execute("UPDATE menu_items SET is_available = ? WHERE id = ?", (new_status, item_id))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "MENU_UPDATED"})
+    return {"status": "ok", "is_available": new_status}
+
+@app.get("/api/expenses")
+def get_expenses():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM expenses ORDER BY id DESC LIMIT 50")
+    expenses = [dict(r) for r in cursor.fetchall()]
+    cursor.execute("SELECT COALESCE(SUM(amount), 0) FROM expenses")
+    total = cursor.fetchone()[0]
+    conn.close()
+    return {"expenses": expenses, "total": total}
+
+@app.post("/api/expenses")
+async def add_expense(payload: ExpenseIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cursor.execute("INSERT INTO expenses (title, amount, category, created_at) VALUES (?, ?, ?, ?)",
+                   (payload.title.strip(), payload.amount, payload.category or 'General', now_str))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "EXPENSE_ADDED"})
     return {"status": "ok"}
 
 @app.post("/api/orders/punch")
