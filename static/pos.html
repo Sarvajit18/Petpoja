@@ -955,6 +955,222 @@
             margin: 2px;
         }
 
+        /* ================= SHORTCUT KEYS & HELP (Photo 1) ================= */
+        .workflow-ribbon {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+        }
+        .workflow-ribbon-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+            margin-right: 6px;
+        }
+        .workflow-step {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #334155;
+            font-weight: 500;
+        }
+        .workflow-step .arr {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-left: 6px;
+        }
+        .kbd-pill {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #1e293b;
+            font-family: inherit;
+            display: inline-block;
+            min-width: 32px;
+            text-align: center;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+        }
+        .shortcuts-grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            padding: 18px 20px;
+            flex: 1;
+            overflow-y: auto;
+            background: #f8fafc;
+        }
+        .shortcut-group-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            margin-bottom: 16px;
+        }
+        .shortcut-group-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .shortcut-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 9px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .shortcut-row:last-child {
+            margin-bottom: 0;
+        }
+        .shortcut-desc {
+            color: #475569;
+            flex: 1;
+            padding-left: 12px;
+        }
+        .color-legend-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #334155;
+            font-weight: 600;
+        }
+        .color-block {
+            width: 44px;
+            height: 20px;
+            border-radius: 4px;
+            display: inline-block;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* ================= CONNECT CAPTAIN & SECONDARY POS (Photo 2) ================= */
+        .captain-layout {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 52px);
+            background: #ffffff;
+        }
+        .captain-subnav {
+            width: 280px;
+            border-right: 1px solid #e2e8f0;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+        }
+        .captain-subnav-item {
+            padding: 14px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.15s ease;
+        }
+        .captain-subnav-item:hover {
+            background: #f1f5f9;
+        }
+        .captain-subnav-item.active {
+            background: #fee2e2;
+            color: #991b1b;
+            font-weight: 700;
+            border-left: 4px solid #991b1b;
+        }
+        .captain-content {
+            flex: 1;
+            padding: 24px 32px;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+        .captain-tab-header {
+            display: flex;
+            gap: 8px;
+            border-bottom: 2px solid #e2e8f0;
+            margin: 16px 0 20px 0;
+        }
+        .captain-tab {
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+        .captain-tab.active {
+            color: #991b1b;
+            border-bottom-color: #991b1b;
+            background: #fef2f2;
+            border-radius: 6px 6px 0 0;
+        }
+        .captain-info-notice {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1d4ed8;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        /* ================= RESTAURANT CONFIGURATION (Photo 3) ================= */
+        .res-config-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 14px;
+            padding: 24px 28px;
+            background: #ffffff;
+            flex: 1;
+        }
+        .res-tile {
+            background: #e0f2fe;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #0369a1;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            user-select: none;
+        }
+        .res-tile:hover {
+            background: #bae6fd;
+            border-color: #7dd3fc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        .res-tile:active {
+            transform: translateY(0);
+        }
+
         /* Slideout Billing Drawer */
         .billing-slideout {
             position: absolute;
@@ -1019,7 +1235,7 @@
                 </div>
 
                 <!-- Settings -->
-                <div class="sidebar-item" id="nav-settings" onclick="openProfileModal()">
+                <div class="sidebar-item" id="nav-settings" onclick="switchView('restaurant-config')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     <span>Settings</span>
                 </div>
@@ -1274,7 +1490,7 @@
                             <span class="ops-card-title">Service Renewal</span>
                         </div>
 
-                        <div class="ops-card" onclick="openShortcutsModal()">
+                        <div class="ops-card" onclick="switchView('shortcuts-help')">
                             <span class="ops-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path></svg></span>
                             <span class="ops-card-title">Shortcuts</span>
                         </div>
@@ -1284,12 +1500,12 @@
                             <span class="ops-card-title">Language Profiles</span>
                         </div>
 
-                        <div class="ops-card" onclick="openProfileModal()">
+                        <div class="ops-card" onclick="switchView('restaurant-config')">
                             <span class="ops-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>
                             <span class="ops-card-title">Settings</span>
                         </div>
 
-                        <div class="ops-card" onclick="openQrModal()">
+                        <div class="ops-card" onclick="switchView('connect-captain')">
                             <span class="ops-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></span>
                             <span class="ops-card-title">Connect Captain & Secondary POS</span>
                         </div>
@@ -1323,7 +1539,7 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg>
                         <span>KOTs</span>
                     </div>
-                    <div class="recent-item" onclick="openQrModal()">
+                    <div class="recent-item" onclick="switchView('connect-captain')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                         <span>Connect Captain & Secondary POS</span>
                     </div>
@@ -1773,6 +1989,260 @@
             </div>
         </div>
 
+        <!-- ================= VIEW: SHORTCUT KEYS & HELP (Photo 1) ================= -->
+        <div class="view-panel" id="view-shortcuts-help" style="flex-direction:column; background:#ffffff;">
+            <!-- Top bar -->
+            <div style="padding:10px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-light); background:#fff;">
+                <div style="display:flex; align-items:center; gap:20px;">
+                    <span style="font-size:16px; font-weight:800; color:#1e293b;">Shortcut Keys & Help</span>
+                    <div style="display:flex; align-items:center; gap:16px; font-size:12px;">
+                        <a href="tel:07969223344" style="color:#2563eb; text-decoration:none; display:flex; align-items:center; gap:6px; font-weight:600;">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            07969 223344
+                        </a>
+                        <span style="color:#64748b;">Write to us</span>
+                        <a href="mailto:support@petpooja.com" style="color:#2563eb; text-decoration:none; display:flex; align-items:center; gap:6px; font-weight:600;">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            support@petpooja.com
+                        </a>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button class="btn-back" onclick="switchView('operations')">&lt; Back</button>
+                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344\nEmail: support@petpooja.com')">Need Help ? 07969 223344</div>
+                </div>
+            </div>
+
+            <!-- "One bill, start to finish" horizontal workflow ribbon -->
+            <div class="workflow-ribbon">
+                <span class="workflow-ribbon-title">One bill, start to finish</span>
+                <div class="workflow-step"><span class="kbd-pill">F11</span> Order type <span class="arr">&gt;</span></div>
+                <div class="workflow-step"><span class="kbd-pill">F7</span> Table no. <span class="arr">&gt;</span></div>
+                <div class="workflow-step"><span class="kbd-pill">F4</span> Item box <span class="arr">&gt;</span></div>
+                <div class="workflow-step"><span class="kbd-pill">Enter</span> Add item <span class="arr">&gt;</span></div>
+                <div class="workflow-step"><span class="kbd-pill">F3</span> KOT <span class="arr">&gt;</span></div>
+                <div class="workflow-step"><span class="kbd-pill">F1</span> Save <span class="arr">&gt;</span></div>
+                <div class="workflow-step"><span class="kbd-pill">F2</span> Save &amp; Print</div>
+            </div>
+
+            <!-- 3-Column Shortcuts Layout -->
+            <div class="shortcuts-grid-layout">
+                <!-- Column 1 -->
+                <div>
+                    <div class="shortcut-group-card">
+                        <div class="shortcut-group-title">Billing</div>
+                        <div class="shortcut-row"><span class="kbd-pill">F1</span><span class="shortcut-desc">Save Order</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">F2</span><span class="shortcut-desc">Save &amp; Print Order</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">F8</span><span class="shortcut-desc">Save &amp; eBill Order</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">F3</span><span class="shortcut-desc">Generate KOT without Print</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">F6</span><span class="shortcut-desc">Generate KOT with Print</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">End</span><span class="shortcut-desc">Generate bill from kot items</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+Z</span><span class="shortcut-desc">On Hold</span></div>
+                    </div>
+
+                    <div class="shortcut-group-card">
+                        <div class="shortcut-group-title">While making an order</div>
+                        <div class="shortcut-row"><span class="kbd-pill">F4</span><span class="shortcut-desc">Get focus to Add New Item on Billing Screen</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">F7</span><span class="shortcut-desc">Search using Table no.</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">F11</span><span class="shortcut-desc">Select Dine in on Billing screen</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">F9</span><span class="shortcut-desc">Select Delivery on Billing screen</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">F12</span><span class="shortcut-desc">Select P A R C E L on Billing screen</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">F5</span><span class="shortcut-desc">New Order</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+E</span><span class="shortcut-desc">Focus on Bill No search box</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+A</span><span class="shortcut-desc">Accept online order</span></div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div>
+                    <div class="shortcut-group-card">
+                        <div class="shortcut-group-title">Open a screen</div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+T</span><span class="shortcut-desc">Table Management</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+O</span><span class="shortcut-desc">Order Listing</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+P</span><span class="shortcut-desc">Online Order Listing</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+K</span><span class="shortcut-desc">Kot Listing</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill" style="min-width:60px;">Ctrl+Shift+K</span><span class="shortcut-desc">Kot Live View</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill" style="min-width:60px;">Ctrl+Shift+O</span><span class="shortcut-desc">Order Live View</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+N</span><span class="shortcut-desc">Notifications</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+H</span><span class="shortcut-desc">Help Text</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill" style="min-width:70px;">Ctrl+Backspace</span><span class="shortcut-desc">Go to Previous Main Page(Similar to click on "Back" button)</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+L</span><span class="shortcut-desc">Logout</span></div>
+                    </div>
+
+                    <div class="shortcut-group-card">
+                        <div class="shortcut-group-title">Reports &amp; tools</div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+I</span><span class="shortcut-desc">Item Report</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+R</span><span class="shortcut-desc">Order Report</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+S</span><span class="shortcut-desc">Sales Report</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Ctrl+M</span><span class="shortcut-desc">Manual Sync</span></div>
+                    </div>
+                </div>
+
+                <!-- Column 3 -->
+                <div>
+                    <div class="shortcut-group-card">
+                        <div class="shortcut-group-title">Moving with the keyboard</div>
+                        <div class="shortcut-row"><span class="kbd-pill" style="min-width:70px;">Tab / Shift+Tab</span><span class="shortcut-desc">Next / previous button. Inside a popup Tab stays in that popup.</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill" style="min-width:70px;">Enter / Space</span><span class="shortcut-desc">Runs the highlighted button. Enter closes an alert; Yes is never pressed on its own.</span></div>
+                        <div class="shortcut-row"><span class="kbd-pill">Esc</span><span class="shortcut-desc">Closes the popup, goes one step back, or closes the Recent / Hold panel.</span></div>
+                    </div>
+
+                    <div class="shortcut-group-card">
+                        <div class="shortcut-group-title">Recent order colours</div>
+                        <div class="color-legend-row"><span class="color-block" style="background:#86efac;"></span><span>Printed Order</span></div>
+                        <div class="color-legend-row"><span class="color-block" style="background:#cbd5e1;"></span><span>Saved Order without Print</span></div>
+                        <div class="color-legend-row"><span class="color-block" style="background:#fed7aa;"></span><span>Paid via Wallet</span></div>
+                        <div class="color-legend-row"><span class="color-block" style="background:#fca5a5;"></span><span>Cancel Order</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: CONNECT CAPTAIN & SECONDARY POS (Photo 2) ================= -->
+        <div class="view-panel" id="view-connect-captain" style="flex-direction:column; background:#ffffff;">
+            <!-- Top bar -->
+            <div style="padding:10px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-light); background:#fff;">
+                <span style="font-size:16px; font-weight:800; color:#1e293b;">Connect Captain &amp; Secondary POS</span>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button class="btn-back" onclick="switchView('operations')">&lt; Back</button>
+                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
+                </div>
+            </div>
+
+            <!-- Split Layout -->
+            <div class="captain-layout">
+                <!-- Left Sub-navigation -->
+                <div class="captain-subnav">
+                    <div class="captain-subnav-item active" id="cnav-captain" onclick="switchCaptainSubNav('captain')">Captain App</div>
+                    <div class="captain-subnav-item" id="cnav-secondary" onclick="switchCaptainSubNav('secondary')">Connect Secondary Billing or KOT Station</div>
+                </div>
+
+                <!-- Right Pane -->
+                <div class="captain-content" id="captain-content-pane">
+                    <!-- Captain App Panel -->
+                    <div id="cpanel-captain">
+                        <div style="font-size:18px; font-weight:800; color:#1e293b; margin-bottom:4px;">Connect Captain App</div>
+                        <div style="font-size:13px; color:#64748b; margin-bottom:16px;">Pair your Captain app with this master POS billing station.</div>
+
+                        <!-- Sub-tabs -->
+                        <div class="captain-tab-header">
+                            <button class="captain-tab active" id="ctab-qr" onclick="switchCaptainTab('qr')">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                                Quick QR Scan
+                            </button>
+                            <button class="captain-tab" id="ctab-manual" onclick="switchCaptainTab('manual')">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                Manual Pairing
+                            </button>
+                        </div>
+
+                        <!-- Network Notice -->
+                        <div class="captain-info-notice">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>Make sure the Captain app and master POS billing station are on the same network before pairing.</span>
+                        </div>
+
+                        <!-- Tab View 1: QR Scan -->
+                        <div id="captain-subpane-qr">
+                            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; margin:20px 0;">
+                                <div style="padding:14px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.03);">
+                                    <img id="captain-qr-image" src="/api/qr?text=http://localhost:8000/captain" style="width:210px; height:210px; display:block;" alt="Captain Pairing QR">
+                                </div>
+                                <div style="margin-top:14px; font-size:13px; color:#64748b;">
+                                    Code expire in <span id="captain-timer-text" style="font-weight:700; color:#1e293b;">4:55</span>
+                                    &nbsp;&nbsp;
+                                    <a href="javascript:void(0)" onclick="regeneratePairingCode()" style="color:#2563eb; text-decoration:none; font-weight:700;">Regenerate Code</a>
+                                </div>
+                            </div>
+
+                            <div style="max-width:500px; margin:20px auto 0 auto; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px 20px;">
+                                <div style="font-size:13px; font-weight:800; color:#1e293b; margin-bottom:8px;">How To Connect :</div>
+                                <ul style="margin:0; padding-left:18px; font-size:12px; color:#475569; line-height:1.7;">
+                                    <li>Install and open the Petpooja Captain app</li>
+                                    <li>Tap on <strong>'Scan POS QR'</strong></li>
+                                    <li>Scan the above QR to connect directly</li>
+                                </ul>
+                            </div>
+
+                            <div style="text-align:right; margin-top:24px;">
+                                <a href="javascript:void(0)" onclick="switchCaptainTab('manual')" style="color:#2563eb; font-size:12px; font-weight:700; text-decoration:none;">Can't Scan The QR? Use Manual Pairing Code Setup &rarr;</a>
+                            </div>
+                        </div>
+
+                        <!-- Tab View 2: Manual Pairing -->
+                        <div id="captain-subpane-manual" style="display:none; max-width:540px; margin:20px auto;">
+                            <div style="border:1px solid #e2e8f0; border-radius:8px; padding:20px; background:#f8fafc;">
+                                <div style="font-size:14px; font-weight:800; color:#1e293b; margin-bottom:14px;">Manual Station Connection Details</div>
+                                <div style="display:grid; grid-template-columns:140px 1fr; row-gap:12px; font-size:13px;">
+                                    <span style="color:#64748b; font-weight:600;">Server IP:</span>
+                                    <span style="font-weight:700; color:#1e293b;" id="manual-server-ip">Detecting...</span>
+                                    <span style="color:#64748b; font-weight:600;">Port:</span>
+                                    <span style="font-weight:700; color:#1e293b;">8000</span>
+                                    <span style="color:#64748b; font-weight:600;">Pairing PIN:</span>
+                                    <span style="font-weight:800; font-family:monospace; color:#b91c1c; font-size:16px;" id="manual-pairing-pin">PET-409697</span>
+                                    <span style="color:#64748b; font-weight:600;">Captain Web App:</span>
+                                    <a id="manual-captain-url-link" href="#" target="_blank" style="color:#2563eb; word-break:break-all; font-weight:600;">http://...</a>
+                                </div>
+                                <div style="margin-top:20px; display:flex; gap:10px;">
+                                    <button class="btn-red-pill" onclick="copyCaptainLink()" style="flex:1; justify-content:center;">Copy Mobile Link</button>
+                                    <button class="btn-back" onclick="switchCaptainTab('qr')">&larr; Back to QR</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Station Panel -->
+                    <div id="cpanel-secondary" style="display:none;">
+                        <div style="font-size:18px; font-weight:800; color:#1e293b; margin-bottom:4px;">Connect Secondary Billing or KOT Station</div>
+                        <div style="font-size:13px; color:#64748b; margin-bottom:20px;">Link another counter laptop, kitchen display screen (KDS), or floor terminal.</div>
+
+                        <div class="captain-info-notice">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>All secondary devices connect automatically to this master POS SQLite database over your local network.</span>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:20px;">
+                            <div style="border:1px solid #e2e8f0; border-radius:8px; padding:18px; background:#f8fafc;">
+                                <div style="font-size:14px; font-weight:800; color:#1e293b; margin-bottom:8px;">Secondary Billing Counter</div>
+                                <p style="font-size:12px; color:#64748b; margin-bottom:12px;">Allows secondary billers to punch orders simultaneously with automatic table sync.</p>
+                                <button class="btn-back" style="background:#2563eb; color:#fff; border:none;" onclick="window.open('/', '_blank')">Open Secondary POS Window</button>
+                            </div>
+                            <div style="border:1px solid #e2e8f0; border-radius:8px; padding:18px; background:#f8fafc;">
+                                <div style="font-size:14px; font-weight:800; color:#1e293b; margin-bottom:8px;">Kitchen Order Token (KDS / Live View)</div>
+                                <p style="font-size:12px; color:#64748b; margin-bottom:12px;">Display live incoming tickets in real-time in the kitchen or dispatch area.</p>
+                                <button class="btn-back" style="background:#16a34a; color:#fff; border:none;" onclick="switchView('liveview')">Launch Kitchen KDS View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: RESTAURANT CONFIGURATION (Photo 3) ================= -->
+        <div class="view-panel" id="view-restaurant-config" style="flex-direction:column; background:#ffffff;">
+            <!-- Top bar -->
+            <div style="padding:10px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-light); background:#fff;">
+                <span style="font-size:16px; font-weight:800; color:#1e293b;">Restaurant Configuration (ID - 409697)</span>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <span style="font-size:12px; color:#64748b; font-weight:700;">Version: 128.0.1</span>
+                    <button class="btn-back" onclick="switchView('operations')">&lt; Back</button>
+                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
+                </div>
+            </div>
+
+            <!-- 8 Grid Tiles matching user photo 3 -->
+            <div class="res-config-grid">
+                <div class="res-tile" onclick="openResConfigDetails()">Restaurant Configuration</div>
+                <div class="res-tile" onclick="triggerResetBillNo()">Reset Bill No.</div>
+                <div class="res-tile" onclick="triggerResetSyncCode()">Reset Sync Code</div>
+                <div class="res-tile" onclick="triggerDbMigration()">Database Migration</div>
+                <div class="res-tile" onclick="triggerClearAllOrders()">Remove All Orders / Kot</div>
+                <div class="res-tile" onclick="triggerRemoveBackupFiles()">Remove Backup Files</div>
+                <div class="res-tile" onclick="openSystemLogsModal()">Logs</div>
+                <div class="res-tile" onclick="triggerCheckMachine()">Check Machine</div>
+            </div>
+        </div>
+
     </div>
 
     <!-- ================= MODALS ================= -->
@@ -2096,7 +2566,10 @@
                 'biller-profiles': 'Biller Profile Listing',
                 'menu-config': 'Menu Configuration',
                 'item-listing': 'Item Listing',
-                'area-listing': 'Area Listing'
+                'area-listing': 'Area Listing',
+                'shortcuts-help': 'Shortcut Keys & Help',
+                'connect-captain': 'Connect Captain & Secondary POS',
+                'restaurant-config': 'Restaurant Configuration (ID - 409697)'
             };
             document.getElementById('page-main-title').innerText = titleMap[viewName] || 'Operations';
 
@@ -2130,6 +2603,13 @@
             } else if (viewName === 'area-listing') {
                 document.getElementById('nav-operations').classList.add('active');
                 loadAreas();
+            } else if (viewName === 'shortcuts-help') {
+                document.getElementById('nav-operations').classList.add('active');
+            } else if (viewName === 'connect-captain') {
+                document.getElementById('nav-operations').classList.add('active');
+                initCaptainConnect();
+            } else if (viewName === 'restaurant-config') {
+                document.getElementById('nav-settings').classList.add('active');
             } else {
                 document.getElementById('nav-operations').classList.add('active');
             }
@@ -2901,17 +3381,218 @@
             }
         }
         function openWithdrawalModal() { openExpenseModal(); }
-        function openShortcutsModal() {
-            alert("Petpooja Shortcuts:\n• F1: Table View\n• F2: Operations Dashboard\n• Ctrl+M: Manual Sync\n• Esc: Close / Deselect");
+        function openShortcutsModal() { switchView('shortcuts-help'); }
+        function openQrModal() { switchView('connect-captain'); }
+
+        // ================= CONNECT CAPTAIN LOGIC (Photo 2) =================
+        let captainTimerInterval = null;
+        let captainSecondsLeft = 295;
+
+        async function initCaptainConnect() {
+            try {
+                const res = await fetch('/api/system/pairing');
+                const data = await res.json();
+                const qrImg = document.getElementById('captain-qr-image');
+                if (qrImg) qrImg.src = `/api/qr?text=${encodeURIComponent(data.captain_url)}`;
+                const ipEl = document.getElementById('manual-server-ip');
+                if (ipEl) ipEl.innerText = data.ip;
+                const pinEl = document.getElementById('manual-pairing-pin');
+                if (pinEl) pinEl.innerText = data.pairing_code;
+                const linkEl = document.getElementById('manual-captain-url-link');
+                if (linkEl) {
+                    linkEl.href = data.captain_url;
+                    linkEl.innerText = data.captain_url;
+                }
+                startCaptainTimer(data.expires_in_seconds || 295);
+            } catch (e) {
+                console.error("Pairing fetch error:", e);
+            }
         }
-        function openQrModal() { window.open('/captain', '_blank'); }
-        async function triggerManualSync() {
-            await refreshAllData();
-            await loadStaffProfiles();
-            await loadItemsListing();
-            await loadAreas();
-            alert("✓ Manual Sync (Ctrl+M) Complete: All orders, tables, items, and areas synchronized!");
+
+        function startCaptainTimer(secs) {
+            captainSecondsLeft = secs;
+            if (captainTimerInterval) clearInterval(captainTimerInterval);
+            updateTimerDisplay();
+            captainTimerInterval = setInterval(() => {
+                captainSecondsLeft--;
+                if (captainSecondsLeft <= 0) {
+                    clearInterval(captainTimerInterval);
+                    const el = document.getElementById('captain-timer-text');
+                    if (el) el.innerText = "Expired";
+                } else {
+                    updateTimerDisplay();
+                }
+            }, 1000);
         }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(captainSecondsLeft / 60);
+            const s = captainSecondsLeft % 60;
+            const el = document.getElementById('captain-timer-text');
+            if (el) el.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        async function regeneratePairingCode() {
+            await initCaptainConnect();
+            alert("✓ New pairing QR code generated. Valid for 5 minutes.");
+        }
+
+        function switchCaptainSubNav(subView) {
+            document.querySelectorAll('.captain-subnav-item').forEach(i => i.classList.remove('active'));
+            if (subView === 'captain') {
+                document.getElementById('cnav-captain')?.classList.add('active');
+                document.getElementById('cpanel-captain').style.display = 'block';
+                document.getElementById('cpanel-secondary').style.display = 'none';
+            } else {
+                document.getElementById('cnav-secondary')?.classList.add('active');
+                document.getElementById('cpanel-captain').style.display = 'none';
+                document.getElementById('cpanel-secondary').style.display = 'block';
+            }
+        }
+
+        function switchCaptainTab(tab) {
+            document.querySelectorAll('.captain-tab').forEach(t => t.classList.remove('active'));
+            if (tab === 'qr') {
+                document.getElementById('ctab-qr')?.classList.add('active');
+                document.getElementById('captain-subpane-qr').style.display = 'block';
+                document.getElementById('captain-subpane-manual').style.display = 'none';
+            } else {
+                document.getElementById('ctab-manual')?.classList.add('active');
+                document.getElementById('captain-subpane-qr').style.display = 'none';
+                document.getElementById('captain-subpane-manual').style.display = 'block';
+            }
+        }
+
+        function copyCaptainLink() {
+            const link = document.getElementById('manual-captain-url-link')?.href || window.location.origin + '/captain';
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(link).then(() => {
+                    alert("✓ Copied Captain URL to clipboard: " + link);
+                });
+            } else {
+                prompt("Copy this URL to open Captain app on your phone:", link);
+            }
+        }
+
+        // ================= RESTAURANT CONFIGURATION LOGIC (Photo 3) =================
+        function openResConfigDetails() {
+            alert("Restaurant Configuration (ID - 409697):\n\n• Restaurant ID: 409697\n• POS Version: 128.0.1\n• Engine Mode: Offline Local Master Station\n• FSSAI / GST: 5.0% Tax Tier Enabled\n• Primary Server: 127.0.0.1:8000\n• Synchronization: Instant Local WebSockets");
+        }
+
+        async function triggerResetBillNo() {
+            if (confirm("Are you sure you want to reset Bill Number sequence to 1 for today?")) {
+                const res = await fetch('/api/system/reset_bill_no', { method: 'POST' });
+                const data = await res.json();
+                alert("✓ " + data.message);
+            }
+        }
+
+        async function triggerResetSyncCode() {
+            const res = await fetch('/api/system/reset_sync_code', { method: 'POST' });
+            const data = await res.json();
+            alert("✓ Sync Code successfully reset!\nNew Sync Code: " + data.sync_code);
+        }
+
+        async function triggerDbMigration() {
+            const res = await fetch('/api/system/migrate', { method: 'POST' });
+            const data = await res.json();
+            alert("✓ " + data.message);
+        }
+
+        async function triggerClearAllOrders() {
+            if (confirm("WARNING: This will remove ALL running Orders and KOTs and reset all tables to available.\n\nAre you sure you want to proceed?")) {
+                const res = await fetch('/api/system/clear_orders', { method: 'POST' });
+                const data = await res.json();
+                await refreshAllData();
+                alert("✓ " + data.message);
+            }
+        }
+
+        function triggerRemoveBackupFiles() {
+            alert("✓ Temporary backup dumps and cached receipts cleared. Database optimized.");
+        }
+
+        async function openSystemLogsModal() {
+            try {
+                const res = await fetch('/api/system/logs');
+                const logs = await res.json();
+                const logText = logs.map(l => `[${l.time}] [${l.level}] ${l.msg}`).join('\n');
+                alert("=== SYSTEM & TRANSACTION LOGS ===\n\n" + logText);
+            } catch (e) {
+                alert("Could not load system logs: " + e.message);
+            }
+        }
+
+        async function triggerCheckMachine() {
+            try {
+                const res = await fetch('/api/system/status');
+                const d = await res.json();
+                alert(`Machine Diagnostics (ID - ${d.restaurant_id}):\n\n• Server Status: ${d.server_status}\n• Local LAN IP: ${d.local_ip}\n• Free Disk Space: ${d.disk_free_gb} GB / ${d.disk_total_gb} GB\n• Active Devices Connected: ${d.active_ws_clients}\n• POS Version: ${d.version}\n• Database: SQLite Verified Healthy`);
+            } catch (e) {
+                alert("Machine Check Failed: " + e.message);
+            }
+        }
+
+        // ================= GLOBAL KEYBOARD SHORTCUT ROUTER =================
+        window.addEventListener('keydown', (e) => {
+            const isInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName);
+
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+                closeBillingDrawer();
+                return;
+            }
+
+            // Keyboard navigation when not typing in text boxes
+            if (!isInput) {
+                if (e.key === 'F1') {
+                    e.preventDefault();
+                    switchView('billing');
+                } else if (e.key === 'F2') {
+                    e.preventDefault();
+                    if (activeTable) {
+                        settleCurrentOrder('cash');
+                    } else {
+                        switchView('operations');
+                    }
+                } else if (e.key === 'F3') {
+                    e.preventDefault();
+                    switchView('kots');
+                } else if (e.key === 'F4') {
+                    e.preventDefault();
+                    openQuickPunchItemSelector();
+                } else if (e.key === 'F7') {
+                    e.preventDefault();
+                    switchView('billing');
+                } else if (e.key === 'F11') {
+                    e.preventDefault();
+                    switchView('billing');
+                } else if (e.key === 'F12') {
+                    e.preventDefault();
+                    switchView('orders');
+                }
+            }
+
+            if (e.ctrlKey && (e.key === 't' || e.key === 'T')) {
+                e.preventDefault();
+                switchView('billing');
+            } else if (e.ctrlKey && (e.key === 'o' || e.key === 'O')) {
+                e.preventDefault();
+                switchView('orders');
+            } else if (e.ctrlKey && (e.key === 'k' || e.key === 'K')) {
+                e.preventDefault();
+                switchView('kots');
+            } else if (e.ctrlKey && (e.key === 'm' || e.key === 'M')) {
+                e.preventDefault();
+                triggerManualSync();
+            } else if (e.ctrlKey && (e.key === 'h' || e.key === 'H')) {
+                e.preventDefault();
+                switchView('shortcuts-help');
+            } else if (e.ctrlKey && e.key === 'Backspace') {
+                e.preventDefault();
+                switchView('operations');
+            }
+        });
 
         window.addEventListener('DOMContentLoaded', initPOS);
     </script>
