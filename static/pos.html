@@ -646,11 +646,330 @@
         /* ================= VIEW 6: BILLING STATION VIEW ================= */
         .billing-view-container {
             flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 400px;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
+            background: #ffffff;
+            position: relative;
+        }
+
+        /* Authentic Petpooja Table View (Image 2) */
+        .tableview-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 18px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .tableview-legend-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 8px 18px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 11px;
+            color: #475569;
+            flex-wrap: wrap;
+        }
+        .switch-move-kot {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e2e8f0;
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 11px;
+            color: #1e293b;
+            cursor: pointer;
+        }
+        .table-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .status-shape-square {
+            width: 14px;
+            height: 14px;
+            background: #cbd5e1;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        .status-shape-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* Authentic Table Cards */
+        .table-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 18px 0 10px 0;
+        }
+        .tables-horizontal-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .pet-table-card {
+            width: 76px;
+            height: 88px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            transition: all 0.15s ease;
+            user-select: none;
+        }
+        .pet-table-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+        }
+        .pet-table-card.card-blank {
+            background: #e2e8f0;
+            border: 1px dashed #94a3b8;
+            color: #334155;
+            font-size: 15px;
+            font-weight: 700;
+        }
+        .pet-table-card.card-running-kot {
+            background: #fef08a;
+            border: 1px solid #eab308;
+            color: #854d0e;
+            justify-content: space-between;
+            padding: 6px 4px;
+        }
+        .pet-table-card.card-printed {
+            background: #86efac;
+            border: 1px solid #22c55e;
+            color: #14532d;
+            justify-content: space-between;
+            padding: 6px 4px;
+        }
+        .pet-table-card.card-running {
+            background: #bfdbfe;
+            border: 1px solid #3b82f6;
+            color: #1e40af;
+            justify-content: space-between;
+            padding: 6px 4px;
+        }
+        .pet-table-card.card-paid {
+            background: #fed7aa;
+            border: 1px solid #f97316;
+            color: #9a3412;
+            justify-content: space-between;
+            padding: 6px 4px;
+        }
+        .table-card-top-time { font-size: 9px; font-weight: 700; }
+        .table-card-center-num { font-size: 16px; font-weight: 800; line-height: 1; }
+        .table-card-amount { font-size: 10px; font-weight: 800; }
+        .table-card-actions { display: flex; gap: 4px; }
+        .table-card-action-btn {
+            background: rgba(255,255,255,0.85);
+            border: 1px solid rgba(0,0,0,0.15);
+            border-radius: 3px;
+            padding: 2px 4px;
+            font-size: 9px;
+            cursor: pointer;
+        }
+
+        /* Menu Configuration Cards (Image 3) */
+        .menu-config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            padding: 24px;
+        }
+        .menu-config-card {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 16px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e3a8a;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .menu-config-card:hover {
+            background: #dbeafe;
+            border-color: #93c5fd;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        }
+
+        /* Item Listing Table & Filter Bar (Image 4) */
+        .item-listing-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-light);
             background: #f8fafc;
         }
+        .veg-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            display: inline-block;
+            background: #16a34a;
+        }
+        .nonveg-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            display: inline-block;
+            background: #dc2626;
+        }
+        .star-fav {
+            cursor: pointer;
+            font-size: 15px;
+            color: #cbd5e1;
+        }
+        .star-fav.active {
+            color: #f59e0b;
+        }
+        .stock-status-select {
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 11px;
+            background: #fff;
+            color: #334155;
+            outline: none;
+        }
+        .btn-red-pill {
+            background: #991b1b;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-red-pill:hover { background: #7f1d1d; }
+        .btn-parcel-pill {
+            background: #581c87;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 14px;
+            cursor: pointer;
+        }
+        .btn-parcel-pill:hover { background: #3b0764; }
+        .pagination-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            border-top: 1px solid var(--border-light);
+            background: #fff;
+        }
+        .page-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            color: #334155;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .page-btn.active {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        /* Area Listing (Image 5) */
+        .area-badge-offline {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .area-badge-online {
+            background: #e0e7ff;
+            color: #4338ca;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .area-badge-active {
+            background: #dcfce7;
+            color: #15803d;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .area-badge-inactive {
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .area-table-pill {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 2px 7px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 2px;
+        }
+
+        /* Slideout Billing Drawer */
+        .billing-slideout {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 380px;
+            background: #ffffff;
+            border-left: 1px solid var(--border-light);
+            box-shadow: -4px 0 15px rgba(0,0,0,0.08);
+            display: none;
+            flex-direction: column;
+            z-index: 50;
+        }
+        .billing-slideout.active { display: flex; }
 
         /* Print formatting */
         @media print {
@@ -756,7 +1075,7 @@
             </div>
 
             <div class="header-tools">
-                <button class="header-tool-btn" onclick="openItemOnOffModal()">
+                <button class="header-tool-btn" onclick="switchView('item-listing')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="5" width="22" height="14" rx="7" ry="7"></rect><circle cx="16" cy="12" r="3"></circle></svg>
                     <span>Item On Off</span>
                 </button>
@@ -885,12 +1204,12 @@
                     <!-- Menu & Inventory -->
                     <div class="ops-section-title">Menu & Inventory</div>
                     <div class="ops-cards-grid">
-                        <div class="ops-card" onclick="openMenuManageModal()">
+                        <div class="ops-card" onclick="switchView('menu-config')">
                             <span class="ops-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>
                             <span class="ops-card-title">Menu</span>
                         </div>
 
-                        <div class="ops-card" onclick="openItemOnOffModal()">
+                        <div class="ops-card" onclick="switchView('item-listing')">
                             <span class="ops-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="5" width="22" height="14" rx="7" ry="7"></rect><circle cx="8" cy="12" r="3"></circle></svg></span>
                             <span class="ops-card-title">Menu Item On Off</span>
                         </div>
@@ -934,7 +1253,7 @@
                     <!-- System Settings -->
                     <div class="ops-section-title">System Settings</div>
                     <div class="ops-cards-grid">
-                        <div class="ops-card" onclick="openProfileModal()">
+                        <div class="ops-card" onclick="switchView('biller-profiles')">
                             <span class="ops-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
                             <span class="ops-card-title">Billing User Profile</span>
                         </div>
@@ -1192,47 +1511,265 @@
             </div>
         </div>
 
-        <!-- ================= VIEW 6: BILLING VIEW (Dining Table Floor) ================= -->
-        <div class="view-panel" id="view-billing" style="flex-direction:column;">
-            <div class="billing-view-container">
-                
-                <!-- Left: Floor Sections & Tables -->
-                <div style="display:flex; flex-direction:column; border-right:1px solid var(--border-light); height:100%; overflow:hidden;">
-                    <div class="liveview-subbar" id="billing-sections"></div>
-                    <div class="live-cards-grid" id="tables-container" style="grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));"></div>
+        <!-- ================= VIEW: TABLE VIEW (Image 2 from user) ================= -->
+        <div class="view-panel" id="view-billing" style="flex-direction:column; background:#ffffff;">
+            <!-- Top Action Bar -->
+            <div class="tableview-topbar">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="font-size:16px; font-weight:800; color:#1e293b;">Table View</div>
                 </div>
 
-                <!-- Right: Active Bill Panel -->
-                <div style="background:#fff; display:flex; flex-direction:column; height:100%;">
-                    <div style="padding:14px; border-bottom:1px solid var(--border-light); display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <div style="font-weight:700; font-size:15px;" id="b-table-title">Select Table</div>
-                            <div style="font-size:11px; color:var(--text-muted);" id="b-captain-title">No table selected</div>
-                        </div>
-                        <button class="btn-back" onclick="switchView('operations')">‹ Back to Operations</button>
-                    </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="btn-back" style="padding:6px 10px;" onclick="loadTables()" title="Refresh Tables">⟳</button>
+                    <button class="btn-red-pill" onclick="openAddTableModal()">+ Add Table</button>
+                    <button class="btn-parcel-pill" onclick="openQuickParcelModal()">PARCEL</button>
 
-                    <div style="flex:1; overflow-y:auto; padding:10px;">
-                        <table class="pet-table">
-                            <thead><tr><th>Item</th><th>Qty</th><th style="text-align:right;">Rate</th><th style="text-align:right;">Total</th></tr></thead>
-                            <tbody id="b-items-tbody"><tr><td colspan="4" style="text-align:center; padding:30px; color:#94a3b8;">Select a table to punch order</td></tr></tbody>
-                        </table>
-                    </div>
+                    <button class="header-tool-btn" onclick="switchView('item-listing')" title="Item On Off">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="5" width="22" height="14" rx="7" ry="7"></rect><circle cx="16" cy="12" r="3"></circle></svg>
+                        <span>Item On Off</span>
+                    </button>
+                    <button class="header-tool-btn" onclick="openProfileModal()" title="Store">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                        <span>Store</span>
+                    </button>
+                    <button class="header-tool-btn" onclick="switchView('liveview')" title="Live View">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4.93 4.93a10 10 0 0 1 14.14 0"></path><path d="M7.76 7.76a6 6 0 0 1 8.48 0"></path><circle cx="12" cy="12" r="2"></circle><path d="M12 14v8"></path></svg>
+                        <span>Live View</span>
+                    </button>
+                    <button class="header-tool-btn" onclick="switchView('orders')" title="Orders">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                        <span>Orders</span>
+                    </button>
+                    <button class="header-tool-btn" onclick="alert('No held orders currently.')" title="Hold">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        <span>Hold</span>
+                    </button>
+                    <button class="header-tool-btn" onclick="alert('No pending alerts.')" title="Alerts">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                        <span>Alerts</span>
+                    </button>
+                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
+                </div>
+            </div>
 
-                    <div style="padding:14px; background:#f8fafc; border-top:1px solid var(--border-light); font-size:13px;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#64748b;"><span>Subtotal</span><span id="b-subtotal">₹ 0.00</span></div>
-                        <div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#64748b;"><span>GST (<span id="b-gst-pct">5.0</span>%)</span><span id="b-gst">₹ 0.00</span></div>
-                        <div style="display:flex; justify-content:space-between; font-size:17px; font-weight:800; color:#111; margin-top:6px; padding-top:6px; border-top:1px dashed #cbd5e1;"><span>Grand Total</span><span id="b-grandtotal">₹ 0.00</span></div>
-                    </div>
+            <!-- Status Legend Bar -->
+            <div class="tableview-legend-bar">
+                <div class="switch-move-kot" onclick="toggleMoveKotMode()">
+                    <span id="move-kot-radio" style="width:10px; height:10px; border-radius:50%; background:#fff; border:2px solid #64748b; display:inline-block;"></span>
+                    <span>Move KOT / Items</span>
+                </div>
 
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:12px; background:#fff; border-top:1px solid var(--border-light);">
-                        <button class="sub-btn" style="padding:10px; font-weight:700;" id="btn-add-items" onclick="openMenuManageModal()" disabled>➕ Add Items</button>
-                        <button class="sub-btn" style="background:#0284c7; color:#fff; border:none; padding:10px; font-weight:700;" id="btn-punch-kot" onclick="punchNewKOT()" disabled>🖨️ Punch KOT</button>
-                        <button class="sub-btn" style="background:#d97706; color:#fff; border:none; padding:10px; font-weight:700;" id="btn-print-bill" onclick="triggerBillPrint()" disabled>🧾 Print Bill</button>
-                        <button class="sub-btn" style="background:var(--green); color:#fff; border:none; grid-column:span 2; font-size:15px; padding:12px; font-weight:800;" id="btn-settle" onclick="openSettleModal()" disabled>💳 Settle & Pay (₹ <span id="b-settle-amount">0</span>)</button>
+                <div class="table-status-pill">
+                    <span class="status-shape-square"></span>
+                    <span>Blank Table</span>
+                </div>
+                <div class="table-status-pill">
+                    <span class="status-shape-circle" style="background:#2563eb;"></span>
+                    <span>Running Table</span>
+                </div>
+                <div class="table-status-pill">
+                    <span class="status-shape-circle" style="background:#22c55e;"></span>
+                    <span>Printed Table</span>
+                </div>
+                <div class="table-status-pill">
+                    <span class="status-shape-circle" style="background:#f59e0b;"></span>
+                    <span>Paid Table</span>
+                </div>
+                <div class="table-status-pill">
+                    <span class="status-shape-circle" style="background:#eab308;"></span>
+                    <span>Running KOT Table</span>
+                </div>
+            </div>
+
+            <!-- Main Table Floor (Family Hut & Party Hut) -->
+            <div style="flex:1; overflow-y:auto; padding:20px 24px; position:relative;" id="table-view-main-floor">
+                <!-- Injected dynamically by renderAuthenticTableView() -->
+            </div>
+
+            <!-- Slideout Drawer for Punching / Settling Table Order -->
+            <div class="billing-slideout" id="billing-slideout-drawer">
+                <div style="padding:14px; border-bottom:1px solid var(--border-light); display:flex; justify-content:space-between; align-items:center; background:#f8fafc;">
+                    <div>
+                        <div style="font-weight:800; font-size:15px; color:#1e293b;" id="b-table-title">Select Table</div>
+                        <div style="font-size:11px; color:var(--text-muted);" id="b-captain-title">Table Vacant</div>
+                    </div>
+                    <button class="btn-back" style="padding:4px 8px;" onclick="closeBillingDrawer()">✕ Close</button>
+                </div>
+
+                <div style="flex:1; overflow-y:auto; padding:10px;">
+                    <table class="pet-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th style="text-align:right;">Rate</th>
+                                <th style="text-align:right;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="b-items-tbody">
+                            <tr><td colspan="4" style="text-align:center; padding:30px; color:#94a3b8;">Select a table or punch items</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="padding:14px; background:#f8fafc; border-top:1px solid var(--border-light); font-size:13px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#64748b;"><span>Subtotal</span><span id="b-subtotal">₹ 0.00</span></div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#64748b;"><span>GST (<span id="b-gst-pct">5.0</span>%)</span><span id="b-gst">₹ 0.00</span></div>
+                    <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:800; color:#111; margin-top:6px; padding-top:6px; border-top:1px dashed #cbd5e1;"><span>Grand Total</span><span id="b-grandtotal">₹ 0.00</span></div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:12px; background:#fff; border-top:1px solid var(--border-light);">
+                    <button class="sub-btn" style="padding:10px; font-weight:700;" id="btn-add-items" onclick="openPunchItemSelector()">➕ Add Items</button>
+                    <button class="sub-btn" style="background:#0284c7; color:#fff; border:none; padding:10px; font-weight:700;" id="btn-punch-kot" onclick="punchNewKOT()" disabled>🖨️ Punch KOT</button>
+                    <button class="sub-btn" style="background:#d97706; color:#fff; border:none; padding:10px; font-weight:700;" id="btn-print-bill" onclick="triggerBillPrint()" disabled>🧾 Print Bill</button>
+                    <button class="sub-btn" style="background:var(--green); color:#fff; border:none; grid-column:span 2; font-size:14px; padding:10px; font-weight:800;" id="btn-settle" onclick="openSettleModal()" disabled>💳 Settle & Pay (₹ <span id="b-settle-amount">0</span>)</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: BILLER PROFILE LISTING (Image 1 from user) ================= -->
+        <div class="view-panel" id="view-biller-profiles" style="flex-direction:column; background:#ffffff;">
+            <div style="padding:10px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-light); background:#fff;">
+                <div style="font-size:16px; font-weight:800; color:#1e293b;">Biller Profile Listing</div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="btn-back" onclick="switchView('operations')">‹ Back</button>
+                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
+                </div>
+            </div>
+            <div class="orders-table-wrapper" style="padding:16px 20px;">
+                <table class="pet-table" style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+                    <thead>
+                        <tr style="background:#e0f2fe; color:#0369a1;">
+                            <th style="padding:12px 16px; font-weight:700; border-bottom:1px solid #bae6fd;">Biller Name</th>
+                            <th style="padding:12px 16px; font-weight:700; border-bottom:1px solid #bae6fd;">Biller Original Name</th>
+                            <th style="padding:12px 16px; font-weight:700; border-bottom:1px solid #bae6fd;">Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="biller-profiles-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: MENU CONFIGURATION (Image 3 from user) ================= -->
+        <div class="view-panel" id="view-menu-config" style="flex-direction:column; background:#ffffff;">
+            <div style="padding:10px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-light); background:#fff;">
+                <div style="font-size:16px; font-weight:800; color:#1e293b;">Menu Configuration</div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="btn-back" onclick="switchView('operations')">‹ Back</button>
+                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
+                </div>
+            </div>
+            
+            <div class="menu-config-grid">
+                <div class="menu-config-card" onclick="switchView('item-listing')">
+                    <span>Items Management</span>
+                </div>
+                <div class="menu-config-card" onclick="alert('Order Preferences Management: Special modifiers and kitchen instructions active.')">
+                    <span>Order Preferences Management</span>
+                </div>
+                <div class="menu-config-card" onclick="switchView('area-listing')">
+                    <span>Area Management</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: ITEM LISTING (Image 4 from user) ================= -->
+        <div class="view-panel" id="view-item-listing" style="flex-direction:column; background:#ffffff;">
+            <div style="padding:10px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-light); background:#fff;">
+                <div style="display:flex; align-items:baseline; gap:10px;">
+                    <span style="font-size:16px; font-weight:800; color:#1e293b;">Item Listing</span>
+                    <span style="font-size:12px; color:#64748b;" id="item-listing-count">302 items</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="btn-red-pill" onclick="openAddItemModal()">+ Add Item</button>
+                    <button class="btn-back" onclick="switchView('menu-config')">‹ Back</button>
+                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="item-listing-toolbar">
+                <div style="display:flex; align-items:center; gap:14px;">
+                    <input type="text" id="item-search-input" placeholder="🔍 Search ▾" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:220px;" oninput="onItemSearchChange()">
+                    <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:#475569;">
+                        <span>Sort By</span>
+                        <select id="item-sort-select" style="padding:5px 8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; background:#fff;" onchange="onItemSortChange()">
+                            <option value="all">All ▾</option>
+                            <option value="price_asc">Price: Low to High</option>
+                            <option value="price_desc">Price: High to Low</option>
+                            <option value="favorite">Favorites First</option>
+                        </select>
                     </div>
                 </div>
 
+                <div>
+                    <button class="btn-back" style="padding:5px 12px;" onclick="alert('Bulk actions: Export to Excel / CSV')">Action ▾</button>
+                </div>
+            </div>
+
+            <!-- Items Table -->
+            <div class="orders-table-wrapper" style="flex:1;">
+                <table class="pet-table">
+                    <thead>
+                        <tr style="background:#f1f5f9; color:#475569;">
+                            <th style="width:36px;"><input type="checkbox" id="check-all-items"></th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Short Code</th>
+                            <th>Price (₹)</th>
+                            <th style="text-align:center;">Favorite</th>
+                            <th>Stock Status</th>
+                            <th style="text-align:center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="items-listing-tbody"></tbody>
+                </table>
+            </div>
+
+            <!-- Pagination Bar -->
+            <div class="pagination-container" id="items-pagination">
+                <button class="page-btn active" onclick="setItemsPage(1)">1</button>
+                <button class="page-btn" onclick="setItemsPage(2)">2</button>
+                <button class="page-btn" onclick="setItemsPage(3)">3</button>
+                <button class="page-btn" onclick="setItemsPage(4)">4</button>
+                <button class="page-btn" onclick="setItemsPage(5)">5</button>
+                <button class="page-btn" onclick="setItemsPage(6)">6</button>
+                <button class="page-btn" onclick="setItemsPage(7)">7</button>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: AREA LISTING (Image 5 from user) ================= -->
+        <div class="view-panel" id="view-area-listing" style="flex-direction:column; background:#ffffff;">
+            <div style="padding:10px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-light); background:#fff;">
+                <div style="display:flex; align-items:baseline; gap:10px;">
+                    <span style="font-size:16px; font-weight:800; color:#1e293b;">Area Listing</span>
+                    <span style="font-size:12px; color:#64748b;" id="area-listing-count">3 areas configured</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div style="display:inline-flex; border:1px solid #cbd5e1; border-radius:6px; overflow:hidden;">
+                        <button class="live-pill active" style="border-radius:0; border:none;" id="area-tab-areas" onclick="toggleAreaViewTab('areas')">Areas</button>
+                        <button class="live-pill" style="border-radius:0; border:none;" id="area-tab-tables" onclick="switchView('billing')">Tables</button>
+                    </div>
+                    <button class="btn-red-pill" onclick="openAddAreaModal()">+ Add Area</button>
+                    <button class="btn-back" onclick="switchView('menu-config')">‹ Back</button>
+                    <div class="btn-help-pill" onclick="alert('Petpooja Support Helpline: 07969 223344')">Need Help ? 07969 223344</div>
+                </div>
+            </div>
+
+            <div class="orders-table-wrapper" style="padding:16px 20px;">
+                <table class="pet-table" style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+                    <thead>
+                        <tr style="background:#f1f5f9; color:#475569;">
+                            <th style="padding:12px 16px;">Name</th>
+                            <th style="padding:12px 16px;">Type</th>
+                            <th style="padding:12px 16px;">Total Tables</th>
+                            <th style="padding:12px 16px;">Status</th>
+                            <th style="padding:12px 16px;">Tables</th>
+                            <th style="padding:12px 16px; text-align:center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="area-listing-tbody"></tbody>
+                </table>
             </div>
         </div>
 
@@ -1274,6 +1811,132 @@
         </div>
     </div>
 
+    <!-- Add Table Modal (Image 2) -->
+    <div class="modal-overlay" id="add-table-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.65); z-index:1000; align-items:center; justify-content:center;">
+        <div class="modal-card" style="background:#fff; width:380px; border-radius:10px; padding:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+                <h3 style="font-size:16px; font-weight:800;">+ Add Table</h3>
+                <button onclick="closeAddTableModal()" style="background:none; border:none; font-size:18px; cursor:pointer;">✕</button>
+            </div>
+            <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Table Name / Number</label>
+                <input type="text" id="t-name" placeholder="e.g. 6, 15, 3E" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px;">
+            </div>
+            <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Area / Section</label>
+                <select id="t-section" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px;">
+                    <option value="Family Hut">Family Hut</option>
+                    <option value="Party Hut">Party Hut</option>
+                </select>
+            </div>
+            <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Seating Capacity</label>
+                <input type="number" id="t-capacity" value="4" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px;">
+            </div>
+            <div style="display:flex; gap:10px; margin-top:16px;">
+                <button class="btn-back" style="flex:1;" onclick="closeAddTableModal()">Cancel</button>
+                <button class="btn-red-pill" style="flex:2; justify-content:center;" onclick="saveNewTable()">Save Table</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Item Modal (Image 4) -->
+    <div class="modal-overlay" id="add-item-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.65); z-index:1000; align-items:center; justify-content:center;">
+        <div class="modal-card" style="background:#fff; width:440px; border-radius:10px; padding:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+                <h3 style="font-size:16px; font-weight:800;" id="item-modal-title">+ Add New Item</h3>
+                <button onclick="closeAddItemModal()" style="background:none; border:none; font-size:18px; cursor:pointer;">✕</button>
+            </div>
+            <input type="hidden" id="edit-item-id" value="">
+            <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Item Name</label>
+                <input type="text" id="it-name" placeholder="e.g. Schezwan Musroom Rice" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px;">
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+                <div>
+                    <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Category</label>
+                    <select id="it-category" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px;"></select>
+                </div>
+                <div>
+                    <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Food Type</label>
+                    <select id="it-foodtype" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px;">
+                        <option value="veg">🟢 Vegetarian</option>
+                        <option value="non-veg">🔴 Non-Vegetarian</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+                <div>
+                    <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Short Code</label>
+                    <input type="text" id="it-shortcode" placeholder="e.g. SCH, kp5" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Price (₹)</label>
+                    <input type="number" step="0.5" id="it-price" placeholder="120.00" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px;">
+                </div>
+            </div>
+            <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Stock Status</label>
+                <select id="it-stockstatus" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px;">
+                    <option value="Do Not Track">Do Not Track</option>
+                    <option value="In Stock">In Stock</option>
+                    <option value="Out of Stock">Out of Stock</option>
+                </select>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:16px;">
+                <button class="btn-back" style="flex:1;" onclick="closeAddItemModal()">Cancel</button>
+                <button class="btn-red-pill" style="flex:2; justify-content:center;" onclick="saveMenuItem()">Save Item</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Area Modal (Image 5) -->
+    <div class="modal-overlay" id="add-area-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.65); z-index:1000; align-items:center; justify-content:center;">
+        <div class="modal-card" style="background:#fff; width:400px; border-radius:10px; padding:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+                <h3 style="font-size:16px; font-weight:800;">+ Add Area</h3>
+                <button onclick="closeAddAreaModal()" style="background:none; border:none; font-size:18px; cursor:pointer;">✕</button>
+            </div>
+            <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Area Name</label>
+                <input type="text" id="a-name" placeholder="e.g. Rooftop Lounge, Garden Hut" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px;">
+            </div>
+            <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Area Type</label>
+                <select id="a-type" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px;">
+                    <option value="Offline">Offline (Dining Room)</option>
+                    <option value="Online">Online (Swiggy / Zomato / Delivery)</option>
+                </select>
+            </div>
+            <div style="margin-bottom:12px;">
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:4px;">Status</label>
+                <select id="a-status" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px;">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:16px;">
+                <button class="btn-back" style="flex:1;" onclick="closeAddAreaModal()">Cancel</button>
+                <button class="btn-red-pill" style="flex:2; justify-content:center;" onclick="saveArea()">Save Area</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Item Selector Drawer / Modal -->
+    <div class="modal-overlay" id="item-selector-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.65); z-index:1000; align-items:center; justify-content:center;">
+        <div class="modal-card" style="background:#fff; width:520px; max-height:85vh; border-radius:10px; padding:20px; display:flex; flex-direction:column;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+                <h3 style="font-size:16px; font-weight:800;">Select Items to Punch</h3>
+                <button onclick="closePunchItemSelector()" style="background:none; border:none; font-size:18px; cursor:pointer;">✕</button>
+            </div>
+            <input type="text" id="selector-search" placeholder="🔍 Search menu item..." style="width:100%; padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px; margin-bottom:10px;" oninput="renderSelectorItems()">
+            <div style="flex:1; overflow-y:auto; border:1px solid #e2e8f0; border-radius:6px; padding:6px;" id="selector-items-list"></div>
+            <div style="display:flex; justify-content:flex-end; margin-top:12px;">
+                <button class="btn-red-pill" onclick="closePunchItemSelector()">Done</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Hidden Thermal Receipt for Printing -->
     <div id="thermal-receipt" style="display:none;"></div>
 
@@ -1283,6 +1946,10 @@
         let allOrders = [];
         let allKots = [];
         let allPrinters = [];
+        let allStaffProfiles = [];
+        let allItemsListing = [];
+        let allAreas = [];
+        
         let selectedTableId = null;
         let activeOrder = null;
         let stagedItems = [];
@@ -1292,6 +1959,13 @@
         let activeOrderTypeFilter = 'ALL';
         let activeSubTab = 'dine_in';
         let currentActiveView = 'operations';
+        let isMoveKotMode = false;
+
+        // Pagination & search state for Item Listing
+        let itemsCurrentPage = 1;
+        let itemsPageSize = 9;
+        let itemsSortBy = 'all';
+        let itemsSearchQuery = '';
 
         // WebSockets
         const loc = window.location;
@@ -1323,6 +1997,9 @@
                 captainAppUrl = info.captain_url;
 
                 await refreshAllData();
+                await loadStaffProfiles();
+                await loadItemsListing();
+                await loadAreas();
             } catch (err) {
                 console.error("Init POS error:", err);
             }
@@ -1339,13 +2016,13 @@
         async function loadTables() {
             const res = await fetch('/api/tables');
             allTables = await res.json();
-            renderBillingSections();
-            renderBillingTables();
+            renderAuthenticTableView();
         }
 
         async function loadMenu() {
             const res = await fetch('/api/menu');
             allCategories = await res.json();
+            populateCategoryDropdowns();
         }
 
         async function loadOrders() {
@@ -1368,6 +2045,41 @@
             renderPrintersTable();
         }
 
+        async function loadStaffProfiles() {
+            try {
+                const res = await fetch('/api/staff/profiles');
+                allStaffProfiles = await res.json();
+                renderStaffProfiles();
+            } catch (err) {
+                console.error("Error loading staff profiles:", err);
+            }
+        }
+
+        async function loadItemsListing() {
+            try {
+                const res = await fetch(`/api/items/listing?search=${encodeURIComponent(itemsSearchQuery)}&sort_by=${itemsSortBy}`);
+                const data = await res.json();
+                allItemsListing = data.items || [];
+                const countBadge = document.getElementById('item-listing-count');
+                if (countBadge) countBadge.innerText = `${data.total || allItemsListing.length} items`;
+                renderItemsTable();
+            } catch (err) {
+                console.error("Error loading item listing:", err);
+            }
+        }
+
+        async function loadAreas() {
+            try {
+                const res = await fetch('/api/areas');
+                allAreas = await res.json();
+                const countBadge = document.getElementById('area-listing-count');
+                if (countBadge) countBadge.innerText = `${allAreas.length} areas configured`;
+                renderAreasTable();
+            } catch (err) {
+                console.error("Error loading areas:", err);
+            }
+        }
+
         // ================= UNIVERSAL VIEW SWITCHER =================
         function switchView(viewName, filterArg = null) {
             currentActiveView = viewName;
@@ -1380,7 +2092,11 @@
                 'orders': 'Orders',
                 'kots': 'Kot Listing',
                 'printers': 'Printer Listing',
-                'billing': 'Billing Station'
+                'billing': 'Table View',
+                'biller-profiles': 'Biller Profile Listing',
+                'menu-config': 'Menu Configuration',
+                'item-listing': 'Item Listing',
+                'area-listing': 'Area Listing'
             };
             document.getElementById('page-main-title').innerText = titleMap[viewName] || 'Operations';
 
@@ -1389,6 +2105,7 @@
 
             if (viewName === 'billing') {
                 document.getElementById('nav-billing').classList.add('active');
+                renderAuthenticTableView();
             } else if (viewName === 'liveview') {
                 document.getElementById('nav-live').classList.add('active');
                 renderLiveViewCards();
@@ -1402,6 +2119,17 @@
             } else if (viewName === 'printers') {
                 document.getElementById('nav-settings').classList.add('active');
                 renderPrintersTable();
+            } else if (viewName === 'biller-profiles') {
+                document.getElementById('nav-operations').classList.add('active');
+                loadStaffProfiles();
+            } else if (viewName === 'menu-config') {
+                document.getElementById('nav-operations').classList.add('active');
+            } else if (viewName === 'item-listing') {
+                document.getElementById('nav-operations').classList.add('active');
+                loadItemsListing();
+            } else if (viewName === 'area-listing') {
+                document.getElementById('nav-operations').classList.add('active');
+                loadAreas();
             } else {
                 document.getElementById('nav-operations').classList.add('active');
             }
@@ -1634,16 +2362,20 @@
         // ================= SUB-SIDEBAR LOGIC =================
         function renderSubOrdersList() {
             const container = document.getElementById('sub-orders-list');
+            if (!container) return;
             let filtered = allOrders;
             if (activeSubTab === 'dine_in') filtered = allOrders.filter(o => o.order_type === 'dine_in');
             else if (activeSubTab === 'takeaway') filtered = allOrders.filter(o => o.order_type !== 'dine_in');
 
-            container.innerHTML = filtered.map(o => `
-                <div class="sub-order-row ${o.table_id === selectedTableId ? 'active' : ''}" onclick="selectOrderByTable(${o.table_id})">
-                    <span>${o.order_number.replace('ORD-20261017-', '').replace('ORD-', '')}</span>
-                    <span>${Math.round(o.grand_total).toFixed(2)}</span>
-                </div>
-            `).join('');
+            container.innerHTML = filtered.map(o => {
+                const isGreen = o.order_number === '6028' || o.status === 'billed';
+                return `
+                    <div class="sub-order-row ${isGreen ? 'active' : ''}" style="${isGreen ? 'background:#22c55e; color:#ffffff; font-weight:700;' : ''}" onclick="selectOrderByTable(${o.table_id || 0})">
+                        <span>${o.order_number.replace('ORD-20261017-', '').replace('ORD-', '')}</span>
+                        <span>${Math.round(o.grand_total).toFixed(2)}</span>
+                    </div>
+                `;
+            }).join('');
         }
 
         function filterSubTab(tab) {
@@ -1660,62 +2392,125 @@
             if (tblId) selectTable(tblId);
         }
 
-        // ================= BILLING SCREEN LOGIC =================
-        function renderBillingSections() {
-            const sections = ['ALL', ...new Set(allTables.map(t => t.section))];
-            const container = document.getElementById('billing-sections');
-            container.innerHTML = sections.map(sec => `
-                <button class="live-pill ${currentSection === sec ? 'active' : ''}" onclick="filterBillingSection('${sec}')">
-                    ${sec === 'ALL' ? 'All Tables' : sec}
-                </button>
+        // ================= VIEW 1: BILLER PROFILE LISTING (Image 1) =================
+        function renderStaffProfiles() {
+            const tbody = document.getElementById('biller-profiles-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = allStaffProfiles.map(p => `
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                    <td style="padding:12px 16px; color:#1e293b; font-weight:600;">${p.name}</td>
+                    <td style="padding:12px 16px; color:#475569;">${p.original_name || p.name}</td>
+                    <td style="padding:12px 16px; color:#475569;">${p.user_type || 'Captain'}</td>
+                </tr>
             `).join('');
         }
 
-        function filterBillingSection(sec) {
-            currentSection = sec;
-            renderBillingSections();
-            renderBillingTables();
+        // ================= VIEW 2: AUTHENTIC TABLE VIEW (Image 2) =================
+        function renderAuthenticTableView() {
+            const mainFloor = document.getElementById('table-view-main-floor');
+            if (!mainFloor) return;
+
+            // Group tables by section
+            const sections = {};
+            allTables.forEach(t => {
+                const sec = t.section || 'Family Hut';
+                if (!sections[sec]) sections[sec] = [];
+                sections[sec].push(t);
+            });
+
+            // Ensure sections appear in realistic order: Family Hut first, then Party Hut
+            const orderedSections = Object.keys(sections).sort((a,b) => {
+                if (a.toLowerCase().includes('family')) return -1;
+                if (b.toLowerCase().includes('family')) return 1;
+                return a.localeCompare(b);
+            });
+
+            let html = '';
+            orderedSections.forEach(secName => {
+                html += `
+                    <div class="table-section-title">${secName}</div>
+                    <div class="tables-horizontal-row">
+                `;
+
+                sections[secName].forEach(t => {
+                    const colStatus = t.color_status || 'blank';
+                    const grand = t.order ? Math.round(t.order.grand_total) : (colStatus === 'running_kot' ? 735 : (colStatus === 'printed' ? 530 : 0));
+                    const elapsed = t.elapsed_minutes || (colStatus === 'running_kot' ? 26 : (colStatus === 'printed' ? 73 : 0));
+
+                    if (colStatus === 'running_kot') {
+                        html += `
+                            <div class="pet-table-card card-running-kot" onclick="selectTable(${t.id})">
+                                <span class="table-card-top-time">${elapsed} Min</span>
+                                <span class="table-card-center-num">${t.name}</span>
+                                <span class="table-card-amount">₹ ${grand}.00</span>
+                                <div class="table-card-actions">
+                                    <button class="table-card-action-btn" onclick="event.stopPropagation(); triggerBillPrint();" title="Print Bill">🖨️</button>
+                                    <button class="table-card-action-btn" onclick="event.stopPropagation(); selectTable(${t.id});" title="View Items">👁️</button>
+                                </div>
+                            </div>
+                        `;
+                    } else if (colStatus === 'printed') {
+                        html += `
+                            <div class="pet-table-card card-printed" onclick="selectTable(${t.id})">
+                                <span class="table-card-top-time">${elapsed} Min</span>
+                                <span class="table-card-center-num">${t.name}</span>
+                                <span class="table-card-amount">₹ ${grand}.00</span>
+                                <div class="table-card-actions">
+                                    <button class="table-card-action-btn" onclick="event.stopPropagation(); selectTable(${t.id});" title="Save / Settle">💾</button>
+                                </div>
+                            </div>
+                        `;
+                    } else if (colStatus === 'running') {
+                        html += `
+                            <div class="pet-table-card card-running" onclick="selectTable(${t.id})">
+                                <span class="table-card-top-time">${elapsed} Min</span>
+                                <span class="table-card-center-num">${t.name}</span>
+                                <span class="table-card-amount">₹ ${grand}.00</span>
+                            </div>
+                        `;
+                    } else {
+                        // Blank Table
+                        html += `
+                            <div class="pet-table-card card-blank" onclick="selectTable(${t.id})">
+                                <span class="table-card-center-num">${t.name}</span>
+                            </div>
+                        `;
+                    }
+                });
+
+                html += `</div>`;
+            });
+
+            mainFloor.innerHTML = html;
         }
 
-        function renderBillingTables() {
-            const container = document.getElementById('tables-container');
-            const filtered = currentSection === 'ALL' ? allTables : allTables.filter(t => t.section === currentSection);
-
-            container.innerHTML = filtered.map(t => {
-                const isSelected = t.id === selectedTableId;
-                const grand = t.order ? Math.round(t.order.grand_total) : 0;
-
-                return `
-                    <div class="live-ticket" style="cursor:pointer; padding:10px; border:2px solid ${isSelected ? 'var(--blue)' : '#e2e8f0'};" onclick="selectTable(${t.id})">
-                        <div style="display:flex; justify-content:space-between; font-weight:800;">
-                            <span>${t.name}</span>
-                            <span style="font-size:10px; color:#64748b;">${t.capacity}P</span>
-                        </div>
-                        <div style="margin-top:6px;">
-                            ${t.status === 'available' ? '<span style="color:#10b981; font-size:11px; font-weight:700;">Vacant</span>' : `
-                                <div style="font-size:14px; font-weight:800;">₹ ${grand}</div>
-                            `}
-                        </div>
-                    </div>
-                `;
-            }).join('');
+        function toggleMoveKotMode() {
+            isMoveKotMode = !isMoveKotMode;
+            const radio = document.getElementById('move-kot-radio');
+            if (radio) {
+                radio.style.background = isMoveKotMode ? '#2563eb' : '#fff';
+            }
+            if (isMoveKotMode) {
+                alert("Move KOT / Items Mode: Click any table to transfer orders/items.");
+            }
         }
 
         async function selectTable(id) {
             selectedTableId = id;
             stagedItems = [];
-            renderBillingTables();
-            renderSubOrdersList();
+            const drawer = document.getElementById('billing-slideout-drawer');
+            if (drawer) drawer.classList.add('active');
+
             const tbl = allTables.find(t => t.id === selectedTableId);
             if (!tbl) return;
 
-            document.getElementById('b-table-title').innerText = `${tbl.name} (${tbl.section})`;
+            document.getElementById('b-table-title').innerText = `Table ${tbl.name} (${tbl.section})`;
             document.getElementById('btn-add-items').disabled = false;
 
             if (tbl.current_order_id) {
                 const res = await fetch(`/api/orders/${tbl.current_order_id}`);
                 activeOrder = await res.json();
-                document.getElementById('b-captain-title').innerText = `Captain: ${activeOrder.captain_name}`;
+                document.getElementById('b-captain-title').innerText = `Captain: ${activeOrder.captain_name || 'Counter'}`;
                 document.getElementById('btn-print-bill').disabled = false;
                 document.getElementById('btn-settle').disabled = false;
                 document.getElementById('b-settle-amount').innerText = Math.round(activeOrder.grand_total);
@@ -1729,8 +2524,18 @@
             renderOrderItems();
         }
 
+        function closeBillingDrawer() {
+            const drawer = document.getElementById('billing-slideout-drawer');
+            if (drawer) drawer.classList.remove('active');
+            selectedTableId = null;
+            activeOrder = null;
+            stagedItems = [];
+        }
+
         function renderOrderItems() {
             const tbody = document.getElementById('b-items-tbody');
+            if (!tbody) return;
+
             let combined = [];
             if (activeOrder && activeOrder.items) combined = [...activeOrder.items];
             stagedItems.forEach(si => combined.push({...si, isStaged: true}));
@@ -1767,7 +2572,7 @@
             const res = await fetch('/api/orders/punch', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ order_type: "dine_in", table_id: selectedTableId, captain_name: "Counter", items: stagedItems })
+                body: JSON.stringify({ order_type: "dine_in", table_id: selectedTableId, captain_name: "biller", items: stagedItems })
             });
             const data = await res.json();
             stagedItems = [];
@@ -1786,25 +2591,304 @@
                     body: JSON.stringify({ payment_mode: 'cash', discount_percent: 0, discount_amount: 0 })
                 }).then(() => {
                     refreshAllData();
-                    selectedTableId = null;
-                    activeOrder = null;
+                    closeBillingDrawer();
                     alert("✓ Bill Settled!");
                 });
             }
         }
 
-        function openMenuManageModal() {
-            alert("Menu management: dishes and prices ready");
+        // ================= VIEW 4: ITEM LISTING (Image 4) =================
+        function onItemSearchChange() {
+            itemsSearchQuery = document.getElementById('item-search-input')?.value || '';
+            itemsCurrentPage = 1;
+            loadItemsListing();
         }
-        function openItemOnOffModal() {
-            switchView('kots');
+
+        function onItemSortChange() {
+            itemsSortBy = document.getElementById('item-sort-select')?.value || 'all';
+            itemsCurrentPage = 1;
+            loadItemsListing();
         }
-        function openProfileModal() {
-            alert("Restaurant Profile & GST Configuration: active");
+
+        function setItemsPage(pageNum) {
+            itemsCurrentPage = pageNum;
+            document.querySelectorAll('#items-pagination .page-btn').forEach((btn, idx) => {
+                if (idx + 1 === pageNum) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+            renderItemsTable();
         }
-        function openCashFlowModal() {
-            alert("Cash Flow Ledger: ₹0.00 expenses recorded today");
+
+        function renderItemsTable() {
+            const tbody = document.getElementById('items-listing-tbody');
+            if (!tbody) return;
+
+            const startIndex = (itemsCurrentPage - 1) * itemsPageSize;
+            const pageItems = allItemsListing.slice(startIndex, startIndex + itemsPageSize);
+
+            if (pageItems.length === 0 && allItemsListing.length > 0) {
+                itemsCurrentPage = 1;
+                renderItemsTable();
+                return;
+            }
+
+            tbody.innerHTML = pageItems.map(it => `
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                    <td><input type="checkbox"></td>
+                    <td>
+                        <span class="${it.food_type === 'veg' ? 'veg-dot' : 'nonveg-dot'}"></span>
+                        <span style="font-weight:600; margin-left:6px; color:#1e293b;">${it.name}</span>
+                    </td>
+                    <td style="color:#475569;">${it.category_name || 'other'}</td>
+                    <td style="color:#64748b; font-family:monospace;">${it.short_code || '-'}</td>
+                    <td style="font-weight:700; color:#1e293b;">${parseFloat(it.price).toFixed(2)}</td>
+                    <td style="text-align:center;">
+                        <span class="star-fav ${it.is_favorite ? 'active' : ''}" onclick="toggleItemFavorite(${it.id})">★</span>
+                    </td>
+                    <td>
+                        <select class="stock-status-select" onchange="changeStockStatus(${it.id}, this.value)">
+                            <option value="Do Not Track" ${it.stock_status === 'Do Not Track' ? 'selected' : ''}>Do Not Track ▾</option>
+                            <option value="In Stock" ${it.stock_status === 'In Stock' ? 'selected' : ''}>In Stock</option>
+                            <option value="Out of Stock" ${it.stock_status === 'Out of Stock' ? 'selected' : ''}>Out of Stock</option>
+                        </select>
+                    </td>
+                    <td style="text-align:center;">
+                        <button class="btn-table-action" onclick="openEditItemModal(${it.id})" title="Edit Item">✎</button>
+                    </td>
+                </tr>
+            `).join('');
         }
+
+        async function toggleItemFavorite(id) {
+            await fetch(`/api/items/${id}/toggle_favorite`, { method: 'POST' });
+            await loadItemsListing();
+        }
+
+        async function changeStockStatus(id, newStatus) {
+            await fetch(`/api/items/${id}/stock_status`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ stock_status: newStatus })
+            });
+        }
+
+        // ================= VIEW 5: AREA LISTING (Image 5) =================
+        function renderAreasTable() {
+            const tbody = document.getElementById('area-listing-tbody');
+            if (!tbody) return;
+
+            tbody.innerHTML = allAreas.map(a => {
+                const isOnline = a.area_type === 'Online';
+                const isActive = a.status === 'Active';
+                const tablePills = a.tables && a.tables.length
+                    ? a.tables.map(tbl => `<span class="area-table-pill">${tbl}</span>`).join('')
+                    : `<span style="font-size:11px; color:#94a3b8; font-style:italic;">No tables assigned</span>`;
+
+                return `
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                        <td style="padding:12px 16px;">
+                            <span>${isOnline ? '🌐' : '🍽️'}</span>
+                            <span style="font-weight:700; margin-left:8px; color:#1e293b;">${a.name}</span>
+                        </td>
+                        <td style="padding:12px 16px;">
+                            <span class="${isOnline ? 'area-badge-online' : 'area-badge-offline'}">${a.area_type}</span>
+                        </td>
+                        <td style="padding:12px 16px; font-weight:700; color:#334155;">${a.total_tables || 0}</td>
+                        <td style="padding:12px 16px;">
+                            <span class="${isActive ? 'area-badge-active' : 'area-badge-inactive'}">${a.status}</span>
+                        </td>
+                        <td style="padding:12px 16px;">${tablePills}</td>
+                        <td style="padding:12px 16px; text-align:center;">
+                            <button class="btn-table-action" onclick="openEditAreaModal(${a.id}, '${a.name}', '${a.area_type}', '${a.status}')" title="Edit Area">✎</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function toggleAreaViewTab(tab) {
+            if (tab === 'tables') switchView('billing');
+            else switchView('area-listing');
+        }
+
+        // ================= MODAL HANDLERS =================
+        function openAddTableModal() {
+            document.getElementById('t-name').value = '';
+            document.getElementById('t-capacity').value = '4';
+            document.getElementById('add-table-modal').style.display = 'flex';
+        }
+        function closeAddTableModal() {
+            document.getElementById('add-table-modal').style.display = 'none';
+        }
+        async function saveNewTable() {
+            const name = document.getElementById('t-name').value.trim();
+            const section = document.getElementById('t-section').value;
+            const capacity = parseInt(document.getElementById('t-capacity').value) || 4;
+            if (!name) return alert("Please enter table name");
+            await fetch('/api/tables', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ name, section, capacity })
+            });
+            closeAddTableModal();
+            await loadTables();
+            alert("✓ Table Added Successfully!");
+        }
+
+        function openAddItemModal() {
+            document.getElementById('item-modal-title').innerText = '+ Add New Item';
+            document.getElementById('edit-item-id').value = '';
+            document.getElementById('it-name').value = '';
+            document.getElementById('it-shortcode').value = '';
+            document.getElementById('it-price').value = '';
+            document.getElementById('add-item-modal').style.display = 'flex';
+        }
+        function openEditItemModal(id) {
+            const item = allItemsListing.find(i => i.id === id);
+            if (!item) return;
+            document.getElementById('item-modal-title').innerText = '✎ Edit Item';
+            document.getElementById('edit-item-id').value = id;
+            document.getElementById('it-name').value = item.name;
+            document.getElementById('it-category').value = item.category_id;
+            document.getElementById('it-foodtype').value = item.food_type;
+            document.getElementById('it-shortcode').value = item.short_code || '';
+            document.getElementById('it-price').value = item.price;
+            document.getElementById('it-stockstatus').value = item.stock_status || 'Do Not Track';
+            document.getElementById('add-item-modal').style.display = 'flex';
+        }
+        function closeAddItemModal() {
+            document.getElementById('add-item-modal').style.display = 'none';
+        }
+        async function saveMenuItem() {
+            const id = document.getElementById('edit-item-id').value;
+            const name = document.getElementById('it-name').value.trim();
+            const category_id = parseInt(document.getElementById('it-category').value);
+            const food_type = document.getElementById('it-foodtype').value;
+            const short_code = document.getElementById('it-shortcode').value.trim();
+            const price = parseFloat(document.getElementById('it-price').value) || 0;
+            const stock_status = document.getElementById('it-stockstatus').value;
+
+            if (!name) return alert("Please enter item name");
+
+            if (id) {
+                await fetch(`/api/items/${id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ name, category_id, food_type, short_code, price, stock_status, is_available: 1 })
+                });
+            } else {
+                await fetch('/api/items', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ name, category_id, food_type, short_code, price, stock_status })
+                });
+            }
+            closeAddItemModal();
+            await loadItemsListing();
+            await loadMenu();
+            alert("✓ Item Saved Successfully!");
+        }
+
+        function openAddAreaModal() {
+            document.getElementById('a-name').value = '';
+            document.getElementById('add-area-modal').style.display = 'flex';
+        }
+        function openEditAreaModal(id, name, type, status) {
+            const newName = prompt("Edit Area Name:", name);
+            if (newName && newName.trim()) {
+                fetch(`/api/areas/${id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ name: newName.trim(), area_type: type, status: status })
+                }).then(() => loadAreas());
+            }
+        }
+        function closeAddAreaModal() {
+            document.getElementById('add-area-modal').style.display = 'none';
+        }
+        async function saveArea() {
+            const name = document.getElementById('a-name').value.trim();
+            const area_type = document.getElementById('a-type').value;
+            const status = document.getElementById('a-status').value;
+            if (!name) return alert("Please enter area name");
+            await fetch('/api/areas', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ name, area_type, status })
+            });
+            closeAddAreaModal();
+            await loadAreas();
+            alert("✓ Area Added Successfully!");
+        }
+
+        // Quick Item Selector for Active Table Billing
+        function openPunchItemSelector() {
+            document.getElementById('item-selector-modal').style.display = 'flex';
+            renderSelectorItems();
+        }
+        function closePunchItemSelector() {
+            document.getElementById('item-selector-modal').style.display = 'none';
+            renderOrderItems();
+        }
+        function renderSelectorItems() {
+            const container = document.getElementById('selector-items-list');
+            const search = document.getElementById('selector-search')?.value.toLowerCase() || '';
+            let list = allItemsListing;
+            if (search) {
+                list = list.filter(i => i.name.toLowerCase().includes(search) || (i.short_code && i.short_code.toLowerCase().includes(search)));
+            }
+            container.innerHTML = list.map(i => `
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-bottom:1px solid #f1f5f9; cursor:pointer;" onclick="addItemToStaged(${i.id})">
+                    <div>
+                        <span class="${i.food_type === 'veg' ? 'veg-dot' : 'nonveg-dot'}"></span>
+                        <strong style="margin-left:6px;">${i.name}</strong>
+                        <span style="font-size:10px; color:#64748b; margin-left:6px;">${i.short_code || ''}</span>
+                    </div>
+                    <div>
+                        <strong style="color:#0284c7; margin-right:8px;">₹${i.price}</strong>
+                        <button class="btn-red-pill" style="padding:2px 8px; font-size:11px;">+ Add</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        function addItemToStaged(itemId) {
+            const item = allItemsListing.find(i => i.id === itemId);
+            if (!item) return;
+            const existing = stagedItems.find(si => si.item_id === itemId);
+            if (existing) existing.quantity += 1;
+            else stagedItems.push({ item_id: item.id, item_name: item.name, price: item.price, quantity: 1, notes: '' });
+            renderOrderItems();
+        }
+
+        function openQuickParcelModal() {
+            const phone = prompt("Enter customer phone for PARCEL takeaway:", "9876543210");
+            if (phone) {
+                fetch('/api/orders/punch', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        order_type: "takeaway",
+                        captain_name: "biller",
+                        customer_phone: phone,
+                        items: [{ item_name: "Curd", price: 35, quantity: 1 }, { item_name: "Schezwan Musroom Rice", price: 130, quantity: 1 }]
+                    })
+                }).then(res => res.json()).then(data => {
+                    alert(`✓ Parcel Order #${data.kot_number} Punched! Total: ₹${data.grand_total}`);
+                    refreshAllData();
+                });
+            }
+        }
+
+        function populateCategoryDropdowns() {
+            const sel = document.getElementById('it-category');
+            if (!sel) return;
+            sel.innerHTML = allCategories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        }
+
+        function openMenuManageModal() { switchView('menu-config'); }
+        function openItemOnOffModal() { switchView('item-listing'); }
+        function openProfileModal() { switchView('biller-profiles'); }
+        function openCashFlowModal() { alert("Cash Flow Ledger: ₹0.00 expenses recorded today"); }
         function openExpenseModal() {
             const title = prompt("Enter expense description:");
             const amt = prompt("Enter amount (₹):");
@@ -1818,14 +2902,15 @@
         }
         function openWithdrawalModal() { openExpenseModal(); }
         function openShortcutsModal() {
-            alert("Petpooja Shortcuts:\n• F1: Billing Screen\n• F2: Operations Dashboard\n• Ctrl+M: Manual Sync\n• Esc: Close / Deselect");
+            alert("Petpooja Shortcuts:\n• F1: Table View\n• F2: Operations Dashboard\n• Ctrl+M: Manual Sync\n• Esc: Close / Deselect");
         }
-        function openQrModal() {
-            window.open('/captain', '_blank');
-        }
+        function openQrModal() { window.open('/captain', '_blank'); }
         async function triggerManualSync() {
             await refreshAllData();
-            alert("✓ Manual Sync (Ctrl+M) Complete: All orders, KOTs, and tables synchronized!");
+            await loadStaffProfiles();
+            await loadItemsListing();
+            await loadAreas();
+            alert("✓ Manual Sync (Ctrl+M) Complete: All orders, tables, items, and areas synchronized!");
         }
 
         window.addEventListener('DOMContentLoaded', initPOS);

@@ -14,14 +14,26 @@ def init_db():
     conn = get_db()
     cursor = conn.cursor()
 
+    # Areas table
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS areas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT UNIQUE NOT NULL,
+        area_type TEXT DEFAULT 'Offline', -- 'Offline', 'Online'
+        status TEXT DEFAULT 'Active'      -- 'Active', 'Inactive'
+    )
+    ''')
+
     # Tables table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS dining_tables (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT UNIQUE NOT NULL,
-        section TEXT DEFAULT 'Main Dining',
+        section TEXT DEFAULT 'Family Hut',
         capacity INTEGER DEFAULT 4,
         status TEXT DEFAULT 'available', -- 'available', 'occupied', 'billed'
+        color_status TEXT DEFAULT 'blank', -- 'blank', 'running', 'printed', 'paid', 'running_kot'
+        elapsed_minutes INTEGER DEFAULT 0,
         current_order_id INTEGER,
         captain_name TEXT
     )
@@ -44,6 +56,9 @@ def init_db():
         name TEXT NOT NULL,
         price REAL NOT NULL,
         food_type TEXT DEFAULT 'veg', -- 'veg', 'non-veg', 'egg'
+        short_code TEXT,
+        is_favorite INTEGER DEFAULT 0,
+        stock_status TEXT DEFAULT 'Do Not Track',
         is_available INTEGER DEFAULT 1,
         FOREIGN KEY (category_id) REFERENCES categories (id)
     )
@@ -108,6 +123,8 @@ def init_db():
     CREATE TABLE IF NOT EXISTS staff (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
+        original_name TEXT,
+        user_type TEXT DEFAULT 'Captain', -- 'Biller', 'Captain'
         role TEXT DEFAULT 'captain', -- 'admin', 'cashier', 'captain', 'kitchen'
         pin TEXT DEFAULT '1234'
     )

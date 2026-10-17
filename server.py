@@ -142,6 +142,34 @@ class PrinterIn(BaseModel):
     port: Optional[int] = 9100
     assigned_for: Optional[str] = "Bill, KOT"
 
+class AreaIn(BaseModel):
+    name: str
+    area_type: str = "Offline" # 'Offline', 'Online'
+    status: str = "Active"      # 'Active', 'Inactive'
+
+class StaffProfileIn(BaseModel):
+    name: str
+    original_name: Optional[str] = ""
+    user_type: str = "Captain" # 'Biller', 'Captain'
+    pin: Optional[str] = "1234"
+
+class ItemCreateIn(BaseModel):
+    name: str
+    category_id: int
+    price: float
+    food_type: str = "veg" # 'veg', 'non-veg'
+    short_code: Optional[str] = ""
+    stock_status: Optional[str] = "Do Not Track"
+
+class ItemUpdateIn(BaseModel):
+    name: str
+    category_id: int
+    price: float
+    food_type: str = "veg"
+    short_code: Optional[str] = ""
+    stock_status: Optional[str] = "Do Not Track"
+    is_available: int = 1
+
 # ----------------- API Endpoints -----------------
 
 @app.websocket("/ws")
@@ -237,6 +265,8 @@ def get_tables():
     tables = [dict(row) for row in cursor.fetchall()]
 
     for t in tables:
+        t["color_status"] = "blank"
+        t["elapsed_minutes"] = t.get("elapsed_minutes", 0) or 0
         if t["current_order_id"]:
             cursor.execute("""
                 SELECT order_number, grand_total, subtotal, captain_name, created_at, status
@@ -244,12 +274,40 @@ def get_tables():
             """, (t["current_order_id"],))
             ord_row = cursor.fetchone()
             if ord_row:
-                t["order"] = dict(ord_row)
+                ord_dict = dict(ord_row)
+                t["order"] = ord_dict
                 cursor.execute("SELECT SUM(quantity) FROM order_items WHERE order_id = ?", (t["current_order_id"],))
                 t["item_count"] = cursor.fetchone()[0] or 0
+                
+                if ord_dict.get("created_at"):
+                    try:
+                        c_time = datetime.strptime(ord_dict["created_at"], "%Y-%m-%d %H:%M:%S")
+                        calc_mins = int((datetime.now() - c_time).total_seconds() / 60)
+                        if calc_mins > 0:
+                            t["elapsed_minutes"] = calc_mins
+                    except Exception:
+                        pass
+                
+                ord_status = ord_dict.get("status", "active")
+                if ord_status == "billed":
+                    t["color_status"] = "printed"
+                elif ord_status == "settled":
+                    t["color_status"] = "paid"
+                else:
+                    cursor.execute("SELECT COUNT(*) FROM kots WHERE order_id = ? AND status = 'active'", (t["current_order_id"],))
+                    kot_cnt = cursor.fetchone()[0]
+                    if kot_cnt > 0:
+                        t["color_status"] = "running_kot"
+                    else:
+                        t["color_status"] = "running"
+            else:
+                t["order"] = None
+                t["item_count"] = 0
+                t["color_status"] = "blank"
         else:
             t["order"] = None
             t["item_count"] = 0
+            t["color_status"] = "blank"
 
     conn.close()
     return tables
@@ -449,6 +507,171 @@ async def delete_printer(printer_id: int):
     conn.close()
     await manager.broadcast({"event": "PRINTERS_UPDATED"})
     return {"status": "ok"}
+
+# ----------------- Area Management Endpoints (Matching Photo 5) -----------------
+@app.get("/api/areas")
+def get_areas():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM areas ORDER BY id ASC")
+    areas = [dict(r) for r in cursor.fetchall()]
+    for a in areas:
+        cursor.execute("SELECT name FROM dining_tables WHERE section = ? ORDER BY id ASC", (a["name"],))
+        tables = [r[0] for r in cursor.fetchall()]
+        a["tables"] = tables
+        a["total_tables"] = len(tables)
+    conn.close()
+    return areas
+
+@app.post("/api/areas")
+async def create_area(payload: AreaIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("INSERT INTO areas (name, area_type, status) VALUES (?, ?, ?)",
+                       (payload.name.strip(), payload.area_type.strip(), payload.status.strip()))
+        conn.commit()
+        area_id = cursor.lastrowid
+        conn.close()
+        await manager.broadcast({"event": "AREAS_UPDATED"})
+        return {"status": "ok", "id": area_id}
+    except Exception as e:
+        conn.close()
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.put("/api/areas/{area_id}")
+async def update_area(area_id: int, payload: AreaIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM areas WHERE id = ?", (area_id,))
+    old_row = cursor.fetchone()
+    if not old_row:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Area not found")
+    old_name = old_row[0]
+    cursor.execute("UPDATE areas SET name = ?, area_type = ?, status = ? WHERE id = ?",
+                   (payload.name.strip(), payload.area_type.strip(), payload.status.strip(), area_id))
+    if old_name != payload.name.strip():
+        cursor.execute("UPDATE dining_tables SET section = ? WHERE section = ?", (payload.name.strip(), old_name))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "AREAS_UPDATED"})
+    return {"status": "ok"}
+
+# ----------------- Staff Profiles Endpoints (Matching Photo 1) -----------------
+@app.get("/api/staff/profiles")
+def get_staff_profiles():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, name, original_name, user_type, role, pin FROM staff ORDER BY id ASC")
+    profiles = [dict(r) for r in cursor.fetchall()]
+    conn.close()
+    return profiles
+
+@app.post("/api/staff/profiles")
+async def add_staff_profile(payload: StaffProfileIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO staff (name, original_name, user_type, role, pin)
+        VALUES (?, ?, ?, ?, ?)
+    """, (payload.name.strip(), payload.original_name.strip() or payload.name.strip(), payload.user_type.strip(), payload.user_type.lower(), payload.pin or '1234'))
+    conn.commit()
+    p_id = cursor.lastrowid
+    conn.close()
+    await manager.broadcast({"event": "STAFF_UPDATED"})
+    return {"status": "ok", "id": p_id}
+
+# ----------------- Item Listing Endpoints (Matching Photo 4) -----------------
+@app.get("/api/items/listing")
+def get_items_listing(search: Optional[str] = "", category_id: Optional[int] = None, sort_by: Optional[str] = "all"):
+    conn = get_db()
+    cursor = conn.cursor()
+    query = """
+        SELECT m.id, m.name, m.price, m.food_type, m.short_code, m.is_favorite, 
+               m.stock_status, m.is_available, m.category_id, c.name as category_name
+        FROM menu_items m
+        LEFT JOIN categories c ON m.category_id = c.id
+        WHERE 1=1
+    """
+    params = []
+    if search:
+        query += " AND (m.name LIKE ? OR m.short_code LIKE ? OR c.name LIKE ?)"
+        s = f"%{search}%"
+        params.extend([s, s, s])
+    if category_id:
+        query += " AND m.category_id = ?"
+        params.append(category_id)
+
+    if sort_by == "price_asc":
+        query += " ORDER BY m.price ASC"
+    elif sort_by == "price_desc":
+        query += " ORDER BY m.price DESC"
+    elif sort_by == "favorite":
+        query += " ORDER BY m.is_favorite DESC, m.name ASC"
+    else:
+        query += " ORDER BY m.id ASC"
+
+    cursor.execute(query, params)
+    items = [dict(r) for r in cursor.fetchall()]
+    conn.close()
+    return {"total": len(items), "items": items}
+
+@app.post("/api/items")
+async def create_item(payload: ItemCreateIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO menu_items (name, category_id, price, food_type, short_code, stock_status, is_available)
+        VALUES (?, ?, ?, ?, ?, ?, 1)
+    """, (payload.name.strip(), payload.category_id, payload.price, payload.food_type, payload.short_code or '', payload.stock_status or 'Do Not Track'))
+    conn.commit()
+    item_id = cursor.lastrowid
+    conn.close()
+    await manager.broadcast({"event": "MENU_UPDATED"})
+    return {"status": "ok", "id": item_id}
+
+@app.put("/api/items/{item_id}")
+async def update_item_details(item_id: int, payload: ItemUpdateIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE menu_items 
+        SET name = ?, category_id = ?, price = ?, food_type = ?, short_code = ?, stock_status = ?, is_available = ?
+        WHERE id = ?
+    """, (payload.name.strip(), payload.category_id, payload.price, payload.food_type, payload.short_code or '', payload.stock_status or 'Do Not Track', payload.is_available, item_id))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "MENU_UPDATED"})
+    return {"status": "ok"}
+
+@app.post("/api/items/{item_id}/toggle_favorite")
+async def toggle_favorite(item_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT is_favorite FROM menu_items WHERE id = ?", (item_id,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Item not found")
+    new_fav = 0 if row[0] == 1 else 1
+    cursor.execute("UPDATE menu_items SET is_favorite = ? WHERE id = ?", (new_fav, item_id))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "MENU_UPDATED"})
+    return {"status": "ok", "is_favorite": new_fav}
+
+@app.post("/api/items/{item_id}/stock_status")
+async def update_stock_status(item_id: int, payload: dict):
+    conn = get_db()
+    cursor = conn.cursor()
+    new_status = payload.get("stock_status", "Do Not Track")
+    cursor.execute("UPDATE menu_items SET stock_status = ? WHERE id = ?", (new_status, item_id))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "MENU_UPDATED"})
+    return {"status": "ok", "stock_status": new_status}
+
 
 @app.get("/api/orders/all")
 def get_all_orders():
