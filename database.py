@@ -124,7 +124,26 @@ def init_db():
     )
     ''')
 
+    # Printers table
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS printers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        printer_type TEXT DEFAULT 'General',
+        ip_address TEXT DEFAULT '127.0.0.1',
+        port INTEGER DEFAULT 9100,
+        assigned_for TEXT DEFAULT 'Bill, KOT'
+    )
+    ''')
+
     conn.commit()
+
+    # Seed Default Printers if empty
+    cursor.execute("SELECT COUNT(*) FROM printers")
+    if cursor.fetchone()[0] == 0:
+        cursor.execute("INSERT INTO printers (name, printer_type, assigned_for) VALUES ('eBill printer', 'eBill Printer', 'eBill')")
+        cursor.execute("INSERT INTO printers (name, printer_type, assigned_for, ip_address, port) VALUES ('bill & kot printer', 'General', 'Bill, KOT', '192.168.1.200', 9100)")
+        conn.commit()
 
     # Seed Default Settings if empty
     cursor.execute("SELECT COUNT(*) FROM settings")

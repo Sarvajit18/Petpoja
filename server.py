@@ -135,6 +135,13 @@ class ExpenseIn(BaseModel):
     amount: float
     category: Optional[str] = "General"
 
+class PrinterIn(BaseModel):
+    name: str
+    printer_type: str = "General"
+    ip_address: Optional[str] = "127.0.0.1"
+    port: Optional[int] = 9100
+    assigned_for: Optional[str] = "Bill, KOT"
+
 # ----------------- API Endpoints -----------------
 
 @app.websocket("/ws")
@@ -411,6 +418,76 @@ async def add_expense(payload: ExpenseIn):
     conn.commit()
     conn.close()
     await manager.broadcast({"event": "EXPENSE_ADDED"})
+    return {"status": "ok"}
+
+@app.get("/api/printers")
+def get_printers():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM printers ORDER BY id ASC")
+    printers = [dict(r) for r in cursor.fetchall()]
+    conn.close()
+    return printers
+
+@app.post("/api/printers")
+async def add_printer(payload: PrinterIn):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO printers (name, printer_type, ip_address, port, assigned_for) VALUES (?, ?, ?, ?, ?)",
+                   (payload.name.strip(), payload.printer_type.strip(), payload.ip_address.strip() or '127.0.0.1', payload.port or 9100, payload.assigned_for or 'Bill, KOT'))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "PRINTERS_UPDATED"})
+    return {"status": "ok"}
+
+@app.delete("/api/printers/{printer_id}")
+async def delete_printer(printer_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM printers WHERE id = ?", (printer_id,))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "PRINTERS_UPDATED"})
+    return {"status": "ok"}
+
+@app.get("/api/orders/all")
+def get_all_orders():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM orders ORDER BY id DESC LIMIT 100")
+    orders = [dict(r) for r in cursor.fetchall()]
+    for o in orders:
+        cursor.execute("SELECT * FROM order_items WHERE order_id = ?", (o["id"],))
+        o["items"] = [dict(r) for r in cursor.fetchall()]
+    conn.close()
+    return orders
+
+@app.get("/api/kots/all")
+def get_all_kots():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM kots ORDER BY id DESC LIMIT 100")
+    kots = [dict(r) for r in cursor.fetchall()]
+    for k in kots:
+        cursor.execute("SELECT * FROM order_items WHERE kot_id = ?", (k["id"],))
+        k["items"] = [dict(r) for r in cursor.fetchall()]
+        cursor.execute("SELECT status, order_type, settled_at FROM orders WHERE id = ?", (k["order_id"],))
+        ord_info = cursor.fetchone()
+        if ord_info:
+            k["order_status"] = ord_info["status"]
+            k["order_type"] = ord_info["order_type"]
+            k["settled_at"] = ord_info["settled_at"]
+    conn.close()
+    return kots
+
+@app.post("/api/orders/{order_id}/mark_ready")
+async def mark_order_ready(order_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE kots SET status = 'completed' WHERE order_id = ?", (order_id,))
+    conn.commit()
+    conn.close()
+    await manager.broadcast({"event": "ORDER_READY", "order_id": order_id})
     return {"status": "ok"}
 
 @app.post("/api/orders/punch")
