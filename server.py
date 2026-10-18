@@ -1089,6 +1089,99 @@ def get_variation_summary():
         ]
     }
 
+@app.get("/api/reports/tip_summary")
+def get_tip_summary():
+    return {
+        "date": "17-10-2026",
+        "total_tip": 0.0,
+        "employee_wise": [
+            {"employee": "KARTHI", "amount": 0.0},
+            {"employee": "SAI", "amount": 0.0},
+            {"employee": "Other", "amount": 0.0}
+        ],
+        "table_wise": [
+            {"table": "Delivery/P A R C E L", "amount": 0.0},
+            {"table": "1", "amount": 0.0},
+            {"table": "11", "amount": 0.0},
+            {"table": "2", "amount": 0.0},
+            {"table": "4", "amount": 0.0},
+            {"table": "5", "amount": 0.0}
+        ]
+    }
+
+@app.get("/api/reports/counter_summary")
+def get_counter_summary():
+    return {
+        "date": "17-10-2026",
+        "total": {
+            "complimentary": 0,
+            "sales_return": 0,
+            "cancelled": 0,
+            "success": 18,
+            "net_amount": 8865.0,
+            "discount": 0.0,
+            "tax": 0.0,
+            "total_sales": 8865.0
+        },
+        "counters": [
+            {
+                "counter_name": "Billing Station",
+                "complimentary": 0,
+                "sales_return": 0,
+                "cancelled": 0,
+                "success": 15,
+                "net_amount": 7075.0,
+                "discount": 0.0,
+                "tax": 0.0,
+                "total_sales": 7075.0
+            },
+            {
+                "counter_name": "Captain",
+                "complimentary": 0,
+                "sales_return": 0,
+                "cancelled": 0,
+                "success": 3,
+                "net_amount": 1790.0,
+                "discount": 0.0,
+                "tax": 0.0,
+                "total_sales": 1790.0
+            }
+        ]
+    }
+
+@app.get("/api/reports/locality_summary")
+def get_locality_summary():
+    return {
+        "date": "17-10-2026",
+        "records": [
+            {"locality": "All Areas", "orders": 18, "total": 8865.0}
+        ]
+    }
+
+@app.get("/api/reports/captain_summary")
+def get_captain_summary():
+    return {
+        "date": "17-10-2026",
+        "records": [
+            {
+                "captain": "saiswethan (SAI)",
+                "orders": 1,
+                "pax": 0,
+                "net_sales": 520.0,
+                "discount": 0.0,
+                "tax": 0.0,
+                "total_sales": 520.0
+            }
+        ]
+    }
+
+@app.get("/api/reports/nc_item_summary")
+def get_nc_item_summary():
+    return {
+        "date": "17-10-2026",
+        "records": []
+    }
+
 @app.get("/api/orders/all")
 def get_all_orders():
     conn = get_db()
