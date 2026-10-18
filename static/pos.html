@@ -1162,21 +1162,340 @@
             transform: translateY(0);
         }
 
-        /* Slideout Billing Drawer */
-        .billing-slideout {
+        /* ================= DEDICATED FULL TABLE WORKSPACE (Open Table Mode) ================= */
+        .tow-header {
+            padding: 10px 18px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            z-index: 10;
+        }
+        .tow-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f5f9;
+            color: #1e293b;
+            border: 1px solid #cbd5e1;
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .tow-back-btn:hover {
+            background: #e2e8f0;
+            border-color: #94a3b8;
+        }
+        .tow-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .tow-status-blank { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+        .tow-status-running { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
+        .tow-status-printed { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+        .tow-split-body {
+            display: flex;
+            flex: 1;
+            height: calc(100% - 53px);
+            overflow: hidden;
+            background: #f8fafc;
+        }
+        .tow-menu-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            border-right: 1px solid var(--border-light);
+            overflow: hidden;
+            min-width: 0;
+        }
+        .tow-search-row {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: #f8fafc;
+        }
+        .tow-search-box {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .tow-search-box input {
+            width: 100%;
+            height: 38px;
+            padding: 0 34px 0 34px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13px;
+            background: #ffffff;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .tow-search-box input:focus {
+            border-color: #0284c7;
+            box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
+        }
+        .tow-search-icon {
             position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 380px;
+            left: 10px;
+            color: #94a3b8;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+        }
+        .tow-search-clear {
+            position: absolute;
+            right: 8px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px;
+        }
+        .tow-cat-bar {
+            display: flex;
+            gap: 6px;
+            padding: 8px 16px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-light);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .tow-cat-btn {
+            padding: 5px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .tow-cat-btn:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        .tow-cat-btn.active {
+            background: #0284c7;
+            color: #ffffff;
+            border-color: #0284c7;
+            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+        }
+        .tow-dish-grid {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            align-content: start;
+        }
+        .tow-dish-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 105px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+        .tow-dish-card:hover {
+            border-color: #7dd3fc;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
+            transform: translateY(-1px);
+        }
+        .tow-dish-card.in-order {
+            border-color: #0284c7;
+            background: #f0f9ff;
+        }
+        .tow-card-badge-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .tow-dish-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+        .tow-card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        .tow-dish-price {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .tow-add-btn {
+            background: #ffffff;
+            color: #0284c7;
+            border: 1.5px solid #0284c7;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.12s;
+        }
+        .tow-add-btn:hover {
+            background: #0284c7;
+            color: #ffffff;
+        }
+        .tow-stepper {
+            display: inline-flex;
+            align-items: center;
+            border: 1.5px solid #0284c7;
+            border-radius: 6px;
+            background: #ffffff;
+            overflow: hidden;
+        }
+        .tow-stepper button {
+            background: none;
+            border: none;
+            color: #0284c7;
+            font-weight: 800;
+            font-size: 13px;
+            width: 24px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .tow-stepper button:hover {
+            background: #0284c7;
+            color: #ffffff;
+        }
+        .tow-stepper span {
+            font-size: 11px;
+            font-weight: 800;
+            color: #0284c7;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* Right Bill Pane */
+        .tow-bill-pane {
+            width: 430px;
+            display: flex;
+            flex-direction: column;
             background: #ffffff;
             border-left: 1px solid var(--border-light);
-            box-shadow: -4px 0 15px rgba(0,0,0,0.08);
-            display: none;
-            flex-direction: column;
-            z-index: 50;
+            flex-shrink: 0;
+            overflow: hidden;
         }
-        .billing-slideout.active { display: flex; }
+        .tow-bill-header {
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tow-bill-table-wrap {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+        .tow-bill-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        .tow-bill-table th {
+            position: sticky;
+            top: 0;
+            background: #f1f5f9;
+            color: #475569;
+            font-weight: 700;
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 1px solid #cbd5e1;
+            z-index: 2;
+        }
+        .tow-bill-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+        .tow-row-staged {
+            background: #f0f9ff;
+        }
+        .tow-note-chip {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            border-radius: 9999px;
+            padding: 3px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.12s;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+        .tow-note-chip:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        .tow-totals-box {
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-top: 1px solid var(--border-light);
+            font-size: 13px;
+        }
+        .tow-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px;
+            color: #64748b;
+        }
+        .tow-grand-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 17px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px dashed #cbd5e1;
+        }
+        .tow-actions-bar {
+            padding: 10px 16px;
+            background: #ffffff;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
 
         /* ================= REPORTS SUITE (Photos 1, 2, 3, 4, 5) ================= */
         .reports-hub-container {
@@ -1901,115 +2220,200 @@
 
         <!-- ================= VIEW: TABLE VIEW (Image 2 from user) ================= -->
         <div class="view-panel" id="view-billing" style="flex-direction:column; background:#ffffff;">
-            <!-- Top Action Bar -->
-            <div class="tableview-topbar">
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <div style="font-size:16px; font-weight:800; color:#1e293b;">Table View</div>
-                </div>
-
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <button class="btn-back" style="padding:6px 10px;" onclick="loadTables()" title="Refresh Tables">⟳</button>
-                    <button class="btn-red-pill" onclick="openAddTableModal()">+ Add Table</button>
-                    <button class="btn-parcel-pill" onclick="openQuickParcelModal()">PARCEL</button>
-
-                    <button class="header-tool-btn" onclick="switchView('item-listing')" title="Item On Off">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="5" width="22" height="14" rx="7" ry="7"></rect><circle cx="16" cy="12" r="3"></circle></svg>
-                        <span>Item On Off</span>
-                    </button>
-                    <button class="header-tool-btn" onclick="openProfileModal()" title="Store">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                        <span>Store</span>
-                    </button>
-                    <button class="header-tool-btn" onclick="switchView('liveview')" title="Live View">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4.93 4.93a10 10 0 0 1 14.14 0"></path><path d="M7.76 7.76a6 6 0 0 1 8.48 0"></path><circle cx="12" cy="12" r="2"></circle><path d="M12 14v8"></path></svg>
-                        <span>Live View</span>
-                    </button>
-                    <button class="header-tool-btn" onclick="switchView('orders')" title="Orders">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                        <span>Orders</span>
-                    </button>
-                    <button class="header-tool-btn" onclick="alert('No held orders currently.')" title="Hold">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        <span>Hold</span>
-                    </button>
-                    <button class="header-tool-btn" onclick="alert('No pending alerts.')" title="Alerts">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                        <span>Alerts</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Status Legend Bar -->
-            <div class="tableview-legend-bar">
-                <div class="switch-move-kot" onclick="toggleMoveKotMode()">
-                    <span id="move-kot-radio" style="width:10px; height:10px; border-radius:50%; background:#fff; border:2px solid #64748b; display:inline-block;"></span>
-                    <span>Move KOT / Items</span>
-                </div>
-
-                <div class="table-status-pill">
-                    <span class="status-shape-square"></span>
-                    <span>Blank Table</span>
-                </div>
-                <div class="table-status-pill">
-                    <span class="status-shape-circle" style="background:#2563eb;"></span>
-                    <span>Running Table</span>
-                </div>
-                <div class="table-status-pill">
-                    <span class="status-shape-circle" style="background:#22c55e;"></span>
-                    <span>Printed Table</span>
-                </div>
-                <div class="table-status-pill">
-                    <span class="status-shape-circle" style="background:#f59e0b;"></span>
-                    <span>Paid Table</span>
-                </div>
-                <div class="table-status-pill">
-                    <span class="status-shape-circle" style="background:#eab308;"></span>
-                    <span>Running KOT Table</span>
-                </div>
-            </div>
-
-            <!-- Main Table Floor (Family Hut & Party Hut) -->
-            <div style="flex:1; overflow-y:auto; padding:20px 24px; position:relative;" id="table-view-main-floor">
-                <!-- Injected dynamically by renderAuthenticTableView() -->
-            </div>
-
-            <!-- Slideout Drawer for Punching / Settling Table Order -->
-            <div class="billing-slideout" id="billing-slideout-drawer">
-                <div style="padding:14px; border-bottom:1px solid var(--border-light); display:flex; justify-content:space-between; align-items:center; background:#f8fafc;">
-                    <div>
-                        <div style="font-weight:800; font-size:15px; color:#1e293b;" id="b-table-title">Select Table</div>
-                        <div style="font-size:11px; color:var(--text-muted);" id="b-captain-title">Table Vacant</div>
+            <!-- ================= 1. TABLE FLOOR LAYOUT (ALL TABLES) ================= -->
+            <div id="table-floor-layout" style="display:flex; flex-direction:column; flex:1; height:100%; overflow:hidden;">
+                <!-- Top Action Bar -->
+                <div class="tableview-topbar">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div style="font-size:16px; font-weight:800; color:#1e293b;">Table View</div>
                     </div>
-                    <button class="btn-back" style="padding:4px 8px;" onclick="closeBillingDrawer()">✕ Close</button>
+
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <button class="btn-back" style="padding:6px 10px;" onclick="loadTables()" title="Refresh Tables">⟳</button>
+                        <button class="btn-red-pill" onclick="openAddTableModal()">+ Add Table</button>
+                        <button class="btn-parcel-pill" onclick="openQuickParcelModal()">PARCEL</button>
+
+                        <button class="header-tool-btn" onclick="switchView('item-listing')" title="Item On Off">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="5" width="22" height="14" rx="7" ry="7"></rect><circle cx="16" cy="12" r="3"></circle></svg>
+                            <span>Item On Off</span>
+                        </button>
+                        <button class="header-tool-btn" onclick="openProfileModal()" title="Store">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                            <span>Store</span>
+                        </button>
+                        <button class="header-tool-btn" onclick="switchView('liveview')" title="Live View">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4.93 4.93a10 10 0 0 1 14.14 0"></path><path d="M7.76 7.76a6 6 0 0 1 8.48 0"></path><circle cx="12" cy="12" r="2"></circle><path d="M12 14v8"></path></svg>
+                            <span>Live View</span>
+                        </button>
+                        <button class="header-tool-btn" onclick="switchView('orders')" title="Orders">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                            <span>Orders</span>
+                        </button>
+                        <button class="header-tool-btn" onclick="alert('No held orders currently.')" title="Hold">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span>Hold</span>
+                        </button>
+                        <button class="header-tool-btn" onclick="alert('No pending alerts.')" title="Alerts">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            <span>Alerts</span>
+                        </button>
+                    </div>
                 </div>
 
-                <div style="flex:1; overflow-y:auto; padding:10px;">
-                    <table class="pet-table">
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th>Qty</th>
-                                <th style="text-align:right;">Rate</th>
-                                <th style="text-align:right;">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="b-items-tbody">
-                            <tr><td colspan="4" style="text-align:center; padding:30px; color:#94a3b8;">Select a table or punch items</td></tr>
-                        </tbody>
-                    </table>
+                <!-- Status Legend Bar -->
+                <div class="tableview-legend-bar">
+                    <div class="switch-move-kot" onclick="toggleMoveKotMode()">
+                        <span id="move-kot-radio" style="width:10px; height:10px; border-radius:50%; background:#fff; border:2px solid #64748b; display:inline-block;"></span>
+                        <span>Move KOT / Items</span>
+                    </div>
+
+                    <div class="table-status-pill">
+                        <span class="status-shape-square"></span>
+                        <span>Blank Table</span>
+                    </div>
+                    <div class="table-status-pill">
+                        <span class="status-shape-circle" style="background:#2563eb;"></span>
+                        <span>Running Table</span>
+                    </div>
+                    <div class="table-status-pill">
+                        <span class="status-shape-circle" style="background:#22c55e;"></span>
+                        <span>Printed Table</span>
+                    </div>
+                    <div class="table-status-pill">
+                        <span class="status-shape-circle" style="background:#f59e0b;"></span>
+                        <span>Paid Table</span>
+                    </div>
+                    <div class="table-status-pill">
+                        <span class="status-shape-circle" style="background:#eab308;"></span>
+                        <span>Running KOT Table</span>
+                    </div>
                 </div>
 
-                <div style="padding:14px; background:#f8fafc; border-top:1px solid var(--border-light); font-size:13px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#64748b;"><span>Subtotal</span><span id="b-subtotal">₹ 0.00</span></div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#64748b;"><span>GST (<span id="b-gst-pct">5.0</span>%)</span><span id="b-gst">₹ 0.00</span></div>
-                    <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:800; color:#111; margin-top:6px; padding-top:6px; border-top:1px dashed #cbd5e1;"><span>Grand Total</span><span id="b-grandtotal">₹ 0.00</span></div>
+                <!-- Main Table Floor (Family Hut & Party Hut) -->
+                <div style="flex:1; overflow-y:auto; padding:20px 24px; position:relative;" id="table-view-main-floor">
+                    <!-- Injected dynamically by renderAuthenticTableView() -->
+                </div>
+            </div>
+
+            <!-- ================= 2. DEDICATED FULL-SCREEN TABLE ORDER WORKSPACE (OPEN TABLE MODE) ================= -->
+            <div id="table-order-workspace" style="display:none; flex-direction:column; flex:1; height:100%; overflow:hidden; background:#f8fafc;">
+                <!-- Table Top Navigation Header Bar -->
+                <div class="tow-header">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <button class="tow-back-btn" onclick="closeTableWorkspace()">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            <span>Back to Tables (Esc)</span>
+                        </button>
+                        <div style="display:flex; align-items:baseline; gap:8px;">
+                            <span id="tow-title-name" style="font-size:18px; font-weight:800; color:#0f172a;">Table 1</span>
+                            <span id="tow-title-section" style="background:#e0f2fe; color:#0369a1; padding:2px 8px; border-radius:4px; font-weight:700; font-size:12px;">Family Hut</span>
+                            <span id="tow-title-status" class="tow-status-pill tow-status-blank">Blank Table</span>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; align-items:center; gap:16px;">
+                        <div style="font-size:12px; color:#64748b; font-weight:600;" id="tow-title-captain">👤 Captain: Counter</div>
+                        <div style="font-size:12px; color:#64748b; font-weight:600;" id="tow-title-covers">👥 Covers: 4 PAX</div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <button class="btn-back" style="padding:6px 12px; font-size:12px;" onclick="openTransferTableModal()">🔁 Transfer Table</button>
+                            <button class="btn-back" style="padding:6px 12px; font-size:12px;" onclick="switchView('printers')">🖨️ Printer</button>
+                        </div>
+                    </div>
                 </div>
 
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:12px; background:#fff; border-top:1px solid var(--border-light);">
-                    <button class="sub-btn" style="padding:10px; font-weight:700;" id="btn-add-items" onclick="openPunchItemSelector()">➕ Add Items</button>
-                    <button class="sub-btn" style="background:#0284c7; color:#fff; border:none; padding:10px; font-weight:700;" id="btn-punch-kot" onclick="punchNewKOT()" disabled>🖨️ Punch KOT</button>
-                    <button class="sub-btn" style="background:#d97706; color:#fff; border:none; padding:10px; font-weight:700;" id="btn-print-bill" onclick="triggerBillPrint()" disabled>🧾 Print Bill</button>
-                    <button class="sub-btn" style="background:var(--green); color:#fff; border:none; grid-column:span 2; font-size:14px; padding:10px; font-weight:800;" id="btn-settle" onclick="openSettleModal()" disabled>💳 Settle & Pay (₹ <span id="b-settle-amount">0</span>)</button>
+                <!-- Main Split Workspace (Menu & Dish Punching on Left, Bill Summary on Right) -->
+                <div class="tow-split-body">
+                    <!-- Left: Menu Explorer & 1-Click Dish Adding -->
+                    <div class="tow-menu-pane">
+                        <!-- Search & Quick Filters -->
+                        <div class="tow-search-row">
+                            <div class="tow-search-box">
+                                <span class="tow-search-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                </span>
+                                <input type="text" id="tow-search-input" placeholder="Search item name, code or keyword (Press F4)..." oninput="onTowSearch(this.value)">
+                                <button class="tow-search-clear" onclick="clearTowSearch()">✕</button>
+                            </div>
+                            <div style="display:flex; gap:6px;">
+                                <button class="tow-cat-btn active" id="tow-veg-all" onclick="filterTowVeg('all')">All</button>
+                                <button class="tow-cat-btn" id="tow-veg-veg" onclick="filterTowVeg('veg')">🟢 Veg</button>
+                                <button class="tow-cat-btn" id="tow-veg-nonveg" onclick="filterTowVeg('nonveg')">🔴 Non-Veg</button>
+                            </div>
+                        </div>
+
+                        <!-- Category Horizontal Scrolling Pills -->
+                        <div class="tow-cat-bar" id="tow-category-pills">
+                            <!-- Populated dynamically by renderTowCategories() -->
+                        </div>
+
+                        <!-- Dish Cards Grid -->
+                        <div class="tow-dish-grid" id="tow-dish-grid">
+                            <!-- Populated dynamically by renderTowDishes() -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Table Bill & KOT Summary -->
+                    <div class="tow-bill-pane">
+                        <div class="tow-bill-header">
+                            <div>
+                                <span style="font-weight:800; font-size:15px; color:#1e293b;">Bill Summary</span>
+                                <span style="font-size:12px; color:#64748b; margin-left:6px;" id="tow-bill-order-num">(Order #---)</span>
+                            </div>
+                            <button class="btn-back" style="padding:3px 8px; font-size:11px;" onclick="clearTowStagedItems()">✕ Clear Staged</button>
+                        </div>
+
+                        <!-- Items Table -->
+                        <div class="tow-bill-table-wrap">
+                            <table class="tow-bill-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:48%;">Item</th>
+                                        <th style="width:22%; text-align:center;">Qty</th>
+                                        <th style="width:15%; text-align:right;">Rate</th>
+                                        <th style="width:15%; text-align:right;">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tow-bill-tbody">
+                                    <!-- Populated dynamically by renderTowBill() -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Quick 1-Tap Cooking Notes -->
+                        <div style="padding:8px 12px; background:#f8fafc; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light);">
+                            <div style="font-size:11px; font-weight:700; color:#64748b; margin-bottom:4px;">1-TAP COOKING NOTES:</div>
+                            <div style="display:flex; flex-wrap:wrap;">
+                                <span class="tow-note-chip" onclick="addTowCookingNote('Less Spicy')">🌶️ Less Spicy</span>
+                                <span class="tow-note-chip" onclick="addTowCookingNote('No Onion/Garlic')">🧅 No Onion</span>
+                                <span class="tow-note-chip" onclick="addTowCookingNote('Extra Spicy')">🔥 Extra Spicy</span>
+                                <span class="tow-note-chip" onclick="addTowCookingNote('Parcel')">📦 Parcel</span>
+                                <span class="tow-note-chip" onclick="addTowCookingNote('Jain')">🌱 Jain</span>
+                                <span class="tow-note-chip" onclick="addTowCookingNote('Serve Fast')">⚡ Serve Fast</span>
+                            </div>
+                        </div>
+
+                        <!-- Bill Calculation Box -->
+                        <div class="tow-totals-box">
+                            <div class="tow-total-row"><span>Subtotal:</span><strong id="tow-subtotal">₹ 0.00</strong></div>
+                            <div class="tow-total-row"><span>GST (5.0%):</span><strong id="tow-gst">₹ 0.00</strong></div>
+                            <div class="tow-grand-row"><span>Grand Total:</span><strong id="tow-grandtotal" style="color:var(--pet-blue);">₹ 0.00</strong></div>
+                        </div>
+
+                        <!-- Action Buttons Bar -->
+                        <div class="tow-actions-bar">
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                                <button class="sub-btn" id="tow-btn-punch" style="background:#0284c7; color:#fff; border:none; padding:10px; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; gap:6px;" onclick="punchTowKOT()" disabled>
+                                    <span>🖨️ Punch KOT</span>
+                                </button>
+                                <button class="sub-btn" id="tow-btn-print" style="background:#d97706; color:#fff; border:none; padding:10px; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; gap:6px;" onclick="triggerBillPrint()" disabled>
+                                    <span>🧾 Print Bill</span>
+                                </button>
+                            </div>
+                            <button class="sub-btn" id="tow-btn-settle" style="background:var(--green); color:#fff; border:none; padding:12px; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="openSettleModal()" disabled>
+                                <span>💳 Settle & Pay (₹ <span id="tow-settle-amount">0</span>)</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -4069,93 +4473,420 @@
             }
         }
 
+        // ================= DEDICATED OPEN TABLE WORKSPACE LOGIC =================
+        let towActiveCategory = 'ALL';
+        let towSearchQuery = '';
+        let towVegFilter = 'all';
+
         async function selectTable(id) {
             selectedTableId = id;
             stagedItems = [];
-            const drawer = document.getElementById('billing-slideout-drawer');
-            if (drawer) drawer.classList.add('active');
 
             const tbl = allTables.find(t => t.id === selectedTableId);
             if (!tbl) return;
 
-            document.getElementById('b-table-title').innerText = `Table ${tbl.name} (${tbl.section})`;
-            document.getElementById('btn-add-items').disabled = false;
+            // Switch view from Floor Layout to Dedicated Table Workspace (NO RIGHT SIDE DRAWER)
+            const floor = document.getElementById('table-floor-layout');
+            const ws = document.getElementById('table-order-workspace');
+            if (floor) floor.style.display = 'none';
+            if (ws) ws.style.display = 'flex';
 
+            // Populate Table Header
+            document.getElementById('tow-title-name').innerText = `Table ${tbl.name}`;
+            document.getElementById('tow-title-section').innerText = tbl.section || 'Dining Area';
+            document.getElementById('tow-title-covers').innerText = `👥 Covers: ${tbl.capacity || 4} PAX`;
+
+            const statusPill = document.getElementById('tow-title-status');
             if (tbl.current_order_id) {
                 const res = await fetch(`/api/orders/${tbl.current_order_id}`);
                 activeOrder = await res.json();
-                document.getElementById('b-captain-title').innerText = `Captain: ${activeOrder.captain_name || 'Counter'}`;
-                document.getElementById('btn-print-bill').disabled = false;
-                document.getElementById('btn-settle').disabled = false;
-                document.getElementById('b-settle-amount').innerText = Math.round(activeOrder.grand_total);
+                document.getElementById('tow-title-captain').innerText = `👤 Captain: ${activeOrder.captain_name || 'Counter'}`;
+                document.getElementById('tow-bill-order-num').innerText = `(Order #${activeOrder.order_number || tbl.current_order_id})`;
+                document.getElementById('tow-btn-print').disabled = false;
+                document.getElementById('tow-btn-settle').disabled = false;
+                document.getElementById('tow-settle-amount').innerText = Math.round(activeOrder.grand_total);
+
+                if (activeOrder.status === 'billed') {
+                    statusPill.className = 'tow-status-pill tow-status-printed';
+                    statusPill.innerText = `Billed (₹ ${Math.round(activeOrder.grand_total)})`;
+                } else {
+                    statusPill.className = 'tow-status-pill tow-status-running';
+                    statusPill.innerText = `Running Order (₹ ${Math.round(activeOrder.grand_total)})`;
+                }
             } else {
                 activeOrder = null;
-                document.getElementById('b-captain-title').innerText = `Table Vacant`;
-                document.getElementById('btn-print-bill').disabled = true;
-                document.getElementById('btn-settle').disabled = true;
-                document.getElementById('b-settle-amount').innerText = '0';
+                document.getElementById('tow-title-captain').innerText = `👤 Captain: Counter`;
+                document.getElementById('tow-bill-order-num').innerText = `(New Order)`;
+                document.getElementById('tow-btn-print').disabled = true;
+                document.getElementById('tow-btn-settle').disabled = true;
+                document.getElementById('tow-settle-amount').innerText = '0';
+                statusPill.className = 'tow-status-pill tow-status-blank';
+                statusPill.innerText = 'Blank Table (Vacant)';
             }
-            renderOrderItems();
+
+            // Reset filters
+            towActiveCategory = 'ALL';
+            towSearchQuery = '';
+            towVegFilter = 'all';
+            const searchInput = document.getElementById('tow-search-input');
+            if (searchInput) searchInput.value = '';
+
+            renderTowCategories();
+            renderTowDishes();
+            renderTowBill();
         }
 
-        function closeBillingDrawer() {
-            const drawer = document.getElementById('billing-slideout-drawer');
-            if (drawer) drawer.classList.remove('active');
+        function closeTableWorkspace() {
+            const ws = document.getElementById('table-order-workspace');
+            const floor = document.getElementById('table-floor-layout');
+            if (ws) ws.style.display = 'none';
+            if (floor) floor.style.display = 'flex';
             selectedTableId = null;
             activeOrder = null;
             stagedItems = [];
+            loadTables();
         }
 
-        function renderOrderItems() {
-            const tbody = document.getElementById('b-items-tbody');
-            if (!tbody) return;
+        function closeBillingDrawer() {
+            closeTableWorkspace();
+        }
 
-            let combined = [];
-            if (activeOrder && activeOrder.items) combined = [...activeOrder.items];
-            stagedItems.forEach(si => combined.push({...si, isStaged: true}));
+        function renderTowCategories() {
+            const container = document.getElementById('tow-category-pills');
+            if (!container) return;
 
-            if (combined.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:30px; color:#94a3b8;">No items yet. Click "+ Add Items"</td></tr>`;
-                document.getElementById('b-subtotal').innerText = '₹ 0.00';
-                document.getElementById('b-grandtotal').innerText = '₹ 0.00';
-                document.getElementById('btn-punch-kot').disabled = true;
+            let totalDishes = 0;
+            allCategories.forEach(c => totalDishes += (c.items ? c.items.length : 0));
+
+            let html = `
+                <button class="tow-cat-btn ${towActiveCategory === 'ALL' ? 'active' : ''}" onclick="filterTowCategory('ALL')">
+                    All Categories (${totalDishes})
+                </button>
+            `;
+
+            allCategories.forEach(c => {
+                const count = c.items ? c.items.length : 0;
+                const isActive = towActiveCategory === c.name;
+                html += `
+                    <button class="tow-cat-btn ${isActive ? 'active' : ''}" onclick="filterTowCategory('${c.name.replace(/'/g, "\\'")}')">
+                        ${c.name} (${count})
+                    </button>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function filterTowCategory(catName) {
+            towActiveCategory = catName;
+            renderTowCategories();
+            renderTowDishes();
+        }
+
+        function onTowSearch(val) {
+            towSearchQuery = val.trim().toLowerCase();
+            renderTowDishes();
+        }
+
+        function clearTowSearch() {
+            towSearchQuery = '';
+            const input = document.getElementById('tow-search-input');
+            if (input) { input.value = ''; input.focus(); }
+            renderTowDishes();
+        }
+
+        function filterTowVeg(vegType) {
+            towVegFilter = vegType;
+            ['all', 'veg', 'nonveg'].forEach(t => {
+                const btn = document.getElementById(`tow-veg-${t}`);
+                if (btn) {
+                    if (t === vegType) btn.classList.add('active');
+                    else btn.classList.remove('active');
+                }
+            });
+            renderTowDishes();
+        }
+
+        function renderTowDishes() {
+            const container = document.getElementById('tow-dish-grid');
+            if (!container) return;
+
+            let allItems = [];
+            if (allCategories && allCategories.length > 0) {
+                allCategories.forEach(cat => {
+                    if (cat.items && Array.isArray(cat.items)) {
+                        cat.items.forEach(it => {
+                            allItems.push({ ...it, category_name: cat.name });
+                        });
+                    }
+                });
+            } else if (allItemsListing && allItemsListing.length > 0) {
+                allItems = allItemsListing;
+            }
+
+            let filtered = allItems;
+            if (towActiveCategory !== 'ALL') {
+                filtered = filtered.filter(i => i.category_name === towActiveCategory);
+            }
+
+            if (towVegFilter === 'veg') {
+                filtered = filtered.filter(i => i.is_veg === 1 || i.is_veg === true || i.food_type === 'veg');
+            } else if (towVegFilter === 'nonveg') {
+                filtered = filtered.filter(i => i.is_veg === 0 || i.is_veg === false || i.food_type === 'nonveg');
+            }
+
+            if (towSearchQuery) {
+                filtered = filtered.filter(i => {
+                    const nameMatch = i.name && i.name.toLowerCase().includes(towSearchQuery);
+                    const codeMatch = i.short_code && i.short_code.toLowerCase().includes(towSearchQuery);
+                    return nameMatch || codeMatch;
+                });
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align:center; padding:50px 20px; color:#94a3b8;">
+                        <div style="font-size:32px; margin-bottom:8px;">🔍</div>
+                        <div style="font-size:14px; font-weight:700;">No items found matching filter</div>
+                        <div style="font-size:12px; margin-top:4px;">Try a different keyword or reset categories</div>
+                    </div>
+                `;
                 return;
             }
 
-            tbody.innerHTML = combined.map(it => `
-                <tr style="${it.isStaged ? 'background:#e0f2fe;' : ''}">
-                    <td><strong>${it.item_name}</strong> ${it.isStaged ? '<span style="font-size:9px; color:#0284c7;">(NEW)</span>' : ''}</td>
-                    <td>${it.quantity}</td>
-                    <td style="text-align:right;">₹${it.price}</td>
-                    <td style="text-align:right;">₹${it.price * it.quantity}</td>
-                </tr>
-            `).join('');
+            container.innerHTML = filtered.map(i => {
+                const isVeg = (i.is_veg === 1 || i.is_veg === true || i.food_type === 'veg');
+                const staged = stagedItems.find(si => si.item_id === i.id || si.item_name === i.name);
+                const inOrderClass = staged ? 'in-order' : '';
 
-            let sub = combined.reduce((acc, c) => acc + (c.price * c.quantity), 0);
-            let gstAmt = Math.round((sub * 5) / 100);
-            let grand = sub + gstAmt;
+                let actionHtml = '';
+                if (staged && staged.quantity > 0) {
+                    actionHtml = `
+                        <div class="tow-stepper" onclick="event.stopPropagation();">
+                            <button onclick="changeTowStagedQty(${i.id}, -1)">−</button>
+                            <span>${staged.quantity}</span>
+                            <button onclick="changeTowStagedQty(${i.id}, 1)">+</button>
+                        </div>
+                    `;
+                } else {
+                    actionHtml = `
+                        <button class="tow-add-btn" onclick="event.stopPropagation(); addTowItem(${i.id});">
+                            + Add
+                        </button>
+                    `;
+                }
 
-            document.getElementById('b-subtotal').innerText = `₹ ${sub.toFixed(2)}`;
-            document.getElementById('b-gst').innerText = `₹ ${gstAmt.toFixed(2)}`;
-            document.getElementById('b-grandtotal').innerText = `₹ ${grand.toFixed(2)}`;
-            document.getElementById('btn-punch-kot').disabled = stagedItems.length === 0;
+                return `
+                    <div class="tow-dish-card ${inOrderClass}" onclick="addTowItem(${i.id})">
+                        <div class="tow-card-badge-row">
+                            <span class="${isVeg ? 'veg-dot' : 'nonveg-dot'}"></span>
+                            ${i.short_code ? `<span style="font-size:10px; font-weight:700; color:#94a3b8; background:#f1f5f9; padding:1px 5px; border-radius:3px;">${i.short_code}</span>` : ''}
+                        </div>
+                        <div class="tow-dish-title" title="${i.name}">${i.name}</div>
+                        <div class="tow-card-bottom">
+                            <span class="tow-dish-price">₹${i.price}</span>
+                            ${actionHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        async function punchNewKOT() {
-            if (stagedItems.length === 0 || !selectedTableId) return;
-            const res = await fetch('/api/orders/punch', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ order_type: "dine_in", table_id: selectedTableId, captain_name: "biller", items: stagedItems })
-            });
-            const data = await res.json();
+        function addTowItem(itemId) {
+            let item = null;
+            for (const cat of allCategories) {
+                if (cat.items) {
+                    const found = cat.items.find(it => it.id === itemId);
+                    if (found) { item = found; break; }
+                }
+            }
+            if (!item && allItemsListing) {
+                item = allItemsListing.find(it => it.id === itemId);
+            }
+            if (!item) return;
+
+            const existing = stagedItems.find(si => si.item_id === item.id || si.item_name === item.name);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                stagedItems.push({
+                    item_id: item.id,
+                    item_name: item.name,
+                    price: item.price,
+                    quantity: 1,
+                    notes: ''
+                });
+            }
+
+            renderTowDishes();
+            renderTowBill();
+        }
+
+        function changeTowStagedQty(itemId, delta) {
+            const idx = stagedItems.findIndex(si => si.item_id === itemId);
+            if (idx === -1) return;
+
+            stagedItems[idx].quantity += delta;
+            if (stagedItems[idx].quantity <= 0) {
+                stagedItems.splice(idx, 1);
+            }
+
+            renderTowDishes();
+            renderTowBill();
+        }
+
+        function removeTowStagedItem(idx) {
+            if (idx >= 0 && idx < stagedItems.length) {
+                stagedItems.splice(idx, 1);
+            }
+            renderTowDishes();
+            renderTowBill();
+        }
+
+        function clearTowStagedItems() {
+            if (stagedItems.length === 0) return;
             stagedItems = [];
-            await refreshAllData();
-            await selectTable(selectedTableId);
-            alert(`✓ KOT #${data.kot_number} Punched!`);
+            renderTowDishes();
+            renderTowBill();
+        }
+
+        function addTowCookingNote(note) {
+            if (stagedItems.length > 0) {
+                const last = stagedItems[stagedItems.length - 1];
+                last.notes = last.notes ? `${last.notes}, ${note}` : note;
+                renderTowBill();
+            } else if (activeOrder && activeOrder.items && activeOrder.items.length > 0) {
+                alert(`Note "${note}" selected. Please add items to punch with this note.`);
+            } else {
+                alert("Please add items first before attaching a cooking note.");
+            }
+        }
+
+        function renderTowBill() {
+            const tbody = document.getElementById('tow-bill-tbody');
+            if (!tbody) return;
+
+            let html = '';
+            let subtotal = 0;
+
+            // 1. Punched KOT items
+            if (activeOrder && activeOrder.items && activeOrder.items.length > 0) {
+                activeOrder.items.forEach(it => {
+                    const lineTotal = it.price * it.quantity;
+                    subtotal += lineTotal;
+                    html += `
+                        <tr style="background:#ffffff;">
+                            <td>
+                                <div style="font-weight:700; color:#1e293b;">${it.item_name}</div>
+                                <div style="font-size:10px; color:#0284c7; font-weight:600;">✓ Punched to Kitchen ${it.notes ? `[${it.notes}]` : ''}</div>
+                            </td>
+                            <td style="text-align:center; font-weight:800; color:#334155;">${it.quantity}</td>
+                            <td style="text-align:right; color:#64748b;">₹${it.price}</td>
+                            <td style="text-align:right; font-weight:700; color:#1e293b;">₹${lineTotal}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            // 2. Newly Staged Items
+            stagedItems.forEach((si, idx) => {
+                const lineTotal = si.price * si.quantity;
+                subtotal += lineTotal;
+                html += `
+                    <tr class="tow-row-staged">
+                        <td>
+                            <div style="font-weight:700; color:#0369a1; display:flex; align-items:center; gap:4px;">
+                                <span style="background:#0284c7; color:#fff; font-size:9px; font-weight:800; padding:1px 4px; border-radius:3px;">NEW</span>
+                                <span>${si.item_name}</span>
+                            </div>
+                            ${si.notes ? `<div style="font-size:10px; color:#d97706; font-weight:700;">Note: ${si.notes}</div>` : ''}
+                        </td>
+                        <td style="text-align:center;">
+                            <div class="tow-stepper" style="border-color:#38bdf8;">
+                                <button onclick="changeTowStagedQty(${si.item_id}, -1)">−</button>
+                                <span>${si.quantity}</span>
+                                <button onclick="changeTowStagedQty(${si.item_id}, 1)">+</button>
+                            </div>
+                        </td>
+                        <td style="text-align:right; color:#64748b;">₹${si.price}</td>
+                        <td style="text-align:right; font-weight:800; color:#0369a1;">
+                            <div style="display:flex; align-items:center; justify-content:flex-end; gap:6px;">
+                                <span>₹${lineTotal}</span>
+                                <button onclick="removeTowStagedItem(${idx})" style="background:none; border:none; color:#ef4444; font-size:12px; cursor:pointer;" title="Remove">✕</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            if (!html) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align:center; padding:50px 20px; color:#94a3b8;">
+                            <div style="font-size:32px; margin-bottom:8px;">🍽️</div>
+                            <div style="font-weight:700; font-size:14px; color:#64748b;">Table Vacant</div>
+                            <div style="font-size:12px; margin-top:4px;">Click any dish from the menu on the left to add items!</div>
+                        </td>
+                    </tr>
+                `;
+                document.getElementById('tow-subtotal').innerText = '₹ 0.00';
+                document.getElementById('tow-gst').innerText = '₹ 0.00';
+                document.getElementById('tow-grandtotal').innerText = '₹ 0.00';
+                document.getElementById('tow-btn-punch').disabled = true;
+                return;
+            }
+
+            tbody.innerHTML = html;
+
+            const gstAmt = Math.round((subtotal * 5) / 100);
+            const grandTotal = subtotal + gstAmt;
+
+            document.getElementById('tow-subtotal').innerText = `₹ ${subtotal.toFixed(2)}`;
+            document.getElementById('tow-gst').innerText = `₹ ${gstAmt.toFixed(2)}`;
+            document.getElementById('tow-grandtotal').innerText = `₹ ${grandTotal.toFixed(2)}`;
+
+            document.getElementById('tow-btn-punch').disabled = (stagedItems.length === 0);
+            document.getElementById('tow-btn-print').disabled = (!activeOrder && stagedItems.length === 0);
+            document.getElementById('tow-btn-settle').disabled = (!activeOrder);
+            document.getElementById('tow-settle-amount').innerText = Math.round(grandTotal);
+        }
+
+        async function punchTowKOT() {
+            if (stagedItems.length === 0 || !selectedTableId) return;
+
+            const btn = document.getElementById('tow-btn-punch');
+            const origText = btn.innerHTML;
+            try {
+                btn.disabled = true;
+                btn.innerText = 'Printing KOT...';
+
+                const res = await fetch('/api/orders/punch', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        order_type: "dine_in",
+                        table_id: selectedTableId,
+                        captain_name: "biller",
+                        items: stagedItems
+                    })
+                });
+
+                const data = await res.json();
+                stagedItems = [];
+                await refreshAllData();
+                await selectTable(selectedTableId);
+                alert(`✓ KOT #${data.kot_number} Punched & Sent to Kitchen Thermal Printer!`);
+            } catch (err) {
+                alert("Error punching KOT: " + err.message);
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = origText;
+                }
+            }
         }
 
         function triggerBillPrint() { window.print(); }
+
         function openSettleModal() {
             if (!activeOrder) return;
             if (confirm(`Settle bill of ₹${activeOrder.grand_total}?`)) {
@@ -4165,8 +4896,8 @@
                     body: JSON.stringify({ payment_mode: 'cash', discount_percent: 0, discount_amount: 0 })
                 }).then(() => {
                     refreshAllData();
-                    closeBillingDrawer();
-                    alert("✓ Bill Settled!");
+                    closeTableWorkspace();
+                    alert("✓ Bill Settled & Table Vacated!");
                 });
             }
         }
@@ -4402,7 +5133,11 @@
         }
         function closePunchItemSelector() {
             document.getElementById('item-selector-modal').style.display = 'none';
-            renderOrderItems();
+            renderTowBill();
+            renderTowDishes();
+        }
+        function renderOrderItems() {
+            renderTowBill();
         }
         function renderSelectorItems() {
             const container = document.getElementById('selector-items-list');
@@ -4431,7 +5166,8 @@
             const existing = stagedItems.find(si => si.item_id === itemId);
             if (existing) existing.quantity += 1;
             else stagedItems.push({ item_id: item.id, item_name: item.name, price: item.price, quantity: 1, notes: '' });
-            renderOrderItems();
+            renderTowBill();
+            renderTowDishes();
         }
 
         function openQuickParcelModal() {
