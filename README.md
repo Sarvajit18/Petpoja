@@ -1,6 +1,6 @@
-# Petpooja-Style Restaurant POS & Captain App (Desktop & Mobile)
+# Shansara Restaurant POS & Captain App (Desktop & Mobile)
 
-A complete, production-grade, offline-first Restaurant Billing and Management System inspired by **Petpooja**. Designed specifically for local network (LAN / Ethernet / Wi-Fi) operation without requiring any active internet connection or cloud subscriptions.
+A complete, production-grade, offline-first Restaurant Billing and Management System named **Shansara POS**. Designed specifically for local network (LAN / Ethernet / Wi-Fi) operation without requiring any active internet connection or cloud subscriptions.
 
 ---
 
@@ -8,7 +8,7 @@ A complete, production-grade, offline-first Restaurant Billing and Management Sy
 
 ### 1. 🖥️ Main Billing Software (Windows Desktop App)
 * **Dedicated Windows App Window:** Runs in a standalone application window (no address bar, no tabs) powered by Edge/Chrome app mode or Python.
-* **Table Management:** Visual multi-section floor plan (Main AC Hall, Family Section, Garden/Rooftop).
+* **Table Management:** Visual multi-section floor plan (Family Hut, AC Hall, Garden/Rooftop).
 * **Live Statuses:** 🟢 Vacant, 🔴 Occupied (with running amount, elapsed timer, captain name), 🟡 Billed.
 * **Instant KOT & Bill Generation:** Supports 80mm & 58mm ESC/POS thermal receipts and network printers (TCP/IP port 9100).
 * **GST & Settlement:** Automatic CGST/SGST, discounts, Cash, UPI QR, and Card payments.
@@ -39,7 +39,7 @@ A complete, production-grade, offline-first Restaurant Billing and Management Sy
    * Double-click **`Launch_Desktop_App.bat`** (or **`Petpooja_POS.vbs`** for silent background startup).
    * It will automatically launch the server and open the dedicated Desktop POS application window!
 2. **Create Desktop Shortcut:**
-   * Double-click **`create_desktop_shortcut.bat`** to create a **"Petpooja POS"** shortcut directly on your Windows Desktop!
+   * Double-click **`create_desktop_shortcut.bat`** to create a **"Shansara POS"** shortcut directly on your Windows Desktop!
 
 ### Mobile Captain App (Waiter's Phone)
 1. Ensure the phone is connected to the same Wi-Fi / Ethernet router.
@@ -48,14 +48,14 @@ A complete, production-grade, offline-first Restaurant Billing and Management Sy
    http://<YOUR_LAN_IP>:8000/captain
    ```
    *(Or just scan the QR code from the top bar of the Main Billing Station!)*
-3. Tap **"📲 Install Petpooja Captain App"** to install it directly onto the phone's home screen.
+3. Tap **"📲 Install Shansara Captain App"** to install it directly onto the phone's home screen.
 
 ---
 
 ## 📁 Repository Structure
 
 ```
-petpooja-pos/
+shansara-pos/
 ├── server.py                   # FastAPI backend + WebSockets + ESC/POS driver + QR generator
 ├── database.py                 # SQLite schema + menu/tables seeder
 ├── pos.db                      # Local SQLite database
@@ -64,6 +64,7 @@ petpooja-pos/
 ├── create_desktop_shortcut.bat # Places 1-click icon on Windows Desktop
 ├── start_pos.bat               # Console server launcher
 ├── static/
+│   ├── logo.png                # Official 11 TO 11 Brand Logo
 │   ├── pos.html                # Main Billing Station UI
 │   ├── captain.html            # Captain Mobile Web App (PWA)
 │   ├── kitchen.html            # Kitchen Display System (KDS)

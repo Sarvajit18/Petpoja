@@ -18,7 +18,7 @@ from database import get_db, init_db, DB_FILE
 # Initialize database
 init_db()
 
-app = FastAPI(title="Petpooja-Style Restaurant POS & Captain App")
+app = FastAPI(title="Shansara Restaurant POS & Captain App")
 
 # Static directory setup
 STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
@@ -1640,7 +1640,7 @@ if __name__ == "__main__":
     import uvicorn
     local_ip = get_local_ip()
     print("=================================================================")
-    print(" >>> PETPOOJA-STYLE RESTAURANT POS SERVER RUNNING <<<")
+    print(" >>> SHANSARA RESTAURANT POS SERVER RUNNING <<<")
     print("=================================================================")
     print(f" [*] Main Billing Station POS : http://localhost:8000")
     print(f" [*] LAN / Ethernet Billing   : http://{local_ip}:8000")

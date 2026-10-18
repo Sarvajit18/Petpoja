@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Petpooja Captain App</title>
+    <title>Shansara Captain App</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
     <meta name="theme-color" content="#ff5722">
     <link rel="manifest" href="/static/manifest.json">
-    <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="/static/logo.png">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -335,17 +336,18 @@
 
     <!-- Header -->
     <header>
-        <div class="header-title">
-            <span>🍽️ Petpooja Captain</span>
+        <div class="header-title" style="display:flex; align-items:center; gap:8px;">
+            <img src="/static/logo.png" alt="Shansara" style="width:28px; height:28px; object-fit:contain; border-radius:6px; background:#000;">
+            <span>Shansara Captain</span>
         </div>
         <div class="captain-badge" id="captain-name-tag" onclick="selectCaptainPrompt()">
-            👤 Captain Ramesh
+            👤 Captain SAI
         </div>
     </header>
 
     <!-- Mobile PWA 1-Tap Install Banner -->
     <div id="install-banner" style="background: linear-gradient(90deg, #ff5722, #ea580c); color:#fff; padding:10px 16px; display:none; justify-content:space-between; align-items:center; font-weight:600; font-size:13px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
-        <span>📲 Install Petpooja Captain App to Phone</span>
+        <span>📲 Install Shansara Captain App to Phone</span>
         <button id="btn-install" style="background:#fff; color:#ff5722; border:none; padding:6px 14px; border-radius:6px; font-weight:800; cursor:pointer;">INSTALL</button>
     </div>
 
@@ -395,7 +397,7 @@
     </div>
 
     <script>
-        let currentCaptain = localStorage.getItem('petpooja_captain') || 'Captain Ramesh';
+        let currentCaptain = localStorage.getItem('shansara_captain') || 'Captain SAI';
         let allTables = [];
         let allCategories = [];
         let activeTable = null;
@@ -421,7 +423,7 @@
             const name = prompt("Enter Captain Name:", currentCaptain);
             if (name && name.trim()) {
                 currentCaptain = name.trim();
-                localStorage.setItem('petpooja_captain', currentCaptain);
+                localStorage.setItem('shansara_captain', currentCaptain);
                 document.getElementById('captain-name-tag').innerText = `👤 ${currentCaptain}`;
             }
         }

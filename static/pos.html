@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Petpooja POSS - Restaurant Management Platform</title>
+    <title>Shansara POS - Restaurant Management Platform</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
     <style>
         :root {
             --pet-red: #c62828;
@@ -1377,10 +1378,10 @@
     <!-- 1. LEFTMOST GLOBAL NAVIGATION SIDEBAR -->
     <div class="global-sidebar">
         <div>
-            <div class="brand-box" onclick="switchView('billing')" title="Petpooja POS">
-                <div class="brand-icon">P</div>
-                <div class="brand-text-sm">PETPOOJA</div>
-                <div class="brand-text-lg">POSS</div>
+            <div class="brand-box" onclick="switchView('billing')" title="Shansara POS">
+                <img src="/static/logo.png" alt="Shansara Logo" style="width:36px; height:36px; object-fit:contain; border-radius:6px; margin-bottom:3px; background:#000000; box-shadow:0 1px 4px rgba(0,0,0,0.35);">
+                <div class="brand-text-lg" style="font-size:10px; font-weight:900; letter-spacing:0.5px; line-height:1.1;">SHANSARA</div>
+                <div class="brand-text-sm" style="font-size:8px; opacity:0.85; letter-spacing:0.8px;">POS</div>
             </div>
 
             <div class="sidebar-menu">
@@ -2167,9 +2168,9 @@
                             07969 223344
                         </a>
                         <span style="color:#64748b;">Write to us</span>
-                        <a href="mailto:support@petpooja.com" style="color:#2563eb; text-decoration:none; display:flex; align-items:center; gap:6px; font-weight:600;">
+                        <a href="mailto:support@shansara.com" style="color:#2563eb; text-decoration:none; display:flex; align-items:center; gap:6px; font-weight:600;">
                             <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                            support@petpooja.com
+                            support@shansara.com
                         </a>
                     </div>
                 </div>
@@ -2322,7 +2323,7 @@
                             <div style="max-width:500px; margin:20px auto 0 auto; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px 20px;">
                                 <div style="font-size:13px; font-weight:800; color:#1e293b; margin-bottom:8px;">How To Connect :</div>
                                 <ul style="margin:0; padding-left:18px; font-size:12px; color:#475569; line-height:1.7;">
-                                    <li>Install and open the Petpooja Captain app</li>
+                                    <li>Install and open the Shansara Captain app</li>
                                     <li>Tap on <strong>'Scan POS QR'</strong></li>
                                     <li>Scan the above QR to connect directly</li>
                                 </ul>
@@ -3475,6 +3476,33 @@
                 await loadAreas();
             } catch (err) {
                 console.error("Init POS error:", err);
+            }
+        }
+
+        function showToast(message, duration = 3000) {
+            let toast = document.getElementById('shansara-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'shansara-toast';
+                toast.style.cssText = 'position:fixed; bottom:24px; right:24px; background:#1e293b; color:#ffffff; padding:12px 20px; border-radius:8px; font-size:13px; font-weight:600; box-shadow:0 10px 25px rgba(0,0,0,0.3); z-index:99999; display:flex; align-items:center; gap:10px; transition:all 0.3s ease; opacity:0; transform:translateY(10px); pointer-events:none; border-left:4px solid #10b981;';
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = `<img src="/static/logo.png" style="width:20px; height:20px; border-radius:4px; object-fit:contain; background:#000;"> <span>${message}</span>`;
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0)';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+            }, duration);
+        }
+
+        async function triggerManualSync() {
+            try {
+                await refreshAllData();
+                showToast("All data synchronized successfully!");
+            } catch (err) {
+                console.error("Sync error:", err);
+                showToast("Sync completed with cached data.");
             }
         }
 
@@ -5606,5 +5634,6 @@
 
         window.addEventListener('DOMContentLoaded', initPOS);
     </script>
+    <div id="shansara-toast" style="display:none;"></div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'petpooja-captain-v1';
+const CACHE_NAME = 'shansara-captain-v1';
 const ASSETS = [
   '/captain',
   '/static/manifest.json'

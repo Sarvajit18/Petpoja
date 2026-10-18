@@ -1,9 +1,9 @@
 @echo off
-TITLE Petpooja POS - Restaurant Billing Server
+TITLE Shansara POS - Restaurant Billing Server
 color 0A
 
 echo =====================================================================
-echo           PETPOOJA-STYLE RESTAURANT POS & CAPTAIN APP
+echo                 SHANSARA RESTAURANT POS & CAPTAIN APP
 echo =====================================================================
 echo Starting Main Billing Station & Ethernet/LAN Server...
 echo.

@@ -1,7 +1,7 @@
 {
-  "name": "Petpooja Captain POS",
-  "short_name": "Captain POS",
-  "description": "Petpooja Captain Mobile App for Restaurant Waiters and Order Punching",
+  "name": "Shansara Captain POS",
+  "short_name": "Shansara POS",
+  "description": "Shansara Captain Mobile App for Restaurant Waiters and Order Punching",
   "start_url": "/captain",
   "display": "standalone",
   "background_color": "#0f1218",

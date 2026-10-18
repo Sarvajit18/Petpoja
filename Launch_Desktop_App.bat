@@ -1,10 +1,10 @@
 @echo off
 setlocal
 
-TITLE Petpooja POS Desktop Software
+TITLE Shansara POS Desktop Software
 cd /d "%~dp0"
 
-echo Starting Petpooja POS Server...
+echo Starting Shansara POS Server...
 
 :: Start server in background if not running
 netstat -ano | findstr :8000 >nul 2>&1
@@ -31,4 +31,4 @@ if exist "%CHROME_EXE%" (
 start "" "http://localhost:8000"
 
 :done
-exit
+endlocal
