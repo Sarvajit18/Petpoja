@@ -2469,7 +2469,7 @@
                         <div class="report-tile-arrow">&rarr;</div>
                     </div>
                     <!-- 5. Executive Sales Report -->
-                    <div class="report-tile-card" onclick="alert('Executive Sales Report: ₹8,865.00 total sales across 18 settled bills.')">
+                    <div class="report-tile-card" onclick="switchView('executive-sales-report')">
                         <div class="report-tile-left">
                             <div class="report-tile-icon">
                                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
@@ -2482,7 +2482,7 @@
                         <div class="report-tile-arrow">&rarr;</div>
                     </div>
                     <!-- 6. Employee Summary -->
-                    <div class="report-tile-card" onclick="alert('Employee Summary: 1 Active biller cashier with ₹8,865.00 collections.')">
+                    <div class="report-tile-card" onclick="switchView('employee-report')">
                         <div class="report-tile-left">
                             <div class="report-tile-icon">
                                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
@@ -2495,7 +2495,7 @@
                         <div class="report-tile-arrow">&rarr;</div>
                     </div>
                     <!-- 7. Group Summary -->
-                    <div class="report-tile-card" onclick="switchView('category-report')">
+                    <div class="report-tile-card" onclick="switchView('group-report')">
                         <div class="report-tile-left">
                             <div class="report-tile-icon">
                                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><circle cx="19" cy="5" r="2"></circle><circle cx="5" cy="5" r="2"></circle><path d="M12 9V5"></path></svg>
@@ -2508,7 +2508,7 @@
                         <div class="report-tile-arrow">&rarr;</div>
                     </div>
                     <!-- 8. Variation Summary -->
-                    <div class="report-tile-card" onclick="alert('Variation Summary: Regular & Full variations sold for the day.')">
+                    <div class="report-tile-card" onclick="switchView('variation-report')">
                         <div class="report-tile-left">
                             <div class="report-tile-icon">
                                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
@@ -2521,7 +2521,7 @@
                         <div class="report-tile-arrow">&rarr;</div>
                     </div>
                     <!-- 9. Cover size summary -->
-                    <div class="report-tile-card" onclick="alert('Cover Size: 68 persons / pax served across dining huts and parcels.')">
+                    <div class="report-tile-card" onclick="switchView('cover-size-report')">
                         <div class="report-tile-left">
                             <div class="report-tile-icon">
                                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
@@ -2792,6 +2792,201 @@
                         <tbody id="order-rep-payments-tbody"></tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: COVER SIZE REPORT (Photo 1 from user) ================= -->
+        <div class="view-panel" id="view-cover-size-report" style="flex-direction:column; background:#ffffff;">
+            <div class="report-top-header">
+                <span class="report-top-title">Cover Size Report</span>
+                <div class="report-top-actions">
+                    <button class="btn-back" onclick="switchView('reports')">&lt; Back</button>
+                </div>
+            </div>
+            <div class="report-toolbar-row">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="text" id="cover-rep-search" placeholder="🔍 Search ▾" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:160px;">
+                    <button class="report-toolbar-btn">Configure Column ▾</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="report-toolbar-btn">Time Wise</button>
+                    <button class="report-toolbar-btn" onclick="window.print()">🖨️ Print</button>
+                    <button class="report-toolbar-btn" onclick="exportTableToExcel('cover-size-table', 'Cover_Size_Report_12-10-2026.csv')">📊 Export Excel</button>
+                </div>
+            </div>
+            <div class="report-sub-banner" id="cover-rep-date-banner">
+                Cover Size Report : From 12-10-2026
+            </div>
+            <div class="report-table-scroll">
+                <table class="report-data-table" id="cover-size-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th style="text-align:right;">No. of Persons (Success Orders)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cover-size-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: EXECUTIVE SALES SUMMARY (Photo 2 from user) ================= -->
+        <div class="view-panel" id="view-executive-sales-report" style="flex-direction:column; background:#ffffff;">
+            <div class="report-top-header">
+                <span class="report-top-title">Executive Sales Summary</span>
+                <div class="report-top-actions">
+                    <button class="report-toolbar-btn">Print Configuration</button>
+                    <button class="btn-back" onclick="switchView('reports')">&lt; Back</button>
+                </div>
+            </div>
+            <div class="report-toolbar-row">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="text" id="exec-rep-search" placeholder="🔍 Search ▾" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:160px;">
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="report-toolbar-btn" id="exec-period-yesterday" onclick="setExecSalesPeriod('yesterday')">Yesterday Sales</button>
+                    <button class="report-toolbar-btn active" id="exec-period-today" onclick="setExecSalesPeriod('today')">Today Sales</button>
+                    <button class="report-toolbar-btn">Time Wise</button>
+                    <button class="report-toolbar-btn" onclick="window.print()">🖨️ Print</button>
+                    <button class="report-toolbar-btn" onclick="exportTableToExcel('exec-sales-table', 'Executive_Sales_Report_17-10-2026.csv')">📊 Export Excel</button>
+                </div>
+            </div>
+            <div class="report-sub-banner" id="exec-rep-date-banner">
+                Executive Sales Report : From 17-10-2026
+            </div>
+            <div class="report-table-scroll" style="padding:16px 20px;">
+                <div style="font-size:13px; font-weight:700; color:#475569; margin-bottom:10px;">Success Orders</div>
+                <table class="report-data-table" id="exec-sales-table" style="max-width:680px; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+                    <tbody id="exec-sales-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: EMPLOYEE REPORT (Photo 3 from user) ================= -->
+        <div class="view-panel" id="view-employee-report" style="flex-direction:column; background:#ffffff;">
+            <div class="report-top-header">
+                <span class="report-top-title">Employee Report</span>
+                <div class="report-top-actions">
+                    <button class="btn-back" onclick="switchView('reports')">&lt; Back</button>
+                </div>
+            </div>
+            <!-- Sub toolbar row 1 -->
+            <div class="report-toolbar-row">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="text" placeholder="🔍 Search ▾" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:160px;">
+                    <button class="report-toolbar-btn">Print Configuration</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="report-toolbar-btn">Time Wise</button>
+                </div>
+            </div>
+            <!-- Sub toolbar row 2 -->
+            <div class="report-toolbar-row" style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="btn-red-pill" style="padding:4px 12px; font-size:11px;">Columns</button>
+                    <button class="report-toolbar-btn" style="padding:4px 10px; font-size:11px;">Save Preference</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="report-toolbar-btn" onclick="exportTableToExcel('emp-report-table', 'Employee_Report_17-10-2026.csv')">📊 Export Excel</button>
+                    <button class="report-toolbar-btn" onclick="window.print()">🖨️ Print</button>
+                </div>
+            </div>
+            <div class="report-sub-banner" id="emp-rep-date-banner">
+                Employee Report - 17-10-2026
+            </div>
+            <div class="report-table-scroll" style="padding:16px 20px;">
+                <div style="font-size:13px; font-weight:800; color:#1e293b; margin-bottom:8px;">Biller Report</div>
+                <table class="report-data-table" id="emp-report-table" style="border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+                    <thead>
+                        <tr style="background:#dbeafe; color:#1e3a8a;">
+                            <th style="width:320px;">Billing User</th>
+                            <th>Payment Type</th>
+                            <th style="text-align:right;">Total (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="emp-report-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: GROUP REPORT (Photo 4 from user) ================= -->
+        <div class="view-panel" id="view-group-report" style="flex-direction:column; background:#ffffff;">
+            <div class="report-top-header">
+                <span class="report-top-title">Group Report</span>
+                <div class="report-top-actions">
+                    <button class="report-toolbar-btn">Print Configuration</button>
+                    <button class="btn-back" onclick="switchView('reports')">&lt; Back</button>
+                </div>
+            </div>
+            <div class="report-toolbar-row">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="text" id="grp-rep-search" placeholder="🔍 Search ▾" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:160px;" oninput="filterGroupReportTable()">
+                    <button class="report-toolbar-btn">Configure Column ▾</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="report-toolbar-btn">Time Wise</button>
+                    <button class="report-toolbar-btn" onclick="window.print()">🖨️ Print</button>
+                    <button class="report-toolbar-btn" onclick="exportTableToExcel('group-report-table', 'Group_Report_17-10-2026.csv')">📊 Export Excel</button>
+                </div>
+            </div>
+            <div class="report-sub-banner" id="grp-rep-date-banner">
+                Group Report : From 17-10-2026
+            </div>
+            <div class="report-table-scroll">
+                <table class="report-data-table" id="group-report-table">
+                    <thead>
+                        <tr>
+                            <th style="width:140px;">Group</th>
+                            <th>Item</th>
+                            <th style="text-align:right;">Qty.</th>
+                            <th style="text-align:right;">My Amount (₹)</th>
+                            <th style="text-align:right;">Total Discount (₹)</th>
+                            <th style="text-align:right;">Net Amount (₹)<br><span style="font-size:10px; font-weight:normal;">(M.A - T.D)</span></th>
+                            <th style="text-align:right;">Total Tax (₹)</th>
+                            <th style="text-align:right;">Total Sales (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="group-report-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: VARIATION REPORT (Photo 5 from user) ================= -->
+        <div class="view-panel" id="view-variation-report" style="flex-direction:column; background:#ffffff;">
+            <div class="report-top-header">
+                <span class="report-top-title">Variation Report</span>
+                <div class="report-top-actions">
+                    <button class="report-toolbar-btn">Print Configuration</button>
+                    <button class="btn-back" onclick="switchView('reports')">&lt; Back</button>
+                </div>
+            </div>
+            <div class="report-toolbar-row">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="text" id="var-rep-search" placeholder="🔍 Search ▾" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:160px;" oninput="filterVariationReportTable()">
+                    <button class="report-toolbar-btn">Configure Column ▾</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="report-toolbar-btn">Time Wise</button>
+                    <button class="report-toolbar-btn" onclick="window.print()">🖨️ Print</button>
+                    <button class="report-toolbar-btn" onclick="exportTableToExcel('variation-report-table', 'Variation_Report_17-10-2026.csv')">📊 Export Excel</button>
+                </div>
+            </div>
+            <div class="report-sub-banner" id="var-rep-date-banner">
+                Variation Report : From 17-10-2026
+            </div>
+            <div class="report-table-scroll">
+                <table class="report-data-table" id="variation-report-table">
+                    <thead>
+                        <tr>
+                            <th style="width:200px;">Variation</th>
+                            <th>Item</th>
+                            <th>Code</th>
+                            <th style="text-align:right;">Qty.</th>
+                            <th style="text-align:right;">Total (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="variation-report-tbody"></tbody>
+                </table>
             </div>
         </div>
 
@@ -3135,7 +3330,12 @@
                 'category-report': 'Category Report',
                 'item-report': 'Item Report',
                 'sales-report': 'Sales Report',
-                'order-report': 'Order Report'
+                'order-report': 'Order Report',
+                'cover-size-report': 'Cover Size Report',
+                'executive-sales-report': 'Executive Sales Summary',
+                'employee-report': 'Employee Report',
+                'group-report': 'Group Report',
+                'variation-report': 'Variation Report'
             };
             document.getElementById('page-main-title').innerText = titleMap[viewName] || 'Operations';
 
@@ -3190,6 +3390,21 @@
             } else if (viewName === 'order-report') {
                 document.getElementById('nav-reports').classList.add('active');
                 loadOrderReport();
+            } else if (viewName === 'cover-size-report') {
+                document.getElementById('nav-reports').classList.add('active');
+                loadCoverSizeReport();
+            } else if (viewName === 'executive-sales-report') {
+                document.getElementById('nav-reports').classList.add('active');
+                loadExecutiveSalesReport();
+            } else if (viewName === 'employee-report') {
+                document.getElementById('nav-reports').classList.add('active');
+                loadEmployeeReport();
+            } else if (viewName === 'group-report') {
+                document.getElementById('nav-reports').classList.add('active');
+                loadGroupReport();
+            } else if (viewName === 'variation-report') {
+                document.getElementById('nav-reports').classList.add('active');
+                loadVariationReport();
             } else {
                 document.getElementById('nav-operations').classList.add('active');
             }
@@ -4518,6 +4733,336 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        // --- 5. Cover Size Report (Photo 1) ---
+        let reportCoverSizeData = null;
+        async function loadCoverSizeReport() {
+            try {
+                const res = await fetch('/api/reports/cover_size');
+                reportCoverSizeData = await res.json();
+                renderCoverSizeTable(reportCoverSizeData);
+            } catch (err) {
+                console.error("Error loading cover size report:", err);
+            }
+        }
+
+        function renderCoverSizeTable(data) {
+            if (!data) return;
+            const banner = document.getElementById('cover-rep-date-banner');
+            if (banner) banner.innerText = `Cover Size Report : From ${data.date || '12-10-2026'}`;
+
+            const tbody = document.getElementById('cover-size-tbody');
+            if (!tbody) return;
+
+            let html = '';
+            // Sticky Total Row
+            html += `
+                <tr class="total-summary-row">
+                    <td><strong>Total</strong></td>
+                    <td style="text-align:right;"><strong>${data.total_persons}</strong></td>
+                </tr>
+            `;
+
+            const search = document.getElementById('cover-rep-search')?.value.toLowerCase() || '';
+            let records = data.records || [];
+            if (search) records = records.filter(r => r.date.includes(search));
+
+            records.forEach(r => {
+                html += `
+                    <tr>
+                        <td>${r.date}</td>
+                        <td style="text-align:right;">${r.persons}</td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        // --- 6. Executive Sales Summary (Photo 2) ---
+        let reportExecSalesData = null;
+        async function loadExecutiveSalesReport(period = 'today') {
+            try {
+                const res = await fetch(`/api/reports/executive_sales?period=${period}`);
+                reportExecSalesData = await res.json();
+                renderExecutiveSalesTable(reportExecSalesData);
+            } catch (err) {
+                console.error("Error loading executive sales report:", err);
+            }
+        }
+
+        function setExecSalesPeriod(period) {
+            document.querySelectorAll('#exec-period-yesterday, #exec-period-today').forEach(b => b.classList.remove('active'));
+            if (period === 'yesterday') {
+                document.getElementById('exec-period-yesterday')?.classList.add('active');
+            } else {
+                document.getElementById('exec-period-today')?.classList.add('active');
+            }
+            loadExecutiveSalesReport(period);
+        }
+
+        function renderExecutiveSalesTable(data) {
+            if (!data) return;
+            const banner = document.getElementById('exec-rep-date-banner');
+            if (banner) banner.innerText = `Executive Sales Report : From ${data.date || '17-10-2026'}`;
+
+            const tbody = document.getElementById('exec-sales-tbody');
+            if (!tbody) return;
+
+            const fields = [
+                ["Count :", data.count],
+                ["Invoice Nos. :", data.invoice_nos],
+                ["Sub Total :", `₹ ${parseFloat(data.sub_total).toFixed(2)}`],
+                ["Discount :", `₹ ${parseFloat(data.discount).toFixed(2)}`],
+                ["Delivery Charge :", `₹ ${parseFloat(data.delivery_charge).toFixed(2)}`],
+                ["Container Charge :", `₹ ${parseFloat(data.container_charge).toFixed(2)}`],
+                ["Service Charge :", `₹ ${parseFloat(data.service_charge).toFixed(2)}`],
+                ["Additional Charge :", `₹ ${parseFloat(data.additional_charge).toFixed(2)}`],
+                ["Other Deduction Charge :", `₹ ${parseFloat(data.other_deduction).toFixed(2)}`],
+                ["Round Off :", `₹ ${parseFloat(data.round_off).toFixed(2)}`],
+                ["Waived off :", `₹ ${parseFloat(data.waived_off).toFixed(2)}`],
+                ["Grand Total :", `<strong style="font-size:14px; color:#1e293b;">₹ ${parseFloat(data.grand_total).toFixed(2)}</strong>`]
+            ];
+
+            tbody.innerHTML = fields.map(([label, val]) => `
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                    <td style="padding:10px 16px; font-weight:600; color:#475569; width:260px;">${label}</td>
+                    <td style="padding:10px 16px; text-align:right; color:#1e293b; font-weight:700;">${val}</td>
+                </tr>
+            `).join('');
+        }
+
+        // --- 7. Employee Report (Photo 3) ---
+        let reportEmployeeData = null;
+        async function loadEmployeeReport() {
+            try {
+                const res = await fetch('/api/reports/employee_summary');
+                reportEmployeeData = await res.json();
+                renderEmployeeTable(reportEmployeeData);
+            } catch (err) {
+                console.error("Error loading employee report:", err);
+            }
+        }
+
+        function renderEmployeeTable(data) {
+            if (!data) return;
+            const banner = document.getElementById('emp-rep-date-banner');
+            if (banner) banner.innerText = `Employee Report - ${data.date || '17-10-2026'}`;
+
+            const tbody = document.getElementById('emp-report-tbody');
+            if (!tbody) return;
+
+            const stats = [
+                `Orders Punched: ${data.orders_punched}`,
+                `Orders Success: ${data.orders_success}`,
+                `Orders Cancelled: ${data.orders_cancelled}`,
+                `Orders Discounted: ${data.orders_discounted}`,
+                `Orders Modified: ${data.orders_modified}`,
+                `Orders Reprinted: ${data.orders_reprinted}`
+            ];
+
+            const payments = data.payments || [];
+            let html = `
+                <tr style="background:#f8fafc; font-weight:bold; border-bottom:1px solid #e2e8f0;">
+                    <td colspan="3" style="padding:10px 14px; color:#1e293b;">${data.biller_name || 'biller'}</td>
+                </tr>
+            `;
+
+            const maxRows = Math.max(stats.length, payments.length);
+            for (let i = 0; i < maxRows; i++) {
+                const statText = stats[i] || '';
+                const p = payments[i];
+                html += `
+                    <tr>
+                        <td style="padding:8px 14px; color:#475569; border-right:1px solid #f1f5f9; font-weight:${statText ? '600' : 'normal'};">${statText}</td>
+                        <td style="padding:8px 14px; color:#334155;">${p ? p.mode : ''}</td>
+                        <td style="padding:8px 14px; text-align:right; font-weight:600;">${p ? parseFloat(p.total).toFixed(2) : ''}</td>
+                    </tr>
+                `;
+            }
+
+            html += `
+                <tr style="background:#f1f5f9; font-weight:bold; border-top:2px solid #cbd5e1;">
+                    <td style="padding:10px 14px;">Sub Total</td>
+                    <td></td>
+                    <td style="padding:10px 14px; text-align:right;">${parseFloat(data.sub_total).toFixed(2)}</td>
+                </tr>
+            `;
+
+            tbody.innerHTML = html;
+        }
+
+        // --- 8. Group Report (Photo 4) ---
+        let reportGroupData = null;
+        async function loadGroupReport() {
+            try {
+                const res = await fetch('/api/reports/group_summary');
+                reportGroupData = await res.json();
+                renderGroupTable(reportGroupData);
+            } catch (err) {
+                console.error("Error loading group report:", err);
+            }
+        }
+
+        function renderGroupTable(data) {
+            if (!data) return;
+            const banner = document.getElementById('grp-rep-date-banner');
+            if (banner) banner.innerText = `Group Report : From ${data.date || '17-10-2026'}`;
+
+            const tbody = document.getElementById('group-report-tbody');
+            if (!tbody) return;
+
+            let html = '';
+            // Sticky Total Row matching Photo 4
+            if (data.total) {
+                html += `
+                    <tr class="total-summary-row">
+                        <td><strong>Total</strong></td>
+                        <td>-</td>
+                        <td style="text-align:right;"><strong>${parseFloat(data.total.qty).toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>${parseFloat(data.total.my_amount).toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>${parseFloat(data.total.discount).toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>${parseFloat(data.total.net_amount).toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>${parseFloat(data.total.tax).toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>${parseFloat(data.total.total_sales).toFixed(2)}</strong></td>
+                    </tr>
+                `;
+            }
+
+            const search = document.getElementById('grp-rep-search')?.value.toLowerCase() || '';
+
+            (data.groups || []).forEach((grp, gIdx) => {
+                const grpId = `grp-acc-${gIdx}`;
+                let items = grp.items || [];
+                if (search) items = items.filter(it => it.item_name.toLowerCase().includes(search));
+
+                html += `
+                    <tr class="acc-cat-header" onclick="toggleGroupAccordion('${grpId}')">
+                        <td colspan="8">
+                            <span id="grp-icon-${grpId}" style="display:inline-block; margin-right:8px; font-weight:bold;">^</span>
+                            <strong>${grp.group}</strong>
+                        </td>
+                    </tr>
+                `;
+
+                items.forEach(it => {
+                    html += `
+                        <tr class="grp-row-${grpId}" style="background:#ffffff;">
+                            <td></td>
+                            <td>${it.item_name}</td>
+                            <td style="text-align:right;">${parseFloat(it.qty).toFixed(2)}</td>
+                            <td style="text-align:right;">${parseFloat(it.my_amount).toFixed(2)}</td>
+                            <td style="text-align:right;">${parseFloat(it.discount).toFixed(2)}</td>
+                            <td style="text-align:right;">${parseFloat(it.net_amount).toFixed(2)}</td>
+                            <td style="text-align:right;">${parseFloat(it.tax).toFixed(2)}</td>
+                            <td style="text-align:right;">${parseFloat(it.total_sales).toFixed(2)}</td>
+                        </tr>
+                    `;
+                });
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function toggleGroupAccordion(grpId) {
+            const rows = document.querySelectorAll(`.grp-row-${grpId}`);
+            const icon = document.getElementById(`grp-icon-${grpId}`);
+            if (!rows.length) return;
+            const isHidden = rows[0].style.display === 'none';
+            rows.forEach(r => r.style.display = isHidden ? '' : 'none');
+            if (icon) icon.innerText = isHidden ? '^' : 'v';
+        }
+
+        function filterGroupReportTable() {
+            renderGroupTable(reportGroupData);
+        }
+
+        // --- 9. Variation Report (Photo 5) ---
+        let reportVariationData = null;
+        async function loadVariationReport() {
+            try {
+                const res = await fetch('/api/reports/variation_summary');
+                reportVariationData = await res.json();
+                renderVariationTable(reportVariationData);
+            } catch (err) {
+                console.error("Error loading variation report:", err);
+            }
+        }
+
+        function renderVariationTable(data) {
+            if (!data) return;
+            const banner = document.getElementById('var-rep-date-banner');
+            if (banner) banner.innerText = `Variation Report : From ${data.date || '17-10-2026'}`;
+
+            const tbody = document.getElementById('variation-report-tbody');
+            if (!tbody) return;
+
+            let html = '';
+            // Sticky Total Row matching Photo 5
+            html += `
+                <tr class="total-summary-row">
+                    <td><strong>Total</strong></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td style="text-align:right;"><strong>${parseFloat(data.grand_qty).toFixed(2)}</strong></td>
+                    <td style="text-align:right;"><strong>${parseFloat(data.grand_total).toFixed(2)}</strong></td>
+                </tr>
+            `;
+
+            const search = document.getElementById('var-rep-search')?.value.toLowerCase() || '';
+
+            (data.variations || []).forEach((vGroup, vIdx) => {
+                const vId = `var-acc-${vIdx}`;
+                let items = vGroup.items || [];
+                if (search) items = items.filter(it => it.item_name.toLowerCase().includes(search) || it.code.toLowerCase().includes(search) || vGroup.variation.toLowerCase().includes(search));
+
+                html += `
+                    <tr class="acc-cat-header" onclick="toggleVariationAccordion('${vId}')">
+                        <td colspan="5">
+                            <span id="var-icon-${vId}" style="display:inline-block; margin-right:8px; font-weight:bold;">^</span>
+                            <strong>${vGroup.variation}</strong>
+                        </td>
+                    </tr>
+                `;
+
+                items.forEach(it => {
+                    html += `
+                        <tr class="var-row-${vId}" style="background:#ffffff;">
+                            <td></td>
+                            <td>${it.item_name}</td>
+                            <td>${it.code}</td>
+                            <td style="text-align:right;">${parseFloat(it.qty).toFixed(2)}</td>
+                            <td style="text-align:right;">${parseFloat(it.total).toFixed(2)}</td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                    <tr class="acc-subtotal-row var-row-${vId}">
+                        <td><strong>Sub Total</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right;"><strong>${parseFloat(vGroup.subtotal_qty).toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>${parseFloat(vGroup.subtotal_amount).toFixed(2)}</strong></td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function toggleVariationAccordion(vId) {
+            const rows = document.querySelectorAll(`.var-row-${vId}`);
+            const icon = document.getElementById(`var-icon-${vId}`);
+            if (!rows.length) return;
+            const isHidden = rows[0].style.display === 'none';
+            rows.forEach(r => r.style.display = isHidden ? '' : 'none');
+            if (icon) icon.innerText = isHidden ? '^' : 'v';
+        }
+
+        function filterVariationReportTable() {
+            renderVariationTable(reportVariationData);
         }
 
         window.addEventListener('DOMContentLoaded', initPOS);
