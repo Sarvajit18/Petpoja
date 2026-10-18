@@ -2599,7 +2599,7 @@
                         <div class="report-tile-arrow">&rarr;</div>
                     </div>
                     <!-- 15. Assignee Wise Summary -->
-                    <div class="report-tile-card" onclick="alert('Assignee Wise: 1 Assignee with ₹8,865.00 total collection.')">
+                    <div class="report-tile-card" onclick="switchView('assignee-wise-report')">
                         <div class="report-tile-left">
                             <div class="report-tile-icon">
                                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
@@ -3195,6 +3195,48 @@
             </div>
         </div>
 
+        <!-- ================= VIEW: ASSIGNEE WISE SUMMARY (Photo from user) ================= -->
+        <div class="view-panel" id="view-assignee-wise-report" style="flex-direction:column; background:#ffffff;">
+            <div class="report-top-header">
+                <span class="report-top-title">Assignee Wise Summary</span>
+                <div class="report-top-actions">
+                    <button class="btn-back" onclick="switchView('reports')">&lt; Back</button>
+                </div>
+            </div>
+            <!-- Sub toolbar row 1 -->
+            <div class="report-toolbar-row">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="text" id="assignee-rep-search" placeholder="🔍 Search ▾" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:160px;" oninput="filterAssigneeReportTable()">
+                    <button class="report-toolbar-btn">⚙️ Print Configuration</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="report-toolbar-btn">Time Wise</button>
+                </div>
+            </div>
+            <!-- Sub toolbar row 2 -->
+            <div class="report-toolbar-row" style="background:#f8fafc; border-bottom:1px solid #e2e8f0; justify-content:flex-end;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="report-toolbar-btn" onclick="exportTableToExcel('assignee-report-table', 'Assignee_Wise_Summary_17-10-2026.csv')">📊 Export Excel</button>
+                    <button class="report-toolbar-btn" onclick="window.print()">🖨️ Print</button>
+                </div>
+            </div>
+            <div class="report-sub-banner" id="assignee-rep-date-banner">
+                Assignee Wise Summary - 17-10-2026
+            </div>
+            <div class="report-table-scroll" style="padding:16px 20px;">
+                <table class="report-data-table" id="assignee-report-table" style="border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+                    <thead>
+                        <tr style="background:#dbeafe; color:#1e3a8a;">
+                            <th style="width:320px;">Assignee</th>
+                            <th>Payment Type</th>
+                            <th style="text-align:right;">Total (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assignee-report-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
     <!-- ================= MODALS ================= -->
@@ -3545,7 +3587,8 @@
                 'counter-summary-report': 'Counter Summary',
                 'locality-wise-report': 'Locality Wise Summary',
                 'captain-wise-report': 'Captain Wise Summary',
-                'nc-item-summary-report': 'NC Item Summary'
+                'nc-item-summary-report': 'NC Item Summary',
+                'assignee-wise-report': 'Assignee Wise Summary'
             };
             document.getElementById('page-main-title').innerText = titleMap[viewName] || 'Operations';
 
@@ -3630,6 +3673,9 @@
             } else if (viewName === 'nc-item-summary-report') {
                 document.getElementById('nav-reports').classList.add('active');
                 loadNcItemSummaryReport();
+            } else if (viewName === 'assignee-wise-report') {
+                document.getElementById('nav-reports').classList.add('active');
+                loadAssigneeWiseReport();
             } else {
                 document.getElementById('nav-operations').classList.add('active');
             }
@@ -5492,6 +5538,70 @@
             } catch (err) {
                 console.error("Error loading NC Item Summary:", err);
             }
+        }
+
+        // ================= REPORT: ASSIGNEE WISE SUMMARY (Photo) =================
+        let reportAssigneeData = null;
+        async function loadAssigneeWiseReport() {
+            try {
+                const res = await fetch('/api/reports/assignee_summary');
+                reportAssigneeData = await res.json();
+                renderAssigneeTable(reportAssigneeData);
+            } catch (err) {
+                console.error("Error loading Assignee Wise Summary:", err);
+            }
+        }
+
+        function renderAssigneeTable(data) {
+            if (!data) return;
+            const banner = document.getElementById('assignee-rep-date-banner');
+            if (banner) banner.innerText = `Assignee Wise Summary - ${data.date || '17-10-2026'}`;
+
+            const tbody = document.getElementById('assignee-report-tbody');
+            if (!tbody) return;
+
+            const stats = [
+                `Orders Punched: ${data.orders_punched}`,
+                `Orders Success: ${data.orders_success}`,
+                `Orders Cancelled: ${data.orders_cancelled}`,
+                `Orders Discounted: ${data.orders_discounted}`,
+                `Orders Modified: ${data.orders_modified}`,
+                `Orders Reprinted: ${data.orders_reprinted}`
+            ];
+
+            const payments = data.payments || [];
+            let html = `
+                <tr style="background:#f8fafc; font-weight:bold; border-bottom:1px solid #e2e8f0;">
+                    <td colspan="3" style="padding:10px 14px; color:#1e293b;">${data.assignee_name || 'SAI (Captain)'}</td>
+                </tr>
+            `;
+
+            const maxRows = Math.max(stats.length, payments.length);
+            for (let i = 0; i < maxRows; i++) {
+                const statText = stats[i] || '';
+                const p = payments[i];
+                html += `
+                    <tr>
+                        <td style="padding:8px 14px; color:#475569; border-right:1px solid #f1f5f9; font-weight:${statText ? '600' : 'normal'};">${statText}</td>
+                        <td style="padding:8px 14px; color:#334155;">${p ? p.mode : ''}</td>
+                        <td style="padding:8px 14px; text-align:right; font-weight:600;">${p ? parseFloat(p.total).toFixed(2) : ''}</td>
+                    </tr>
+                `;
+            }
+
+            html += `
+                <tr style="background:#f1f5f9; font-weight:bold; border-top:2px solid #cbd5e1;">
+                    <td style="padding:10px 14px;">Sub Total</td>
+                    <td></td>
+                    <td style="padding:10px 14px; text-align:right;">${parseFloat(data.sub_total).toFixed(2)}</td>
+                </tr>
+            `;
+
+            tbody.innerHTML = html;
+        }
+
+        function filterAssigneeReportTable() {
+            renderAssigneeTable(reportAssigneeData);
         }
 
         window.addEventListener('DOMContentLoaded', initPOS);

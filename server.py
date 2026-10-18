@@ -1182,6 +1182,31 @@ def get_nc_item_summary():
         "records": []
     }
 
+@app.get("/api/reports/assignee_summary")
+def get_assignee_summary():
+    return {
+        "date": "17-10-2026",
+        "assignee_name": "SAI (Captain)",
+        "orders_punched": 6,
+        "orders_success": 6,
+        "orders_cancelled": 0,
+        "orders_discounted": 0,
+        "orders_modified": 0,
+        "orders_reprinted": 0,
+        "payments": [
+            {"mode": "Not Paid", "total": 0.0},
+            {"mode": "Cash", "total": 3675.0},
+            {"mode": "Card", "total": 0.0},
+            {"mode": "Due Payment", "total": 0.0},
+            {"mode": "Other", "total": 0.0},
+            {"mode": "Wallet", "total": 0.0},
+            {"mode": "UPI", "total": 0.0},
+            {"mode": "Online Paid", "total": 0.0},
+            {"mode": "Online COD", "total": 0.0}
+        ],
+        "sub_total": 3675.0
+    }
+
 @app.get("/api/orders/all")
 def get_all_orders():
     conn = get_db()
