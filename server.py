@@ -14,6 +14,7 @@ import qrcode.image.svg
 from pydantic import BaseModel
 
 from database import get_db, init_db, DB_FILE
+import printer_service
 
 # Initialize database
 init_db()
@@ -159,9 +160,13 @@ class ExpenseIn(BaseModel):
 class PrinterIn(BaseModel):
     name: str
     printer_type: str = "General"
+    connection_type: Optional[str] = "network" # 'network', 'windows'
+    windows_printer_name: Optional[str] = ""
     ip_address: Optional[str] = "127.0.0.1"
     port: Optional[int] = 9100
     assigned_for: Optional[str] = "Bill, KOT"
+    auto_print_kot: Optional[int] = 1
+    paper_width: Optional[str] = "80mm"
 
 class AreaIn(BaseModel):
     name: str
@@ -508,16 +513,47 @@ def get_printers():
     conn.close()
     return printers
 
+@app.get("/api/printers/system")
+def get_system_installed_printers():
+    """Return all printers installed on Windows host."""
+    return printer_service.get_installed_windows_printers()
+
 @app.post("/api/printers")
 async def add_printer(payload: PrinterIn):
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO printers (name, printer_type, ip_address, port, assigned_for) VALUES (?, ?, ?, ?, ?)",
-                   (payload.name.strip(), payload.printer_type.strip(), payload.ip_address.strip() or '127.0.0.1', payload.port or 9100, payload.assigned_for or 'Bill, KOT'))
+    cursor.execute("""
+        INSERT INTO printers (name, printer_type, connection_type, windows_printer_name, ip_address, port, assigned_for, auto_print_kot, paper_width)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        payload.name.strip(),
+        payload.printer_type.strip(),
+        payload.connection_type or 'network',
+        payload.windows_printer_name or '',
+        payload.ip_address.strip() if payload.ip_address else '127.0.0.1',
+        payload.port or 9100,
+        payload.assigned_for or 'Bill, KOT',
+        1 if payload.auto_print_kot is None else int(payload.auto_print_kot),
+        payload.paper_width or '80mm'
+    ))
     conn.commit()
     conn.close()
     await manager.broadcast({"event": "PRINTERS_UPDATED"})
     return {"status": "ok"}
+
+class PrinterTestIn(BaseModel):
+    connection_type: str = "network" # 'network', 'windows'
+    windows_printer_name: Optional[str] = ""
+    ip_address: Optional[str] = "127.0.0.1"
+    port: Optional[int] = 9100
+    paper_width: Optional[str] = "80mm"
+
+@app.post("/api/printers/test")
+def test_printer_endpoint(payload: PrinterTestIn):
+    ok, msg = printer_service.execute_test_print(payload.model_dump())
+    if not ok:
+        raise HTTPException(status_code=400, detail=msg)
+    return {"status": "ok", "message": msg}
 
 @app.delete("/api/printers/{printer_id}")
 async def delete_printer(printer_id: int):
@@ -1364,7 +1400,15 @@ async def punch_order(payload: PunchOrderIn):
     cursor.execute("SELECT * FROM order_items WHERE kot_id = ?", (kot_id,))
     kot_dict["items"] = [dict(r) for r in cursor.fetchall()]
 
+    # Fetch active KOT printers for auto-printing
+    cursor.execute("SELECT * FROM printers WHERE auto_print_kot = 1")
+    printers_list = [dict(r) for r in cursor.fetchall()]
+
     conn.close()
+
+    # Trigger automatic background printing to kitchen thermal printer
+    if printers_list:
+        printer_service.print_kot_ticket(kot_dict, printers_list)
 
     # Broadcast to all Captains, POS counters, and Kitchen screens
     await manager.broadcast({
@@ -1381,6 +1425,27 @@ async def punch_order(payload: PunchOrderIn):
         "kot_number": kot_num,
         "grand_total": grand_total
     }
+
+@app.post("/api/kots/{kot_id}/reprint")
+def reprint_kot_endpoint(kot_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM kots WHERE id = ?", (kot_id,))
+    kot_row = cursor.fetchone()
+    if not kot_row:
+        conn.close()
+        raise HTTPException(status_code=404, detail="KOT not found")
+    kot_dict = dict(kot_row)
+    cursor.execute("SELECT * FROM order_items WHERE kot_id = ?", (kot_id,))
+    kot_dict["items"] = [dict(r) for r in cursor.fetchall()]
+    cursor.execute("SELECT * FROM printers")
+    printers_list = [dict(r) for r in cursor.fetchall()]
+    conn.close()
+
+    if printers_list:
+        printer_service.print_kot_ticket(kot_dict, printers_list)
+        return {"status": "ok", "message": "Reprint job sent to KOT printer"}
+    return {"status": "error", "message": "No KOT printer configured"}
 
 @app.get("/api/orders/active")
 def get_active_orders():

@@ -154,11 +154,27 @@ def init_db():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         printer_type TEXT DEFAULT 'General',
+        connection_type TEXT DEFAULT 'network', -- 'network', 'windows'
+        windows_printer_name TEXT DEFAULT '',
         ip_address TEXT DEFAULT '127.0.0.1',
         port INTEGER DEFAULT 9100,
-        assigned_for TEXT DEFAULT 'Bill, KOT'
+        assigned_for TEXT DEFAULT 'Bill, KOT',
+        auto_print_kot INTEGER DEFAULT 1,
+        paper_width TEXT DEFAULT '80mm'
     )
     ''')
+
+    # Migration for existing printers table
+    cursor.execute("PRAGMA table_info(printers)")
+    cols = [c[1] for c in cursor.fetchall()]
+    if 'connection_type' not in cols:
+        cursor.execute("ALTER TABLE printers ADD COLUMN connection_type TEXT DEFAULT 'network'")
+    if 'windows_printer_name' not in cols:
+        cursor.execute("ALTER TABLE printers ADD COLUMN windows_printer_name TEXT DEFAULT ''")
+    if 'auto_print_kot' not in cols:
+        cursor.execute("ALTER TABLE printers ADD COLUMN auto_print_kot INTEGER DEFAULT 1")
+    if 'paper_width' not in cols:
+        cursor.execute("ALTER TABLE printers ADD COLUMN paper_width TEXT DEFAULT '80mm'")
 
     conn.commit()
 

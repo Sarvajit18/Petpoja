@@ -230,7 +230,7 @@
             background: #ffffff;
             border: 1px solid var(--border-card);
             border-radius: 14px;
-            padding: 18px 8px;
+            padding: 16px 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -239,6 +239,7 @@
             cursor: pointer;
             box-shadow: var(--shadow-sm);
             transition: transform 0.1s, box-shadow 0.15s, border-color 0.15s;
+            position: relative;
         }
         .table-card:active {
             transform: scale(0.97);
@@ -499,7 +500,7 @@
 
         /* SCREEN 2: ADD ORDER (DISH SELECTION) */
         .search-container {
-            padding: 12px 16px;
+            padding: 10px 16px;
             background: #ffffff;
             border-bottom: 1px solid var(--border-light);
             position: relative;
@@ -522,7 +523,7 @@
             width: 100%;
             background: #f8fafc;
             border: 1px solid #e2e8f0;
-            padding: 10px 14px 10px 40px;
+            padding: 10px 38px 10px 40px;
             border-radius: 24px;
             font-size: 14px;
             color: var(--text-main);
@@ -533,6 +534,22 @@
             background: #ffffff;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
+        }
+
+        .search-clear-btn {
+            position: absolute;
+            right: 12px;
+            background: #cbd5e1;
+            color: #ffffff;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: pointer;
         }
 
         .order-content {
@@ -548,9 +565,16 @@
             letter-spacing: 0.5px;
             text-transform: uppercase;
             margin: 16px 0 10px 0;
+            scroll-margin-top: 70px;
+            transition: color 0.3s;
         }
-        .menu-category-title:first-child {
-            margin-top: 6px;
+        .menu-category-title.highlight-flash {
+            color: var(--primary);
+            animation: highlightGlow 1s ease-out;
+        }
+        @keyframes highlightGlow {
+            0% { transform: scale(1.03); color: var(--primary); }
+            100% { transform: scale(1); }
         }
 
         .food-grid {
@@ -572,7 +596,7 @@
             transition: all 0.15s;
         }
 
-        /* Active Card Border when item is selected (Images 1, 3, 4, 5) */
+        /* Active Card Border when item is selected */
         .food-card.selected {
             border: 1.5px solid var(--primary);
         }
@@ -660,9 +684,10 @@
         }
         .btn-add-outline:active {
             background: var(--primary-light);
+            transform: scale(0.92);
         }
 
-        /* Solid Blue Stepper Pill (Images 1, 3, 4, 5) */
+        /* Solid Blue Stepper Pill */
         .stepper-pill {
             background: var(--primary);
             color: #ffffff;
@@ -688,6 +713,9 @@
             align-items: center;
             justify-content: center;
         }
+        .pill-btn:active {
+            transform: scale(0.85);
+        }
 
         .pill-qty {
             font-size: 13.5px;
@@ -697,7 +725,7 @@
             text-align: center;
         }
 
-        /* Order Screen FAB (Fork & Knife) */
+        /* Order Screen FAB: Quick Category Drawer Button */
         .fab-order {
             position: fixed;
             bottom: 96px;
@@ -717,10 +745,10 @@
             transition: transform 0.15s;
         }
         .fab-order:active {
-            transform: scale(0.95);
+            transform: scale(0.92);
         }
 
-        /* Fixed Bottom View Order Bar (Images 3, 4, 5) */
+        /* Fixed Bottom View Order Bar */
         .view-order-bar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -772,7 +800,7 @@
             background: var(--primary-dark);
         }
 
-        /* SCREEN 3: ORDER FOR TABLE (FINAL ORDER REVIEW) (Image 2) */
+        /* SCREEN 3: FINAL ORDER REVIEW */
         .review-screen-header {
             padding: 14px 16px 8px 16px;
             display: flex;
@@ -815,7 +843,7 @@
             box-shadow: var(--shadow-sm);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .review-card-top {
@@ -879,23 +907,53 @@
             justify-content: center;
         }
 
-        .inline-note-box {
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        /* 1-Tap Quick Cooking Note Chips (High Usability) */
+        .quick-notes-box {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 6px 10px;
-            margin-top: 8px;
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 6px;
+            animation: fadeIn 0.18s ease-out;
         }
+
+        .quick-chips-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .note-chip {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-size: 11.5px;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .note-chip:active {
+            background: #e3f2fd;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
         .inline-note-input {
             width: 100%;
-            background: transparent;
-            border: none;
-            font-size: 12px;
-            color: #334155;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 12.5px;
+            color: #1e293b;
             outline: none;
+        }
+        .inline-note-input:focus {
+            border-color: var(--primary);
         }
 
         .review-bottom-bar {
@@ -951,7 +1009,7 @@
             background: var(--primary-dark);
         }
 
-        /* SCREEN 4: CUSTOMER INFORMATION SCREEN (Latest Screenshot) */
+        /* SCREEN 4: CUSTOMER INFORMATION */
         .cust-form-content {
             flex: 1;
             overflow-y: auto;
@@ -1100,6 +1158,80 @@
             background: var(--primary-dark);
         }
 
+        /* BOTTOM SHEETS & POPUPS */
+        .bottom-sheet-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.45);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 120;
+        }
+        .bottom-sheet-overlay.active {
+            display: flex;
+        }
+
+        .category-drawer {
+            background: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            max-height: 70vh;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.22s ease-out;
+        }
+
+        .category-drawer-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .category-drawer-list {
+            padding: 10px 16px 30px 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .cat-jump-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .cat-jump-row:active, .cat-jump-row:hover {
+            background: #f1f5f9;
+        }
+        .cat-jump-name {
+            font-size: 14.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cat-jump-badge {
+            background: #e2e8f0;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
         /* Center Modals */
         .modal-overlay {
             position: fixed;
@@ -1108,7 +1240,7 @@
             display: none;
             align-items: center;
             justify-content: center;
-            z-index: 110;
+            z-index: 130;
         }
         .modal-overlay.active {
             display: flex;
@@ -1116,12 +1248,14 @@
 
         .center-modal {
             background: #ffffff;
-            width: 90%;
-            max-width: 380px;
+            width: 92%;
+            max-width: 420px;
             border-radius: 16px;
             padding: 22px;
             box-shadow: 0 12px 30px rgba(0,0,0,0.2);
             animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
         @keyframes popIn {
@@ -1143,7 +1277,7 @@
             padding: 10px 14px;
             border-radius: 8px;
             font-size: 14px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             outline: none;
         }
         .modal-input:focus {
@@ -1155,14 +1289,14 @@
             display: flex;
             justify-content: flex-end;
             gap: 10px;
-            margin-top: 8px;
+            margin-top: 14px;
         }
 
         .btn-modal-cancel {
             background: #f1f5f9;
             color: #475569;
             border: none;
-            padding: 8px 16px;
+            padding: 10px 16px;
             border-radius: 6px;
             font-size: 13.5px;
             font-weight: 600;
@@ -1172,12 +1306,27 @@
             background: var(--primary);
             color: #ffffff;
             border: none;
-            padding: 8px 18px;
+            padding: 10px 20px;
             border-radius: 6px;
             font-size: 13.5px;
             font-weight: 600;
             cursor: pointer;
         }
+
+        /* Thermal KOT Receipt Preview */
+        .thermal-slip {
+            background: #fffdf5;
+            border: 1px dashed #d1d5db;
+            padding: 16px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 13px;
+            line-height: 1.4;
+            color: #000;
+            margin-bottom: 14px;
+        }
+        .slip-center { text-align: center; }
+        .slip-bold { font-weight: bold; }
+        .slip-hr { border-top: 1px dashed #000; margin: 8px 0; }
 
         /* Toast */
         .toast {
@@ -1236,6 +1385,10 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
                 <span>New KOT</span>
             </div>
+            <div class="drawer-item" onclick="onDrawerNav('printer_setup')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                <span style="font-weight: 700; color: var(--primary);">🖨️ KOT Printer Setup</span>
+            </div>
             <div class="drawer-item" onclick="onDrawerNav('unsuccessful_kot')">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
                 <span>Unsuccessful KOT</span>
@@ -1256,10 +1409,6 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="7" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="17" cy="12" r="1.5"/></svg>
                 <span>Find Server IP</span>
             </div>
-            <div class="drawer-item" onclick="onDrawerNav('settings')">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                <span>Settings</span>
-            </div>
         </div>
 
         <div class="drawer-footer">
@@ -1279,9 +1428,7 @@
     <header class="app-bar">
         <div class="bar-left">
             <button class="icon-btn" id="btn-menu-back" onclick="handleMenuOrBack()">
-                <!-- Hamburger Icon -->
                 <svg id="icon-hamburger" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-                <!-- Back Arrow Icon -->
                 <svg id="icon-back" style="display:none;" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
             </button>
             <div>
@@ -1292,10 +1439,10 @@
 
         <!-- Right actions for Tables Screen -->
         <div class="bar-right" id="bar-right-actions">
-            <button class="icon-btn" onclick="showToast('No new notifications')">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <button class="icon-btn" onclick="openPrinterModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
             </button>
-            <button class="icon-btn" onclick="showToast('Table View: Grid')">
+            <button class="icon-btn" onclick="showToast('Table Grid View Active')">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="8" x2="21" y2="8"/><path d="M5 8v10"/><path d="M19 8v10"/><path d="M9 8c0 5 6 5 6 0"/></svg>
             </button>
             <button class="icon-btn" onclick="toggleDropdownMenu()">
@@ -1310,24 +1457,24 @@
             </div>
         </div>
 
-        <!-- Right action for Dish Selection Screen: Profile icon (Opens Customer Info) -->
+        <!-- Right action for Dish Selection Screen: Profile icon -->
         <div class="bar-right" id="bar-right-profile" style="display:none;">
             <button class="icon-btn" onclick="openCustomerInfoScreen()">
                 <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </button>
         </div>
 
-        <!-- Right actions for View Order Review Screen (Image 2) -->
+        <!-- Right actions for View Order Review Screen -->
         <div class="bar-right" id="bar-right-review" style="display:none; gap:8px;">
-            <button class="action-box-btn" onclick="showToast('KOT instructions')">
+            <button class="action-box-btn" onclick="openKotSlipPreview()" title="Preview KOT Receipt">
                 <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>
             </button>
-            <button class="action-box-btn" onclick="showToast('Serving Station: Kitchen')">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18"/><path d="M4 17a8 8 0 0 1 16 0"/><line x1="12" y1="5" x2="12" y2="9"/><circle cx="12" cy="4" r="1"/></svg>
+            <button class="action-box-btn" onclick="openPrinterModal()" title="Printer Settings">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
             </button>
         </div>
 
-        <!-- Right action for Customer Info Screen: Favorite Star (Latest Screenshot) -->
+        <!-- Right action for Customer Info Screen: Favorite Star -->
         <div class="bar-right" id="bar-right-cust-star" style="display:none;">
             <button class="icon-btn" onclick="toggleCustomerStar()">
                 <svg id="cust-star-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1343,7 +1490,7 @@
         </div>
 
         <div style="flex:1; overflow-y:auto; padding-bottom: 90px;" id="tables-sections-container">
-            <!-- Dynamically populated tables grouped by section -->
+            <!-- Tables populated dynamically -->
         </div>
 
         <!-- Speed Dial Floating Action Button -->
@@ -1366,6 +1513,7 @@
             <div class="search-input-wrapper">
                 <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 <input type="text" class="search-pill" id="search-input" placeholder="Search here" oninput="filterDishes()">
+                <button class="search-clear-btn" id="search-clear-btn" onclick="clearDishSearch()">✕</button>
             </div>
         </div>
 
@@ -1373,12 +1521,12 @@
             <!-- 2-column food cards -->
         </div>
 
-        <!-- Floating Fork & Knife FAB -->
-        <button class="fab-order" onclick="openOrderReviewScreen()">
+        <!-- Floating Fork & Knife FAB: Opens Instant Category Jump Menu! -->
+        <button class="fab-order" onclick="openCategoryDrawer()" title="Quick Jump Categories">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v20"/><path d="M4 2v20"/><path d="M14 2v6a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V2"/><path d="M18 8h-4"/></svg>
         </button>
 
-        <!-- Fixed Bottom View Order Bar (Images 3, 4, 5) -->
+        <!-- Fixed Bottom View Order Bar -->
         <div class="view-order-bar" id="view-order-bar">
             <div class="view-order-info">
                 <div class="view-order-count" id="view-order-count-text">1 Item</div>
@@ -1388,7 +1536,7 @@
         </div>
     </div>
 
-    <!-- SCREEN 3: ORDER FOR TABLE (FINAL ORDER REVIEW SCREEN) (Image 2) -->
+    <!-- SCREEN 3: ORDER FOR TABLE (FINAL ORDER REVIEW SCREEN) -->
     <div class="screen" id="screen-view-order">
         <div class="review-screen-header">
             <div class="review-item-count-label" id="review-item-count-label">6.0 item(s)</div>
@@ -1399,7 +1547,7 @@
             <!-- Review items dynamically generated -->
         </div>
 
-        <!-- Fixed Bottom Send to Kitchen Bar (Image 2) -->
+        <!-- Fixed Bottom Send to Kitchen Bar -->
         <div class="review-bottom-bar">
             <label class="checkbox-row">
                 <input type="checkbox" id="chk-print-kitchen" checked>
@@ -1412,7 +1560,7 @@
         </div>
     </div>
 
-    <!-- SCREEN 4: CUSTOMER INFORMATION SCREEN (Latest Screenshot) -->
+    <!-- SCREEN 4: CUSTOMER INFORMATION SCREEN -->
     <div class="screen" id="screen-customer-info">
         <div class="cust-form-content">
             <div class="form-group">
@@ -1477,10 +1625,89 @@
             </div>
         </div>
 
-        <!-- Fixed Bottom Action Bar -->
         <div class="cust-bottom-bar">
             <button class="btn-cust-back" onclick="closeCustomerInfoScreen()">Back</button>
             <button class="btn-cust-submit" onclick="saveCustomerInfo()">Submit</button>
+        </div>
+    </div>
+
+    <!-- QUICK CATEGORY JUMP SHEET (FORK & KNIFE FAB) -->
+    <div class="bottom-sheet-overlay" id="category-drawer-modal" onclick="closeCategoryDrawer(event)">
+        <div class="category-drawer" onclick="event.stopPropagation()">
+            <div class="category-drawer-header">
+                <span>🍽️ Jump to Category</span>
+                <button class="icon-btn" onclick="closeCategoryDrawer()">✕</button>
+            </div>
+            <div class="category-drawer-list" id="cat-jump-list">
+                <!-- Dynamically populated categories with items count -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PRINTER CONFIGURATION & TEST PRINT MODAL -->
+    <div class="modal-overlay" id="modal-printer-setup" onclick="onModalBackdropClick(event, 'modal-printer-setup')">
+        <div class="center-modal" onclick="event.stopPropagation()">
+            <div class="modal-title">🖨️ KOT Thermal Printer Setup</div>
+            <p style="font-size: 12.5px; color:#64748b; margin-bottom: 12px;">Connect your kitchen printer via Wi-Fi/LAN (Ethernet) or Windows USB.</p>
+
+            <div style="display:flex; gap:8px; margin-bottom: 14px;">
+                <button id="tab-prn-net" class="btn-modal-confirm" style="flex:1; padding:8px;" onclick="switchPrinterTypeTab('network')">LAN / Wi-Fi</button>
+                <button id="tab-prn-win" class="btn-modal-cancel" style="flex:1; padding:8px;" onclick="switchPrinterTypeTab('windows')">Windows USB</button>
+            </div>
+
+            <!-- Network Printer Fields -->
+            <div id="prn-fields-network">
+                <label style="font-size: 12px; font-weight: 600; color:#475569; display:block; margin-bottom:4px;">Printer IP Address:</label>
+                <input type="text" class="modal-input" id="prn-ip" placeholder="e.g. 192.168.1.200" value="192.168.1.200">
+                <label style="font-size: 12px; font-weight: 600; color:#475569; display:block; margin-bottom:4px;">Port (Standard 9100):</label>
+                <input type="number" class="modal-input" id="prn-port" placeholder="9100" value="9100">
+            </div>
+
+            <!-- Windows USB Printer Fields -->
+            <div id="prn-fields-windows" style="display:none;">
+                <label style="font-size: 12px; font-weight: 600; color:#475569; display:block; margin-bottom:4px;">Select Installed Windows Printer:</label>
+                <select class="modal-input" id="prn-win-select">
+                    <option value="">Loading installed printers...</option>
+                </select>
+                <p style="font-size: 11px; color:#94a3b8; margin-top:-8px; margin-bottom:12px;">Auto-detected from Windows Settings -> Printers.</p>
+            </div>
+
+            <label style="font-size: 12px; font-weight: 600; color:#475569; display:block; margin-bottom:4px;">Paper Width:</label>
+            <select class="modal-input" id="prn-paper-width">
+                <option value="80mm">80mm (3 Inch - Standard Kitchen)</option>
+                <option value="58mm">58mm (2 Inch - Compact Roll)</option>
+            </select>
+
+            <label class="checkbox-row" style="margin-bottom: 14px;">
+                <input type="checkbox" id="prn-auto-kot" checked>
+                <span class="checkbox-label" style="font-size: 13px;">Auto-Print KOT immediately when punched</span>
+            </label>
+
+            <!-- Test Print Box -->
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; margin-bottom:12px;">
+                <div style="font-size: 12px; font-weight: 700; color:#334155; margin-bottom: 6px;">Test Physical Connection:</div>
+                <button class="btn-modal-confirm" style="background:#0284c7; width:100%;" onclick="runPrinterTest()">🖨️ Send Test Print Ticket</button>
+                <div id="prn-test-status" style="font-size:11.5px; margin-top:6px; font-weight:600; text-align:center;"></div>
+            </div>
+
+            <div class="modal-btn-row">
+                <button class="btn-modal-cancel" onclick="closePrinterModal()">Close</button>
+                <button class="btn-modal-confirm" onclick="savePrinterSettings()">Save Printer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- KOT SLIP PREVIEW MODAL -->
+    <div class="modal-overlay" id="modal-kot-preview" onclick="onModalBackdropClick(event, 'modal-kot-preview')">
+        <div class="center-modal" onclick="event.stopPropagation()">
+            <div class="modal-title">🧾 Kitchen Order Ticket (KOT) Slip</div>
+            <div class="thermal-slip" id="thermal-slip-content">
+                <!-- Live receipt rendered here -->
+            </div>
+            <div class="modal-btn-row">
+                <button class="btn-modal-cancel" onclick="closeKotSlipPreview()">Close</button>
+                <button class="btn-modal-confirm" onclick="window.print()">🖨️ Print Slip</button>
+            </div>
         </div>
     </div>
 
@@ -1536,6 +1763,28 @@
         let currentSectionTab = 'Family Hut';
         let isSpeedDialOpen = false;
         let customerInfo = {}; // tableId -> {phone, name, email, bday, anniv, locality, pax, tags, isStar}
+        let activePrinterTab = 'network';
+
+        // Web Audio Synthesized Chime for instant tactile feedback
+        let audioCtx;
+        function playChime(freq = 600, duration = 0.08) {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+            // Haptic vibration
+            if (navigator.vibrate) navigator.vibrate(20);
+        }
 
         const loc = window.location;
         const wsProtocol = loc.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -1563,6 +1812,7 @@
             connectWebSocket();
             await loadMenu();
             await loadTables();
+            loadPrinters();
         }
 
         // --- Data Loading ---
@@ -1581,6 +1831,7 @@
                 const res = await fetch('/api/menu');
                 allCategories = await res.json();
                 renderOrderDishes();
+                renderCategoryDrawerItems();
             } catch (err) {
                 console.error("Failed to load menu:", err);
             }
@@ -1624,7 +1875,8 @@
                             let statusText = 'Empty';
                             if (t.status === 'occupied') {
                                 cardClass = 'running';
-                                statusText = t.order ? `₹ ${Math.round(t.order.grand_total || 0)}` : 'Running';
+                                const mins = t.elapsed_minutes ? ` • ${t.elapsed_minutes}m` : '';
+                                statusText = t.order ? `₹ ${Math.round(t.order.grand_total || 0)}${mins}` : `Running${mins}`;
                             } else if (t.status === 'billed') {
                                 cardClass = 'billed';
                                 statusText = t.order ? `Billed (₹${Math.round(t.order.grand_total || 0)})` : 'Billed';
@@ -1648,6 +1900,7 @@
         }
 
         function switchSectionTab(sec) {
+            playChime(700, 0.05);
             currentSectionTab = sec;
             renderTablesView();
             const elem = document.getElementById(`sec-hdr-${sec.replace(/\s+/g, '')}`);
@@ -1662,6 +1915,7 @@
         }
 
         function setTableFilter(filter) {
+            playChime(650, 0.05);
             activeTableFilter = filter;
             document.querySelectorAll('.dropdown-item').forEach(el => el.classList.remove('selected'));
             document.getElementById(`filter-opt-${filter}`).classList.add('selected');
@@ -1678,6 +1932,7 @@
 
         // Speed Dial FAB
         function toggleFabSpeedDial() {
+            playChime(500, 0.06);
             isSpeedDialOpen = !isSpeedDialOpen;
             const mainBtn = document.getElementById('fab-main-btn');
             const dialItem = document.getElementById('speed-dial-new-table');
@@ -1734,6 +1989,7 @@
 
         // Navigation Back/Menu Handler
         function handleMenuOrBack() {
+            playChime(450, 0.05);
             const isCustScreen = document.getElementById('screen-customer-info').classList.contains('active');
             const isReviewScreen = document.getElementById('screen-view-order').classList.contains('active');
             const isOrderScreen = document.getElementById('screen-order').classList.contains('active');
@@ -1763,6 +2019,8 @@
             closeDrawer();
             if (action === 'new_kot') {
                 showTablesScreen();
+            } else if (action === 'printer_setup') {
+                openPrinterModal();
             } else if (action === 'unsuccessful_kot') {
                 showToast("All offline KOTs synced successfully!");
             } else if (action === 'sync_data') {
@@ -1777,8 +2035,6 @@
                 showToast("Menu reloaded from server!");
             } else if (action === 'find_ip') {
                 openServerIpModal();
-            } else if (action === 'settings') {
-                showToast("Settings: Sound On | Auto-Sync Enabled");
             }
         }
 
@@ -1820,6 +2076,7 @@
 
         // --- Screen Transitions ---
         function selectTable(id) {
+            playChime(600, 0.06);
             activeTable = allTables.find(t => t.id === id);
             if (!activeTable) return;
 
@@ -1829,7 +2086,7 @@
             document.getElementById('screen-customer-info').classList.remove('active');
             document.getElementById('screen-order').classList.add('active');
 
-            // Setup app bar for Add Order (Image 1, 3, 4, 5)
+            // Setup app bar
             document.getElementById('icon-hamburger').style.display = 'none';
             document.getElementById('icon-back').style.display = 'block';
             document.getElementById('bar-main-title').innerText = 'Add Order';
@@ -1852,7 +2109,6 @@
             document.getElementById('screen-customer-info').classList.remove('active');
             document.getElementById('screen-tables').classList.add('active');
 
-            // Reset app bar for All Tables
             document.getElementById('icon-hamburger').style.display = 'block';
             document.getElementById('icon-back').style.display = 'none';
             document.getElementById('bar-main-title').innerText = 'All Tables';
@@ -1884,6 +2140,7 @@
         }
 
         function openOrderReviewScreen() {
+            playChime(750, 0.08);
             const items = Object.values(cart);
             if (items.length === 0) {
                 showToast("Please add dishes before viewing order");
@@ -1894,7 +2151,6 @@
             document.getElementById('screen-customer-info').classList.remove('active');
             document.getElementById('screen-view-order').classList.add('active');
 
-            // Setup app bar for Final Order (Image 2)
             document.getElementById('bar-main-title').innerText = `Order for table : ${activeTable.name}`;
             document.getElementById('bar-sub-title').style.display = 'block';
             document.getElementById('bar-sub-title').classList.add('final-order');
@@ -1910,11 +2166,11 @@
         // --- Screen 4: Customer Information Screen ---
         function openCustomerInfoScreen() {
             if (!activeTable) return;
+            playChime(600, 0.06);
 
             document.getElementById('screen-order').classList.remove('active');
             document.getElementById('screen-customer-info').classList.add('active');
 
-            // Setup app bar for Customer Info (Latest Screenshot)
             document.getElementById('bar-main-title').innerText = 'Customer Information';
             document.getElementById('bar-sub-title').style.display = 'block';
             document.getElementById('bar-sub-title').classList.remove('final-order');
@@ -1924,7 +2180,6 @@
             document.getElementById('bar-right-review').style.display = 'none';
             document.getElementById('bar-right-cust-star').style.display = 'flex';
 
-            // Populate form
             document.getElementById('cust-table-no').value = activeTable.name;
             const existing = customerInfo[activeTable.id] || {};
             document.getElementById('cust-phone').value = existing.phone || '';
@@ -1935,7 +2190,6 @@
             document.getElementById('cust-locality').value = existing.locality || '';
             document.getElementById('cust-pax').value = existing.pax || '';
 
-            // Tags
             const activeTags = existing.tags || [];
             document.querySelectorAll('.tag-chip').forEach(chip => {
                 if (activeTags.includes(chip.innerText.trim())) {
@@ -1945,7 +2199,6 @@
                 }
             });
 
-            // Star
             updateCustomerStarUI(existing.isStar || false);
         }
 
@@ -1953,7 +2206,6 @@
             document.getElementById('screen-customer-info').classList.remove('active');
             document.getElementById('screen-order').classList.add('active');
 
-            // Restore Add Order app bar
             document.getElementById('bar-main-title').innerText = 'Add Order';
             document.getElementById('bar-sub-title').innerText = `Table: ${activeTable.name}`;
             document.getElementById('bar-right-profile').style.display = 'flex';
@@ -1962,6 +2214,7 @@
 
         function toggleCustomerStar() {
             if (!activeTable) return;
+            playChime(800, 0.07);
             const existing = customerInfo[activeTable.id] || {};
             existing.isStar = !existing.isStar;
             customerInfo[activeTable.id] = existing;
@@ -1981,6 +2234,7 @@
         }
 
         function toggleTag(el) {
+            playChime(600, 0.04);
             el.classList.toggle('active');
         }
 
@@ -1998,6 +2252,7 @@
 
         function saveCustomerInfo() {
             if (!activeTable) return;
+            playChime(650, 0.06);
 
             const selectedTags = [];
             document.querySelectorAll('.tag-chip.active').forEach(c => selectedTags.push(c.innerText.trim()));
@@ -2018,10 +2273,64 @@
             closeCustomerInfoScreen();
         }
 
+        // --- Quick Category Jump Drawer (High Usability) ---
+        function openCategoryDrawer() {
+            playChime(600, 0.06);
+            document.getElementById('category-drawer-modal').classList.add('active');
+        }
+
+        function closeCategoryDrawer(e) {
+            if (!e || e.target.id === 'category-drawer-modal' || e.target.closest('.icon-btn')) {
+                document.getElementById('category-drawer-modal').classList.remove('active');
+            }
+        }
+
+        function renderCategoryDrawerItems() {
+            const container = document.getElementById('cat-jump-list');
+            container.innerHTML = allCategories.map(cat => {
+                const count = (cat.items || []).length;
+                return `
+                    <div class="cat-jump-row" onclick="jumpToCategory('${cat.name.replace(/'/g, "\\'")}')">
+                        <div class="cat-jump-name">
+                            <span>${cat.icon || '🍽️'}</span>
+                            <span>${cat.name}</span>
+                        </div>
+                        <div class="cat-jump-badge">${count}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function jumpToCategory(catName) {
+            playChime(700, 0.06);
+            document.getElementById('category-drawer-modal').classList.remove('active');
+            
+            // Clear any active search to show the category
+            document.getElementById('search-input').value = '';
+            document.getElementById('search-clear-btn').style.display = 'none';
+            renderOrderDishes();
+
+            setTimeout(() => {
+                const headers = document.querySelectorAll('.menu-category-title');
+                for (let h of headers) {
+                    if (h.innerText.trim() === catName) {
+                        h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        h.classList.add('highlight-flash');
+                        setTimeout(() => h.classList.remove('highlight-flash'), 1200);
+                        break;
+                    }
+                }
+            }, 60);
+        }
+
         // --- Screen 2: Food Grid Rendering ---
         function renderOrderDishes() {
             const container = document.getElementById('order-content-container');
-            const search = document.getElementById('search-input').value.toLowerCase().trim();
+            const searchInput = document.getElementById('search-input');
+            const search = searchInput.value.toLowerCase().trim();
+            const clearBtn = document.getElementById('search-clear-btn');
+
+            clearBtn.style.display = search ? 'flex' : 'none';
 
             let html = '';
 
@@ -2084,7 +2393,13 @@
             renderOrderDishes();
         }
 
+        function clearDishSearch() {
+            document.getElementById('search-input').value = '';
+            filterDishes();
+        }
+
         function addItemToCart(itemId) {
+            playChime(620, 0.05);
             let found = null;
             allCategories.forEach(c => {
                 const f = (c.items || []).find(i => i.id === itemId);
@@ -2098,6 +2413,7 @@
         }
 
         function changeCartQty(itemId, delta) {
+            playChime(delta > 0 ? 680 : 520, 0.05);
             if (cart[itemId]) {
                 cart[itemId].qty += delta;
                 if (cart[itemId].qty <= 0) {
@@ -2124,7 +2440,7 @@
             }
         }
 
-        // --- Screen 3: Final Order Review Screen (Image 2) ---
+        // --- Screen 3: Final Order Review Screen ---
         function renderReviewScreenItems() {
             const items = Object.values(cart);
             const totalCount = items.reduce((acc, c) => acc + c.qty, 0);
@@ -2159,9 +2475,18 @@
                         </div>
 
                         ${c.showNoteInput ? `
-                            <div class="inline-note-box">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1976d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                                <input type="text" class="inline-note-input" placeholder="Add note (e.g. Less spicy, well cooked)..." value="${c.notes || ''}" oninput="updateNoteText(${c.item.id}, this.value)" autofocus>
+                            <div class="quick-notes-box">
+                                <div style="font-size: 11px; font-weight: 700; color:#64748b;">QUICK KITCHEN NOTES:</div>
+                                <div class="quick-chips-row">
+                                    <span class="note-chip" onclick="appendQuickNote(${c.item.id}, 'Less Spicy')">Less Spicy</span>
+                                    <span class="note-chip" onclick="appendQuickNote(${c.item.id}, 'Medium Spicy')">Medium Spicy</span>
+                                    <span class="note-chip" onclick="appendQuickNote(${c.item.id}, 'Extra Spicy')">Extra Spicy</span>
+                                    <span class="note-chip" onclick="appendQuickNote(${c.item.id}, 'No Onion')">No Onion</span>
+                                    <span class="note-chip" onclick="appendQuickNote(${c.item.id}, 'Extra Gravy')">Extra Gravy</span>
+                                    <span class="note-chip" onclick="appendQuickNote(${c.item.id}, 'Parcel')">Parcel</span>
+                                    <span class="note-chip" onclick="appendQuickNote(${c.item.id}, 'Urgent')">Urgent</span>
+                                </div>
+                                <input type="text" class="inline-note-input" id="note-input-${c.item.id}" placeholder="Type custom note..." value="${c.notes || ''}" oninput="updateNoteText(${c.item.id}, this.value)">
                             </div>
                         ` : ''}
 
@@ -2180,8 +2505,23 @@
         }
 
         function toggleNoteInput(itemId) {
+            playChime(600, 0.05);
             if (cart[itemId]) {
                 cart[itemId].showNoteInput = !cart[itemId].showNoteInput;
+                renderReviewScreenItems();
+            }
+        }
+
+        function appendQuickNote(itemId, chipText) {
+            playChime(700, 0.04);
+            if (cart[itemId]) {
+                let current = (cart[itemId].notes || '').trim();
+                if (current) {
+                    if (!current.includes(chipText)) current += `, ${chipText}`;
+                } else {
+                    current = chipText;
+                }
+                cart[itemId].notes = current;
                 renderReviewScreenItems();
             }
         }
@@ -2193,6 +2533,7 @@
         }
 
         function changeReviewQty(itemId, delta) {
+            playChime(delta > 0 ? 680 : 520, 0.05);
             if (cart[itemId]) {
                 cart[itemId].qty += delta;
                 if (cart[itemId].qty <= 0) {
@@ -2207,6 +2548,7 @@
         }
 
         function deleteCartItem(itemId) {
+            playChime(400, 0.08);
             delete cart[itemId];
             if (Object.keys(cart).length === 0) {
                 showOrderScreenFromReview();
@@ -2215,8 +2557,192 @@
             }
         }
 
-        // --- Submit KOT to Server ---
+        // --- Thermal Receipt Slip Preview ---
+        function openKotSlipPreview() {
+            const items = Object.values(cart);
+            if (items.length === 0) {
+                showToast("No items in order to preview");
+                return;
+            }
+            playChime(600, 0.05);
+            const nowStr = new Date().toLocaleString();
+            let html = `
+                <div class="slip-center slip-bold">11-11 RESTAURANT</div>
+                <div class="slip-center slip-bold" style="font-size:16px; margin:4px 0;">*** KOT TICKET ***</div>
+                <div class="slip-center slip-bold" style="font-size:15px;">TABLE: ${activeTable.name} (${activeTable.section})</div>
+                <div class="slip-hr"></div>
+                <div>Date   : ${nowStr}</div>
+                <div>Captain: ${currentCaptain}</div>
+                <div class="slip-hr"></div>
+                <div class="slip-bold" style="display:flex; justify-content:space-between;">
+                    <span>QTY  ITEM</span>
+                </div>
+                <div class="slip-hr"></div>
+            `;
+
+            let totalQty = 0;
+            items.forEach(c => {
+                totalQty += c.qty;
+                html += `
+                    <div style="margin: 4px 0;">
+                        <span class="slip-bold">${c.qty} x</span> ${c.item.name}
+                        ${c.notes ? `<div style="padding-left:14px; font-style:italic;">>> Note: ${c.notes}</div>` : ''}
+                    </div>
+                `;
+            });
+
+            html += `
+                <div class="slip-hr"></div>
+                <div class="slip-bold">TOTAL ITEMS: ${totalQty}</div>
+                <div class="slip-hr"></div>
+                <div class="slip-center">*** SENT TO KITCHEN ***</div>
+            `;
+
+            document.getElementById('thermal-slip-content').innerHTML = html;
+            document.getElementById('modal-kot-preview').classList.add('active');
+        }
+
+        function closeKotSlipPreview() {
+            document.getElementById('modal-kot-preview').classList.remove('active');
+        }
+
+        // --- Printer Setup & Test Print Modal ---
+        async function openPrinterModal() {
+            playChime(600, 0.05);
+            document.getElementById('modal-printer-setup').classList.add('active');
+            document.getElementById('prn-test-status').innerText = '';
+
+            // Load installed Windows printers into dropdown
+            try {
+                const res = await fetch('/api/printers/system');
+                const winPrinters = await res.json();
+                const sel = document.getElementById('prn-win-select');
+                if (winPrinters && winPrinters.length > 0) {
+                    sel.innerHTML = winPrinters.map(p => `<option value="${p}">${p}</option>`).join('');
+                } else {
+                    sel.innerHTML = `<option value="POS-80">POS-80 (Default USB Thermal)</option>`;
+                }
+            } catch (e) {
+                document.getElementById('prn-win-select').innerHTML = `<option value="POS-80">POS-80 (Default USB Thermal)</option>`;
+            }
+        }
+
+        function closePrinterModal() {
+            document.getElementById('modal-printer-setup').classList.remove('active');
+        }
+
+        function switchPrinterTypeTab(type) {
+            playChime(600, 0.04);
+            activePrinterTab = type;
+            const netTab = document.getElementById('tab-prn-net');
+            const winTab = document.getElementById('tab-prn-win');
+            const netFields = document.getElementById('prn-fields-network');
+            const winFields = document.getElementById('prn-fields-windows');
+
+            if (type === 'network') {
+                netTab.className = 'btn-modal-confirm';
+                winTab.className = 'btn-modal-cancel';
+                netFields.style.display = 'block';
+                winFields.style.display = 'none';
+            } else {
+                netTab.className = 'btn-modal-cancel';
+                winTab.className = 'btn-modal-confirm';
+                netFields.style.display = 'none';
+                winFields.style.display = 'block';
+            }
+        }
+
+        async function runPrinterTest() {
+            playChime(700, 0.06);
+            const statusEl = document.getElementById('prn-test-status');
+            statusEl.innerText = "⏳ Connecting to printer & sending test ticket...";
+            statusEl.style.color = "#0284c7";
+
+            const payload = {
+                connection_type: activePrinterTab,
+                ip_address: document.getElementById('prn-ip').value.trim() || '127.0.0.1',
+                port: parseInt(document.getElementById('prn-port').value || '9100'),
+                windows_printer_name: document.getElementById('prn-win-select').value,
+                paper_width: document.getElementById('prn-paper-width').value
+            };
+
+            try {
+                const res = await fetch('/api/printers/test', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    playChime(900, 0.1);
+                    statusEl.innerText = "✅ Test ticket printed successfully! Printer connected.";
+                    statusEl.style.color = "#16a34a";
+                } else {
+                    statusEl.innerText = "❌ " + (data.detail || "Printer unreachable");
+                    statusEl.style.color = "#dc2626";
+                }
+            } catch (err) {
+                statusEl.innerText = "❌ Network error: Could not contact server";
+                statusEl.style.color = "#dc2626";
+            }
+        }
+
+        async function savePrinterSettings() {
+            playChime(700, 0.06);
+            const payload = {
+                name: activePrinterTab === 'network' ? 'Kitchen LAN Printer' : 'Kitchen USB Printer',
+                printer_type: 'General',
+                connection_type: activePrinterTab,
+                ip_address: document.getElementById('prn-ip').value.trim() || '127.0.0.1',
+                port: parseInt(document.getElementById('prn-port').value || '9100'),
+                windows_printer_name: document.getElementById('prn-win-select').value,
+                assigned_for: 'KOT',
+                auto_print_kot: document.getElementById('prn-auto-kot').checked ? 1 : 0,
+                paper_width: document.getElementById('prn-paper-width').value
+            };
+
+            try {
+                const res = await fetch('/api/printers', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    showToast("KOT Printer saved successfully!");
+                    closePrinterModal();
+                } else {
+                    showToast("Failed to save printer");
+                }
+            } catch (e) {
+                showToast("Connection error");
+            }
+        }
+
+        async function loadPrinters() {
+            try {
+                const res = await fetch('/api/printers');
+                const list = await res.json();
+                const kotPrn = list.find(p => (p.assigned_for || '').toLowerCase().includes('kot'));
+                if (kotPrn) {
+                    if (kotPrn.connection_type === 'windows') {
+                        switchPrinterTypeTab('windows');
+                        setTimeout(() => {
+                            if (kotPrn.windows_printer_name) document.getElementById('prn-win-select').value = kotPrn.windows_printer_name;
+                        }, 500);
+                    } else {
+                        switchPrinterTypeTab('network');
+                        if (kotPrn.ip_address) document.getElementById('prn-ip').value = kotPrn.ip_address;
+                        if (kotPrn.port) document.getElementById('prn-port').value = kotPrn.port;
+                    }
+                    if (kotPrn.paper_width) document.getElementById('prn-paper-width').value = kotPrn.paper_width;
+                    document.getElementById('prn-auto-kot').checked = kotPrn.auto_print_kot !== 0;
+                }
+            } catch (e) {}
+        }
+
+        // --- Submit KOT to Kitchen & Auto-Print ---
         async function submitKOT() {
+            playChime(800, 0.1);
             const items = Object.values(cart).map(c => ({
                 item_id: c.item.id,
                 item_name: c.item.name,
@@ -2251,6 +2777,7 @@
                 if (res.ok) {
                     const result = await res.json();
                     cart = {};
+                    playChime(1000, 0.15);
                     showToast(`KOT #${result.kot_number} sent to Kitchen${shouldPrintKitchen ? ' & Printed' : ''}!`);
                     showTablesScreen();
                 } else {
