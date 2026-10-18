@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shansara Captain App</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <meta name="theme-color" content="#ff5722">
+    <link rel="manifest" href="/static/manifest.json">
+    <link rel="apple-touch-icon" href="/static/logo.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <style>
+        :root {
+            --bg-dark: #0f1218;
+            --bg-panel: #181d26;
+            --bg-card: #222936;
+            --border-color: #2e3748;
+            --primary: #ff5722;
+            --green: #10b981;
+            --red: #ef4444;
+            --amber: #f59e0b;
+            --text-light: #f9fafb;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Nav */
+        header {
+            background: var(--bg-panel);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .captain-badge {
+            background: rgba(255, 87, 34, 0.2);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+        }
+        .screen.active {
+            display: flex;
+        }
+
+        /* Table Selection Screen */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            padding: 16px;
+        }
+
+        .table-btn {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .table-btn.available { border-color: var(--green); }
+        .table-btn.occupied { border-color: var(--red); background: #25161c; }
+        .table-btn.billed { border-color: var(--amber); background: #292211; }
+
+        .table-name { font-size: 18px; font-weight: 800; }
+        .table-status { font-size: 11px; margin-top: 4px; text-transform: uppercase; font-weight: 700; }
+        .status-available { color: var(--green); }
+        .status-occupied { color: var(--red); }
+        .status-billed { color: var(--amber); }
+
+        /* Ordering Screen */
+        .order-nav {
+            background: var(--bg-panel);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .btn-back {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .search-box {
+            padding: 10px 16px;
+            background: var(--bg-panel);
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .categories-scroll {
+            display: flex;
+            gap: 8px;
+            padding: 8px 16px;
+            overflow-x: auto;
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cat-chip {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .cat-chip.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .items-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 16px 100px 16px;
+        }
+
+        .menu-row {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-info {
+            flex: 1;
+            padding-right: 12px;
+        }
+
+        .item-name {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .item-price {
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .add-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .qty-picker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-qty {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Floating Bottom Cart Bar */
+        .cart-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--bg-panel);
+            border-top: 1px solid var(--border-color);
+            padding: 12px 16px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 80;
+        }
+
+        .btn-view-cart {
+            background: var(--green);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Cart Bottom Sheet Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: flex-end;
+            z-index: 100;
+        }
+
+        .bottom-sheet {
+            background: var(--bg-panel);
+            width: 100%;
+            max-height: 85vh;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .sheet-header {
+            padding: 16px;
+            background: var(--bg-card);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        .sheet-items {
+            padding: 16px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .sheet-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .note-input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .btn-punch-kot {
+            background: var(--green);
+            color: #fff;
+            border: none;
+            padding: 16px;
+            margin: 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-title" style="display:flex; align-items:center; gap:8px;">
+            <img src="/static/logo.png" alt="Shansara" style="width:28px; height:28px; object-fit:contain; border-radius:6px; background:#000;">
+            <span>Shansara Captain</span>
+        </div>
+        <div class="captain-badge" id="captain-name-tag" onclick="selectCaptainPrompt()">
+            👤 Captain SAI
+        </div>
+    </header>
+
+    <!-- Mobile PWA 1-Tap Install Banner -->
+    <div id="install-banner" style="background: linear-gradient(90deg, #ff5722, #ea580c); color:#fff; padding:10px 16px; display:none; justify-content:space-between; align-items:center; font-weight:600; font-size:13px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+        <span>📲 Install Shansara Captain App to Phone</span>
+        <button id="btn-install" style="background:#fff; color:#ff5722; border:none; padding:6px 14px; border-radius:6px; font-weight:800; cursor:pointer;">INSTALL</button>
+    </div>
+
+    <!-- Screen 1: Select Table -->
+    <div class="screen active" id="screen-tables">
+        <div style="padding: 14px 16px 0 16px; font-weight: 700; font-size: 15px;">
+            Select Dining Table
+        </div>
+        <div class="tables-grid" id="captain-tables-container"></div>
+    </div>
+
+    <!-- Screen 2: Punch Order for Table -->
+    <div class="screen" id="screen-order">
+        <div class="order-nav">
+            <button class="btn-back" onclick="showTablesScreen()">← Back to Tables</button>
+            <div style="font-weight: 700;" id="order-table-title">Table T-1</div>
+        </div>
+
+        <div class="search-box">
+            <input type="text" class="search-input" id="search-input" placeholder="🔍 Search dishes (e.g. Tikka, Biryani)..." oninput="filterItems()">
+        </div>
+
+        <div class="categories-scroll" id="cat-chips"></div>
+
+        <div class="items-list" id="menu-items-container"></div>
+
+        <!-- Floating Cart Bar -->
+        <div class="cart-bar" id="cart-bar">
+            <div>
+                <div style="font-weight: 700; font-size: 15px;"><span id="cart-count">0</span> Items Selected</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Total: ₹ <span id="cart-total">0</span></div>
+            </div>
+            <button class="btn-view-cart" onclick="openCartSheet()">Review & Punch KOT →</button>
+        </div>
+    </div>
+
+    <!-- Bottom Sheet Review Modal -->
+    <div class="modal-overlay" id="cart-modal">
+        <div class="bottom-sheet">
+            <div class="sheet-header">
+                <div>Punch KOT - <span id="sheet-table-title">Table</span></div>
+                <button style="background:transparent; border:none; color:#fff; font-size:18px;" onclick="closeCartSheet()">✕</button>
+            </div>
+            <div class="sheet-items" id="sheet-items-list"></div>
+            <button class="btn-punch-kot" onclick="submitKOT()">🚀 SEND KOT TO KITCHEN</button>
+        </div>
+    </div>
+
+    <script>
+        let currentCaptain = localStorage.getItem('shansara_captain') || 'Captain SAI';
+        let allTables = [];
+        let allCategories = [];
+        let activeTable = null;
+        let cart = {}; // itemId -> {item, qty, notes}
+        let activeCategoryFilter = 'ALL';
+
+        // Real-time WebSocket LAN sync
+        const loc = window.location;
+        const wsProtocol = loc.protocol === 'https:' ? 'wss:' : 'ws:';
+        const socket = new WebSocket(`${wsProtocol}//${loc.host}/ws`);
+
+        socket.onmessage = function() {
+            loadTables();
+        };
+
+        async function initCaptain() {
+            document.getElementById('captain-name-tag').innerText = `👤 ${currentCaptain}`;
+            await loadMenu();
+            await loadTables();
+        }
+
+        function selectCaptainPrompt() {
+            const name = prompt("Enter Captain Name:", currentCaptain);
+            if (name && name.trim()) {
+                currentCaptain = name.trim();
+                localStorage.setItem('shansara_captain', currentCaptain);
+                document.getElementById('captain-name-tag').innerText = `👤 ${currentCaptain}`;
+            }
+        }
+
+        async function loadTables() {
+            const res = await fetch('/api/tables');
+            allTables = await res.json();
+            renderTables();
+        }
+
+        async function loadMenu() {
+            const res = await fetch('/api/menu');
+            allCategories = await res.json();
+            renderCategoryChips();
+        }
+
+        function renderTables() {
+            const container = document.getElementById('captain-tables-container');
+            container.innerHTML = allTables.map(t => `
+                <div class="table-btn ${t.status}" onclick="selectTable(${t.id})">
+                    <div class="table-name">${t.name}</div>
+                    <div class="table-status status-${t.status}">${t.status}</div>
+                    ${t.order ? `<div style="font-size:11px; margin-top:4px;">₹ ${Math.round(t.order.grand_total)}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function selectTable(id) {
+            activeTable = allTables.find(t => t.id === id);
+            cart = {};
+            document.getElementById('order-table-title').innerText = `${activeTable.name} (${activeTable.section})`;
+            document.getElementById('sheet-table-title').innerText = activeTable.name;
+
+            document.getElementById('screen-tables').classList.remove('active');
+            document.getElementById('screen-order').classList.add('active');
+
+            renderCategoryChips();
+            renderMenuItems();
+            updateCartBar();
+        }
+
+        function showTablesScreen() {
+            document.getElementById('screen-order').classList.remove('active');
+            document.getElementById('screen-tables').classList.add('active');
+            loadTables();
+        }
+
+        function renderCategoryChips() {
+            const container = document.getElementById('cat-chips');
+            let html = `<div class="cat-chip ${activeCategoryFilter === 'ALL' ? 'active' : ''}" onclick="filterCategory('ALL')">All Dishes</div>`;
+            allCategories.forEach(cat => {
+                html += `<div class="cat-chip ${activeCategoryFilter === cat.id ? 'active' : ''}" onclick="filterCategory(${cat.id})">${cat.icon} ${cat.name}</div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function filterCategory(catId) {
+            activeCategoryFilter = catId;
+            renderCategoryChips();
+            renderMenuItems();
+        }
+
+        function filterItems() {
+            renderMenuItems();
+        }
+
+        function renderMenuItems() {
+            const container = document.getElementById('menu-items-container');
+            const search = document.getElementById('search-input').value.toLowerCase();
+
+            let items = [];
+            allCategories.forEach(c => {
+                if (activeCategoryFilter === 'ALL' || activeCategoryFilter === c.id) {
+                    items.push(...c.items);
+                }
+            });
+
+            if (search) {
+                items = items.filter(i => i.name.toLowerCase().includes(search));
+            }
+
+            container.innerHTML = items.map(item => {
+                const inCart = cart[item.id];
+                const vegIcon = item.food_type === 'veg' ? '🟢' : '🔴';
+
+                return `
+                    <div class="menu-row">
+                        <div class="item-info">
+                            <div class="item-name">${vegIcon} ${item.name}</div>
+                            <div class="item-price">₹ ${item.price}</div>
+                        </div>
+                        <div>
+                            ${inCart ? `
+                                <div class="qty-picker">
+                                    <button class="btn-qty" onclick="changeQty(${item.id}, -1)">-</button>
+                                    <span style="font-weight: 700;">${inCart.qty}</span>
+                                    <button class="btn-qty" onclick="changeQty(${item.id}, 1)">+</button>
+                                </div>
+                            ` : `
+                                <button class="add-btn" onclick="addToCart(${item.id})">+ ADD</button>
+                            `}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addToCart(itemId) {
+            let found = null;
+            allCategories.forEach(c => {
+                const f = c.items.find(i => i.id === itemId);
+                if (f) found = f;
+            });
+            if (found) {
+                cart[itemId] = { item: found, qty: 1, notes: '' };
+                renderMenuItems();
+                updateCartBar();
+            }
+        }
+
+        function changeQty(itemId, delta) {
+            if (cart[itemId]) {
+                cart[itemId].qty += delta;
+                if (cart[itemId].qty <= 0) {
+                    delete cart[itemId];
+                }
+            }
+            renderMenuItems();
+            updateCartBar();
+        }
+
+        function updateCartBar() {
+            const items = Object.values(cart);
+            const totalCount = items.reduce((acc, c) => acc + c.qty, 0);
+            const totalPrice = items.reduce((acc, c) => acc + (c.qty * c.item.price), 0);
+
+            const bar = document.getElementById('cart-bar');
+            if (totalCount > 0) {
+                bar.style.display = 'flex';
+                document.getElementById('cart-count').innerText = totalCount;
+                document.getElementById('cart-total').innerText = totalPrice;
+            } else {
+                bar.style.display = 'none';
+            }
+        }
+
+        function openCartSheet() {
+            const container = document.getElementById('sheet-items-list');
+            const items = Object.values(cart);
+
+            container.innerHTML = items.map(c => `
+                <div class="sheet-row">
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600;">${c.item.name} (₹${c.item.price})</div>
+                        <input type="text" class="note-input" placeholder="Notes (e.g. Spicy, No onion)..." value="${c.notes}" oninput="updateItemNotes(${c.item.id}, this.value)">
+                    </div>
+                    <div class="qty-picker" style="margin-left: 12px;">
+                        <button class="btn-qty" onclick="changeQtySheet(${c.item.id}, -1)">-</button>
+                        <span style="font-weight: 700;">${c.qty}</span>
+                        <button class="btn-qty" onclick="changeQtySheet(${c.item.id}, 1)">+</button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('cart-modal').style.display = 'flex';
+        }
+
+        function updateItemNotes(itemId, notes) {
+            if (cart[itemId]) {
+                cart[itemId].notes = notes;
+            }
+        }
+
+        function changeQtySheet(itemId, delta) {
+            changeQty(itemId, delta);
+            if (Object.keys(cart).length === 0) {
+                closeCartSheet();
+            } else {
+                openCartSheet();
+            }
+        }
+
+        function closeCartSheet() {
+            document.getElementById('cart-modal').style.display = 'none';
+        }
+
+        async function submitKOT() {
+            const items = Object.values(cart).map(c => ({
+                item_id: c.item.id,
+                item_name: c.item.name,
+                price: c.item.price,
+                quantity: c.qty,
+                notes: c.notes
+            }));
+
+            if (items.length === 0 || !activeTable) return;
+
+            const payload = {
+                order_type: "dine_in",
+                table_id: activeTable.id,
+                captain_name: currentCaptain,
+                items: items
+            };
+
+            try {
+                const res = await fetch('/api/orders/punch', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const result = await res.json();
+                closeCartSheet();
+                cart = {};
+                alert(`✅ KOT #${result.kot_number} successfully punched for ${activeTable.name}! Sent to kitchen.`);
+                showTablesScreen();
+            } catch (err) {
+                alert("Failed to send KOT: " + err);
+            }
+        }
+
+        // PWA Installation & Service Worker Logic
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const banner = document.getElementById('install-banner');
+            if (banner) banner.style.display = 'flex';
+        });
+
+        document.getElementById('btn-install')?.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    document.getElementById('install-banner').style.display = 'none';
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/sw.js').catch(err => console.log('SW reg error:', err));
+        }
+
+        window.addEventListener('DOMContentLoaded', initCaptain);
+    </script>
+</body>
+</html>

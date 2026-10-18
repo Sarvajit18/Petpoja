@@ -21,7 +21,14 @@ init_db()
 app = FastAPI(title="Shansara Restaurant POS & Captain App")
 
 # Static directory setup
-STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+import sys
+if getattr(sys, 'frozen', False):
+    STATIC_DIR = os.path.join(getattr(sys, '_MEIPASS', os.path.dirname(sys.executable)), "static")
+    if not os.path.exists(STATIC_DIR):
+        STATIC_DIR = os.path.join(os.path.dirname(sys.executable), "static")
+else:
+    STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+
 os.makedirs(STATIC_DIR, exist_ok=True)
 os.makedirs(os.path.join(STATIC_DIR, "css"), exist_ok=True)
 os.makedirs(os.path.join(STATIC_DIR, "js"), exist_ok=True)
@@ -50,15 +57,29 @@ manager = ConnectionManager()
 
 # ----------------- Utility Functions -----------------
 def get_local_ip():
-    """Detect LAN IP address so Captains can connect over WiFi/Ethernet."""
+    """Detect LAN / Wi-Fi IP address so Captains can connect over the same Wi-Fi."""
+    # 1. Try UDP connection to gateway or outside
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.settimeout(0.5)
         s.connect(("8.8.8.8", 80))
         ip = s.getsockname()[0]
         s.close()
-        return ip
+        if ip and not ip.startswith("127."):
+            return ip
     except Exception:
-        return "127.0.0.1"
+        pass
+
+    # 2. Try enumerating network adapter IPs
+    try:
+        hostname = socket.gethostname()
+        for ip in socket.gethostbyname_ex(hostname)[2]:
+            if not ip.startswith("127.") and not ip.startswith("169.254."):
+                return ip
+    except Exception:
+        pass
+
+    return "127.0.0.1"
 
 def print_escpos_raw(printer_ip: str, printer_port: int, raw_bytes: bytes):
     """Send ESC/POS raw bytes over network (Ethernet thermal printer)."""
@@ -732,7 +753,7 @@ def get_pairing_info():
         "ip": ip,
         "port": 8000,
         "captain_url": f"http://{ip}:8000/captain",
-        "pairing_code": f"PET-{ip.split('.')[-1]}-8000",
+        "pairing_code": f"SHAN-{ip.split('.')[-1]}-8000",
         "expires_in_seconds": 295
     }
 

@@ -8,11 +8,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command ^
   "$WshShell = New-Object -ComObject WScript.Shell; " ^
   "$DesktopPath = [Environment]::GetFolderPath('Desktop'); " ^
   "$Shortcut = $WshShell.CreateShortcut(\"$DesktopPath\Shansara POS.lnk\"); " ^
-  "$Shortcut.TargetPath = 'wscript.exe'; " ^
-  "$Shortcut.Arguments = '\"%CD%\Petpooja_POS.vbs\"'; " ^
-  "$Shortcut.WorkingDirectory = '%CD%'; " ^
+  "$Shortcut.TargetPath = '%CD%\dist\Shansara_POS\Shansara_POS.exe'; " ^
+  "$Shortcut.WorkingDirectory = '%CD%\dist\Shansara_POS'; " ^
+  "$Shortcut.IconLocation = '%CD%\static\logo.ico'; " ^
   "$Shortcut.Description = 'Shansara Restaurant POS & Billing Station'; " ^
   "$Shortcut.Save(); " ^
-  "Write-Host 'Shansara POS shortcut successfully placed on your Desktop!' -ForegroundColor Green"
+  "Write-Host 'Shansara POS shortcut with official 11 TO 11 icon successfully placed on your Desktop!' -ForegroundColor Green"
 
 pause

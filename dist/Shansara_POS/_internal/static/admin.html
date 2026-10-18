@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shansara Admin - Reports & Management</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <style>
+        :root {
+            --bg-dark: #10131a;
+            --bg-panel: #181d26;
+            --bg-card: #222938;
+            --border-color: #2e3748;
+            --primary: #ff5722;
+            --green: #10b981;
+            --blue: #3b82f6;
+            --amber: #f59e0b;
+            --text-light: #f9fafb;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: var(--bg-panel);
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tabs-nav {
+            display: flex;
+            gap: 12px;
+            background: var(--bg-panel);
+            padding: 10px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .tab-btn.active {
+            background: var(--bg-card);
+            color: #fff;
+        }
+
+        .content {
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .stat-title {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .stat-val {
+            font-size: 28px;
+            font-weight: 800;
+            margin-top: 6px;
+        }
+
+        /* Two columns */
+        .dash-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .panel-box {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .box-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            text-align: left;
+            color: var(--text-muted);
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Form styles */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .btn-save {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div style="font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 10px;">
+            <img src="/static/logo.png" alt="Shansara" style="width: 30px; height: 30px; object-fit: contain; border-radius: 6px; background: #000;">
+            <span>Shansara Management & Reports</span>
+        </div>
+        <a href="/" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 14px;">← Back to Main Billing Station</a>
+    </header>
+
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('reports')">📊 Today's Sales Reports</button>
+        <button class="tab-btn" onclick="switchTab('settings')">🏢 Restaurant & Bill Settings</button>
+        <button class="tab-btn" onclick="switchTab('printer')">🖨️ Ethernet Thermal Printer</button>
+    </div>
+
+    <div class="content">
+
+        <!-- Reports View -->
+        <div id="view-reports">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Today's Revenue</div>
+                    <div class="stat-val" style="color: var(--green);">₹ <span id="stat-revenue">0.00</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Settled Invoices</div>
+                    <div class="stat-val" style="color: var(--blue);" id="stat-bills">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">GST Tax Collected</div>
+                    <div class="stat-val" style="color: var(--amber);">₹ <span id="stat-gst">0.00</span></div>
+                </div>
+            </div>
+
+            <div class="dash-layout">
+                <div class="panel-box">
+                    <div class="box-title">💳 Payment Modes Breakdown</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mode</th>
+                                <th>Bills</th>
+                                <th style="text-align: right;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pay-mode-body"></tbody>
+                    </table>
+                </div>
+
+                <div class="panel-box">
+                    <div class="box-title">🔥 Top Selling Dishes Today</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dish</th>
+                                <th>Quantity</th>
+                                <th style="text-align: right;">Revenue</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-items-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings View -->
+        <div id="view-settings" style="display: none;">
+            <div class="panel-box" style="max-width: 600px;">
+                <div class="box-title">Restaurant Bill Configuration</div>
+                <div class="form-group">
+                    <label>Restaurant Name</label>
+                    <input type="text" id="set-name">
+                </div>
+                <div class="form-group">
+                    <label>Address / Location</label>
+                    <input type="text" id="set-address">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" id="set-phone">
+                </div>
+                <div class="form-group">
+                    <label>GSTIN</label>
+                    <input type="text" id="set-gstin">
+                </div>
+                <div class="form-group">
+                    <label>GST Rate (%)</label>
+                    <input type="number" step="0.1" id="set-gst-percent">
+                </div>
+                <button class="btn-save" onclick="saveSettings()">Save Configuration</button>
+            </div>
+        </div>
+
+        <!-- Ethernet Printer View -->
+        <div id="view-printer" style="display: none;">
+            <div class="panel-box" style="max-width: 600px;">
+                <div class="box-title">Ethernet (LAN) Thermal Receipt Printer</div>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+                    Shansara communicates directly with ESC/POS network thermal printers (Epson, TVS, Citizen, Rugtek) over raw TCP/IP port 9100.
+                </p>
+                <div class="form-group">
+                    <label>Printer IP Address (e.g., 192.168.1.200)</label>
+                    <input type="text" id="set-printer-ip" placeholder="192.168.1.200">
+                </div>
+                <div class="form-group">
+                    <label>Port (Default 9100)</label>
+                    <input type="number" id="set-printer-port" value="9100">
+                </div>
+                <button class="btn-save" onclick="savePrinterSettings()">Save Printer Setup</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('view-reports').style.display = tab === 'reports' ? 'block' : 'none';
+            document.getElementById('view-settings').style.display = tab === 'settings' ? 'block' : 'none';
+            document.getElementById('view-printer').style.display = tab === 'printer' ? 'block' : 'none';
+        }
+
+        async function loadReports() {
+            const res = await fetch('/api/reports/today');
+            const data = await res.json();
+
+            document.getElementById('stat-revenue').innerText = data.total_sales.toFixed(2);
+            document.getElementById('stat-bills').innerText = data.total_bills;
+            document.getElementById('stat-gst').innerText = data.total_gst.toFixed(2);
+
+            const payBody = document.getElementById('pay-mode-body');
+            payBody.innerHTML = (data.payments.length ? data.payments : [{payment_mode: 'None', count: 0, amount: 0}]).map(p => `
+                <tr>
+                    <td style="text-transform: capitalize; font-weight:600;">${p.payment_mode}</td>
+                    <td>${p.count}</td>
+                    <td style="text-align: right; font-weight:600;">₹ ${p.amount.toFixed(2)}</td>
+                </tr>
+            `).join('');
+
+            const topBody = document.getElementById('top-items-body');
+            topBody.innerHTML = (data.top_items.length ? data.top_items : [{item_name: 'No sales yet', total_qty: 0, total_revenue: 0}]).map(i => `
+                <tr>
+                    <td style="font-weight:600;">${i.item_name}</td>
+                    <td>${i.total_qty}</td>
+                    <td style="text-align: right; font-weight:600;">₹ ${i.total_revenue.toFixed(2)}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function loadSettings() {
+            const res = await fetch('/api/settings');
+            const s = await res.json();
+            document.getElementById('set-name').value = s.restaurant_name || '';
+            document.getElementById('set-address').value = s.address || '';
+            document.getElementById('set-phone').value = s.phone || '';
+            document.getElementById('set-gstin').value = s.gstin || '';
+            document.getElementById('set-gst-percent').value = s.gst_percent || '5.0';
+            document.getElementById('set-printer-ip').value = s.thermal_printer_ip || '';
+        }
+
+        async function saveSettings() {
+            const payload = {
+                restaurant_name: document.getElementById('set-name').value,
+                address: document.getElementById('set-address').value,
+                phone: document.getElementById('set-phone').value,
+                gstin: document.getElementById('set-gstin').value,
+                gst_percent: document.getElementById('set-gst-percent').value
+            };
+            await fetch('/api/settings', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            alert("Settings updated successfully!");
+        }
+
+        async function savePrinterSettings() {
+            const payload = {
+                thermal_printer_ip: document.getElementById('set-printer-ip').value,
+                thermal_printer_port: document.getElementById('set-printer-port').value
+            };
+            await fetch('/api/settings', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            alert("Printer settings updated successfully!");
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadReports();
+            loadSettings();
+        });
+    </script>
+</body>
+</html>

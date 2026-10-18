@@ -1,4 +1,4 @@
-package com.petpooja.captain;
+package com.shansara.captain;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private WebView webView;
     private SwipeRefreshLayout swipeRefresh;
     private SharedPreferences prefs;
-    private static final String PREF_NAME = "PetpoojaCaptainPrefs";
+    private static final String PREF_NAME = "ShansaraCaptainPrefs";
     private static final String KEY_SERVER_IP = "server_ip";
 
     @Override
@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
         swipeRefresh.setOnRefreshListener(() -> webView.reload());
 
-        // Long press on back key or action to configure IP
         loadCaptainUrl();
     }
 
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadCaptainUrl() {
         String savedIp = prefs.getString(KEY_SERVER_IP, "");
         if (savedIp.isEmpty()) {
-            showIpConfigDialog("Welcome to Petpooja Captain. Please enter your Main Billing PC IP address:");
+            showIpConfigDialog("Welcome to Shansara Captain. Please enter your Main Billing PC IP address (e.g. 192.168.1.5:8000):");
         } else {
             String url = "http://" + savedIp + "/captain";
             webView.loadUrl(url);
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showIpConfigDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Billing Station Connection");
+        builder.setTitle("Shansara POS Connection");
         builder.setMessage(message);
 
         final EditText input = new EditText(this);
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.setNegativeButton("Configure Later", (dialog, which) -> dialog.cancel());
         builder.setCancelable(false);
         builder.show();
     }

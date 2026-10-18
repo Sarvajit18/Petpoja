@@ -1,34 +1,16 @@
 @echo off
 setlocal
 
-TITLE Shansara POS Desktop Software
+TITLE Shansara POS Desktop
 cd /d "%~dp0"
 
-echo Starting Shansara POS Server...
-
-:: Start server in background if not running
-netstat -ano | findstr :8000 >nul 2>&1
-if errorlevel 1 (
+if exist "dist\Shansara_POS\Shansara_POS.exe" (
+    start "" "dist\Shansara_POS\Shansara_POS.exe"
+) else (
+    echo Starting Shansara POS Server via Python...
     start /B python server.py >nul 2>&1
     timeout /t 2 /nobreak >nul
+    start "" "http://localhost:8000"
 )
 
-:: Detect Edge or Chrome for Desktop App Window Mode
-set "EDGE_EXE=C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
-set "CHROME_EXE=C:\Program Files\Google\Chrome\Application\chrome.exe"
-
-if exist "%EDGE_EXE%" (
-    start "" "%EDGE_EXE%" --app="http://localhost:8000" --window-size=1280,850
-    goto done
-)
-
-if exist "%CHROME_EXE%" (
-    start "" "%CHROME_EXE%" --app="http://localhost:8000" --window-size=1280,850
-    goto done
-)
-
-:: Fallback if neither found
-start "" "http://localhost:8000"
-
-:done
 endlocal

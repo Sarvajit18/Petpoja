@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.petpooja.captain'
+    namespace 'com.shansara.captain'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.petpooja.captain"
+        applicationId "com.shansara.captain"
         minSdk 21
         targetSdk 34
         versionCode 1
