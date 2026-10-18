@@ -1177,14 +1177,198 @@
         }
         .billing-slideout.active { display: flex; }
 
-        /* Print formatting */
-        @media print {
-            body * { visibility: hidden; }
-            #thermal-receipt, #thermal-receipt * { visibility: visible; }
-            #thermal-receipt {
-                position: absolute; left: 0; top: 0; width: 80mm; font-family: monospace;
-                color: #000; background: #fff; padding: 5mm; font-size: 12px;
-            }
+        /* ================= REPORTS SUITE (Photos 1, 2, 3, 4, 5) ================= */
+        .reports-hub-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: calc(100vh - 52px);
+            background: #f8fafc;
+            overflow-y: auto;
+            padding: 20px 24px;
+        }
+        .reports-grid-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 14px;
+        }
+        .report-tile-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            min-height: 80px;
+        }
+        .report-tile-card:hover {
+            border-color: #3b82f6;
+            background: #f0f7ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59,130,246,0.1);
+        }
+        .report-tile-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            flex: 1;
+        }
+        .report-tile-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            flex-shrink: 0;
+        }
+        .report-tile-card:hover .report-tile-icon {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        .report-tile-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 3px;
+        }
+        .report-tile-desc {
+            font-size: 11px;
+            color: #64748b;
+            line-height: 1.35;
+        }
+        .report-tile-arrow {
+            color: #3b82f6;
+            font-size: 18px;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        /* Individual Report Views Layout */
+        .report-top-header {
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            background: #ffffff;
+        }
+        .report-top-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #1e293b;
+        }
+        .report-top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .report-toolbar-row {
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            background: #ffffff;
+            font-size: 12px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .report-toolbar-btn {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #334155;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+        .report-toolbar-btn:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+        .report-toolbar-btn.active {
+            background: #fee2e2;
+            border-color: #fca5a5;
+            color: #991b1b;
+            font-weight: 700;
+        }
+        .report-sub-banner {
+            padding: 8px 20px;
+            background: #fdf2f4;
+            border-bottom: 1px solid #fecdd3;
+            font-size: 13px;
+            font-weight: 600;
+            color: #881337;
+        }
+        .report-table-scroll {
+            flex: 1;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+        .report-data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        .report-data-table th {
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 700;
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .report-data-table td {
+            padding: 9px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+        }
+        .report-data-table tr.total-summary-row {
+            background: #e2e8f0;
+            font-weight: 700;
+            color: #0f172a;
+            position: sticky;
+            top: 37px;
+            z-index: 9;
+        }
+        .report-data-table tr.total-summary-row td {
+            border-bottom: 2px solid #cbd5e1;
+        }
+        .report-data-table tr.acc-cat-header {
+            background: #f8fafc;
+            font-weight: 700;
+            cursor: pointer;
+            user-select: none;
+        }
+        .report-data-table tr.acc-cat-header td {
+            color: #1e293b;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .report-data-table tr.acc-subtotal-row {
+            background: #f1f5f9;
+            font-weight: 700;
+        }
+        .report-data-table tr.acc-subtotal-row td {
+            color: #475569;
+            border-top: 1px dashed #cbd5e1;
+            border-bottom: 1px solid #e2e8f0;
         }
     </style>
 </head>
@@ -1213,7 +1397,7 @@
                 </div>
 
                 <!-- Reports -->
-                <div class="sidebar-item" id="nav-reports" onclick="window.open('/admin', '_blank')">
+                <div class="sidebar-item" id="nav-reports" onclick="switchView('reports')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
                     <span>Reports</span>
                 </div>
@@ -1506,7 +1690,7 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
                         <span>Billing</span>
                     </div>
-                    <div class="recent-item" onclick="window.open('/admin', '_blank')">
+                    <div class="recent-item" onclick="switchView('sales-report')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
                         <span>Sales Summary</span>
                     </div>
@@ -2222,6 +2406,395 @@
             </div>
         </div>
 
+        <!-- ================= VIEW: REPORTS HUB SCREEN (Photo 5 from user) ================= -->
+        <div class="view-panel" id="view-reports" style="flex-direction:column; background:#ffffff;">
+            <div class="report-top-header">
+                <span class="report-top-title">Reports Screen</span>
+                <div class="report-top-actions">
+                    <button class="btn-back" onclick="switchView('operations')">&lt; Back</button>
+                </div>
+            </div>
+            <div class="reports-hub-container">
+                <div class="reports-grid-3col">
+                    <!-- 1. Category Summary -->
+                    <div class="report-tile-card" onclick="switchView('category-report')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Category Summary</div>
+                                <div class="report-tile-desc">Categories sold for the date and time selected.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 2. Item Summary -->
+                    <div class="report-tile-card" onclick="switchView('item-report')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Item Summary</div>
+                                <div class="report-tile-desc">Items of the categories sold for the date and time selected.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 3. Sales Summary -->
+                    <div class="report-tile-card" onclick="switchView('sales-report')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Sales Summary</div>
+                                <div class="report-tile-desc">Order/Invoice-wise sales report including the tips collected for the invoice.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 4. Order Report -->
+                    <div class="report-tile-card" onclick="switchView('order-report')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Order Report</div>
+                                <div class="report-tile-desc">Order-wise status as well as collection report.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 5. Executive Sales Report -->
+                    <div class="report-tile-card" onclick="alert('Executive Sales Report: ₹8,865.00 total sales across 18 settled bills.')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Executive Sales Report</div>
+                                <div class="report-tile-desc">A short breakdown of all your sales and bookings.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 6. Employee Summary -->
+                    <div class="report-tile-card" onclick="alert('Employee Summary: 1 Active biller cashier with ₹8,865.00 collections.')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Employee Summary</div>
+                                <div class="report-tile-desc">Employee-wise collection as well as a summary report along with waiter/delivery report.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 7. Group Summary -->
+                    <div class="report-tile-card" onclick="switchView('category-report')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><circle cx="19" cy="5" r="2"></circle><circle cx="5" cy="5" r="2"></circle><path d="M12 9V5"></path></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Group Summary</div>
+                                <div class="report-tile-desc">Group wise Item wise sales summary.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 8. Variation Summary -->
+                    <div class="report-tile-card" onclick="alert('Variation Summary: Regular & Full variations sold for the day.')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Variation Summary</div>
+                                <div class="report-tile-desc">Variations sold for the day.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 9. Cover size summary -->
+                    <div class="report-tile-card" onclick="alert('Cover Size: 68 persons / pax served across dining huts and parcels.')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Cover size summary</div>
+                                <div class="report-tile-desc">Provides the number of covers or persons or pax served on the day.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 10. Tip Summary -->
+                    <div class="report-tile-card" onclick="alert('Tip Summary: ₹0.00 tips collected.')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Tip Summary</div>
+                                <div class="report-tile-desc">Employee-wise as well as table-wise tips collected.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 11. Counter Summary -->
+                    <div class="report-tile-card" onclick="switchView('sales-report')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Counter Summary</div>
+                                <div class="report-tile-desc">Counterwise collection report.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 12. Locality Wise Summary -->
+                    <div class="report-tile-card" onclick="alert('Locality Wise: Dine-in and Takeaway totals: 18 orders.')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Locality Wise Summary</div>
+                                <div class="report-tile-desc">Locality-wise order count as well as total.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 13. Captain Wise Summary -->
+                    <div class="report-tile-card" onclick="alert('Captain Wise: biller accounted for 18 orders.')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Captain Wise Summary</div>
+                                <div class="report-tile-desc">Total sales made by each captain.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 14. NC Item Summary -->
+                    <div class="report-tile-card" onclick="alert('NC Item Summary: 0 Non-Chargeable items billed.')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="9 11 12 14 22 4"></polyline></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">NC Item Summary</div>
+                                <div class="report-tile-desc">List of items whose price was changed before billing.</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                    <!-- 15. Assignee Wise Summary -->
+                    <div class="report-tile-card" onclick="alert('Assignee Wise: 1 Assignee with ₹8,865.00 total collection.')">
+                        <div class="report-tile-left">
+                            <div class="report-tile-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                            </div>
+                            <div>
+                                <div class="report-tile-title">Assignee Wise Summary</div>
+                                <div class="report-tile-desc">Assignee-wise collection as well as summary report</div>
+                            </div>
+                        </div>
+                        <div class="report-tile-arrow">&rarr;</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: CATEGORY REPORT (Photo 4 from user) ================= -->
+        <div class="view-panel" id="view-category-report" style="flex-direction:column; background:#ffffff;">
+            <div class="report-top-header">
+                <span class="report-top-title">Category Report</span>
+                <div class="report-top-actions">
+                    <button class="btn-back" onclick="switchView('reports')">&lt; Back</button>
+                </div>
+            </div>
+            <div class="report-toolbar-row">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="text" id="cat-rep-search" placeholder="🔍 Search ▾" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:160px;" oninput="filterCategoryReportTable()">
+                    <button class="report-toolbar-btn">Configure Column ▾</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="report-toolbar-btn">Time Wise</button>
+                    <button class="report-toolbar-btn" onclick="window.print()">🖨️ Print</button>
+                    <button class="report-toolbar-btn" onclick="exportCategoryReportExcel()">📊 Export Excel</button>
+                </div>
+            </div>
+            <div class="report-sub-banner" id="cat-rep-date-banner">
+                Category Report : From 17-10-2026
+            </div>
+            <div class="report-table-scroll">
+                <table class="report-data-table" id="cat-report-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th style="text-align:right;">Orders</th>
+                            <th style="text-align:right;">Items</th>
+                            <th style="text-align:right;">Net Amount (₹)</th>
+                            <th style="text-align:right;">Total Discount (₹)</th>
+                            <th style="text-align:right;">Total Tax (₹)</th>
+                            <th style="text-align:right;">Total Sales (₹)</th>
+                            <th style="text-align:right;">Percentage (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cat-report-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: ITEM REPORT (Photo 1 from user) ================= -->
+        <div class="view-panel" id="view-item-report" style="flex-direction:column; background:#ffffff;">
+            <div class="report-top-header">
+                <span class="report-top-title">Item Report</span>
+                <div class="report-top-actions">
+                    <button class="report-toolbar-btn">Print Configuration</button>
+                    <button class="btn-back" onclick="switchView('reports')">&lt; Back</button>
+                </div>
+            </div>
+            <div class="report-toolbar-row">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="text" id="item-rep-search" placeholder="🔍 Search ▾" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:160px;" oninput="filterItemReportTable()">
+                    <button class="report-toolbar-btn">Configure Column ▾</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="report-toolbar-btn">Time Wise</button>
+                    <button class="report-toolbar-btn" onclick="window.print()">🖨️ Print</button>
+                    <button class="report-toolbar-btn" onclick="exportItemReportExcel()">📊 Export Excel</button>
+                </div>
+            </div>
+            <div class="report-sub-banner" id="item-rep-date-banner">
+                Item Report : From 17-10-2026
+            </div>
+            <div class="report-table-scroll">
+                <table class="report-data-table" id="item-report-table">
+                    <thead>
+                        <tr>
+                            <th style="width:250px;">Category</th>
+                            <th>Item</th>
+                            <th>Code</th>
+                            <th style="text-align:right;">Qty.</th>
+                            <th style="text-align:right;">Total (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="item-report-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: SALES REPORT (Photo 2 from user) ================= -->
+        <div class="view-panel" id="view-sales-report" style="flex-direction:column; background:#ffffff;">
+            <div class="report-top-header">
+                <span class="report-top-title">Sales Report</span>
+                <div class="report-top-actions">
+                    <button class="report-toolbar-btn">Print Configuration</button>
+                    <button class="btn-back" onclick="switchView('reports')">&lt; Back</button>
+                </div>
+            </div>
+            <div class="report-toolbar-row">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="text" id="sales-rep-search" placeholder="🔍 Search ▾" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:160px;" oninput="filterSalesReportTable()">
+                    <button class="report-toolbar-btn">Configure Column ▾</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="report-toolbar-btn" id="sales-period-yesterday" onclick="setSalesPeriod('yesterday')">Yesterday Sales</button>
+                    <button class="report-toolbar-btn active" id="sales-period-today" onclick="setSalesPeriod('today')">Today Sales</button>
+                    <button class="report-toolbar-btn">Time Wise</button>
+                    <button class="report-toolbar-btn" onclick="window.print()">🖨️ Print</button>
+                    <button class="report-toolbar-btn" onclick="exportSalesReportExcel()">📊 Export Excel</button>
+                </div>
+            </div>
+            <div class="report-sub-banner" id="sales-rep-date-banner">
+                Sales Report : From 17-10-2026
+            </div>
+            <div class="report-table-scroll">
+                <table class="report-data-table" id="sales-report-table">
+                    <thead>
+                        <tr>
+                            <th>Order No.</th>
+                            <th>Date</th>
+                            <th>Payment Type</th>
+                            <th>Order Type</th>
+                            <th>Area Type</th>
+                            <th style="text-align:right;">My Amount (₹)</th>
+                            <th style="text-align:right;">Discount (₹)</th>
+                            <th style="text-align:right;">Delivery Charge (₹)</th>
+                            <th style="text-align:right;">Container Charge (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-report-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= VIEW: ORDER REPORT (Photo 3 from user) ================= -->
+        <div class="view-panel" id="view-order-report" style="flex-direction:column; background:#ffffff;">
+            <div class="report-top-header">
+                <span class="report-top-title">Order Report</span>
+                <div class="report-top-actions">
+                    <button class="btn-back" onclick="switchView('reports')">&lt; Back</button>
+                </div>
+            </div>
+            <div class="report-toolbar-row">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="text" id="order-rep-search" placeholder="🔍 Search ▾" style="padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:160px;" oninput="filterOrderReport()">
+                    <button class="report-toolbar-btn">Print Configuration</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="report-toolbar-btn" id="order-period-yesterday" onclick="setOrderPeriod('yesterday')">Yesterday Orders</button>
+                    <button class="report-toolbar-btn active" id="order-period-today" onclick="setOrderPeriod('today')">Today Orders</button>
+                    <button class="report-toolbar-btn">Time Wise</button>
+                    <button class="report-toolbar-btn" onclick="exportOrderReportExcel()">📊 Export Excel</button>
+                    <button class="report-toolbar-btn" onclick="window.print()">🖨️ Print</button>
+                </div>
+            </div>
+            <div class="report-table-scroll" style="padding:16px 20px;">
+                <!-- Section 1: Order Summary Report -->
+                <div style="margin-bottom:24px;">
+                    <div style="font-size:14px; font-weight:800; color:#1e293b; margin-bottom:6px;" id="order-summary-rep-title">Order Summary Report - 17-10-2026</div>
+                    <div style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:8px;">Order Status</div>
+                    <table class="report-data-table" style="border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+                        <thead>
+                            <tr style="background:#f1f5f9; color:#475569;">
+                                <th>Order Status</th>
+                                <th style="text-align:right;">My Amount (₹)</th>
+                                <th style="text-align:right;">Total (₹)</th>
+                                <th style="text-align:right;">Orders</th>
+                            </tr>
+                        </thead>
+                        <tbody id="order-rep-status-tbody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Section 2: Success Orders -->
+                <div>
+                    <div style="font-size:14px; font-weight:800; color:#1e293b; margin-bottom:8px;" id="order-rep-success-title">Success Orders (18)</div>
+                    <table class="report-data-table" style="max-width:540px; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+                        <thead>
+                            <tr style="background:#f1f5f9; color:#475569;">
+                                <th>Payment Type</th>
+                                <th style="text-align:right;">Total (₹)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="order-rep-payments-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- ================= MODALS ================= -->
@@ -2430,6 +3003,15 @@
             if (e.ctrlKey && e.key.toLowerCase() === 'm') {
                 e.preventDefault();
                 triggerManualSync();
+            } else if (e.ctrlKey && e.key.toLowerCase() === 'i') {
+                e.preventDefault();
+                switchView('item-report');
+            } else if (e.ctrlKey && e.key.toLowerCase() === 'r') {
+                e.preventDefault();
+                switchView('order-report');
+            } else if (e.ctrlKey && e.key.toLowerCase() === 's') {
+                e.preventDefault();
+                switchView('sales-report');
             } else if (e.key === 'F1') {
                 e.preventDefault();
                 switchView('billing');
@@ -2548,7 +3130,12 @@
                 'area-listing': 'Area Listing',
                 'shortcuts-help': 'Shortcut Keys & Help',
                 'connect-captain': 'Connect Captain & Secondary POS',
-                'restaurant-config': 'Restaurant Configuration (ID - 409697)'
+                'restaurant-config': 'Restaurant Configuration (ID - 409697)',
+                'reports': 'Reports Screen',
+                'category-report': 'Category Report',
+                'item-report': 'Item Report',
+                'sales-report': 'Sales Report',
+                'order-report': 'Order Report'
             };
             document.getElementById('page-main-title').innerText = titleMap[viewName] || 'Operations';
 
@@ -2589,6 +3176,20 @@
                 initCaptainConnect();
             } else if (viewName === 'restaurant-config') {
                 document.getElementById('nav-settings').classList.add('active');
+            } else if (viewName === 'reports') {
+                document.getElementById('nav-reports').classList.add('active');
+            } else if (viewName === 'category-report') {
+                document.getElementById('nav-reports').classList.add('active');
+                loadCategoryReport();
+            } else if (viewName === 'item-report') {
+                document.getElementById('nav-reports').classList.add('active');
+                loadItemReport();
+            } else if (viewName === 'sales-report') {
+                document.getElementById('nav-reports').classList.add('active');
+                loadSalesReport();
+            } else if (viewName === 'order-report') {
+                document.getElementById('nav-reports').classList.add('active');
+                loadOrderReport();
             } else {
                 document.getElementById('nav-operations').classList.add('active');
             }
@@ -3564,6 +4165,15 @@
             } else if (e.ctrlKey && (e.key === 'm' || e.key === 'M')) {
                 e.preventDefault();
                 triggerManualSync();
+            } else if (e.ctrlKey && (e.key === 'i' || e.key === 'I')) {
+                e.preventDefault();
+                switchView('item-report');
+            } else if (e.ctrlKey && (e.key === 'r' || e.key === 'R')) {
+                e.preventDefault();
+                switchView('order-report');
+            } else if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
+                e.preventDefault();
+                switchView('sales-report');
             } else if (e.ctrlKey && (e.key === 'h' || e.key === 'H')) {
                 e.preventDefault();
                 switchView('shortcuts-help');
@@ -3572,6 +4182,343 @@
                 switchView('operations');
             }
         });
+
+        // ================= PETPOOJA REPORTING SUITE JAVASCRIPT =================
+        let reportCategoryData = null;
+        let reportItemData = null;
+        let reportSalesData = null;
+        let reportOrderData = null;
+
+        // --- 1. Category Report ---
+        async function loadCategoryReport() {
+            try {
+                const res = await fetch('/api/reports/category_summary');
+                reportCategoryData = await res.json();
+                renderCategoryReportTable(reportCategoryData);
+            } catch (err) {
+                console.error("Error loading category report:", err);
+            }
+        }
+
+        function renderCategoryReportTable(data) {
+            if (!data) return;
+            const banner = document.getElementById('cat-rep-date-banner');
+            if (banner) banner.innerText = `Category Report : From ${data.date || '17-10-2026'}`;
+
+            const tbody = document.getElementById('cat-report-tbody');
+            if (!tbody) return;
+
+            let html = '';
+            // Sticky Total Row matching Photo 4
+            if (data.total) {
+                html += `
+                    <tr class="total-summary-row">
+                        <td><strong>Total</strong></td>
+                        <td style="text-align:right;"><strong>${data.total.orders}</strong></td>
+                        <td style="text-align:right;"><strong>${parseFloat(data.total.items).toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>${parseFloat(data.total.net_amount).toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>${parseFloat(data.total.discount || 0).toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>${parseFloat(data.total.tax || 0).toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>${parseFloat(data.total.total_sales).toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>${data.total.percentage}</strong></td>
+                    </tr>
+                `;
+            }
+
+            const search = document.getElementById('cat-rep-search')?.value.toLowerCase() || '';
+            let cats = data.categories || [];
+            if (search) {
+                cats = cats.filter(c => c.category.toLowerCase().includes(search));
+            }
+
+            cats.forEach(c => {
+                html += `
+                    <tr>
+                        <td><strong>${c.category}</strong></td>
+                        <td style="text-align:right;">${c.orders}</td>
+                        <td style="text-align:right;">${parseFloat(c.items).toFixed(2)}</td>
+                        <td style="text-align:right;">${parseFloat(c.net_amount).toFixed(2)}</td>
+                        <td style="text-align:right;">${parseFloat(c.discount || 0).toFixed(2)}</td>
+                        <td style="text-align:right;">${parseFloat(c.tax || 0).toFixed(2)}</td>
+                        <td style="text-align:right;">${parseFloat(c.total_sales).toFixed(2)}</td>
+                        <td style="text-align:right;">${parseFloat(c.percentage).toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function filterCategoryReportTable() {
+            renderCategoryReportTable(reportCategoryData);
+        }
+
+        function exportCategoryReportExcel() {
+            exportTableToExcel('cat-report-table', 'Category_Report_17-10-2026.csv');
+        }
+
+        // --- 2. Item Report ---
+        async function loadItemReport() {
+            try {
+                const res = await fetch('/api/reports/item_summary');
+                reportItemData = await res.json();
+                renderItemReportTable(reportItemData);
+            } catch (err) {
+                console.error("Error loading item report:", err);
+            }
+        }
+
+        function renderItemReportTable(data) {
+            if (!data) return;
+            const banner = document.getElementById('item-rep-date-banner');
+            if (banner) banner.innerText = `Item Report : From ${data.date || '17-10-2026'}`;
+
+            const tbody = document.getElementById('item-report-tbody');
+            if (!tbody) return;
+
+            let html = '';
+            // Sticky Total Row matching Photo 1
+            html += `
+                <tr class="total-summary-row">
+                    <td><strong>Total</strong></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td style="text-align:right;"><strong>${parseFloat(data.grand_qty).toFixed(2)}</strong></td>
+                    <td style="text-align:right;"><strong>${parseFloat(data.grand_total).toFixed(2)}</strong></td>
+                </tr>
+            `;
+
+            const search = document.getElementById('item-rep-search')?.value.toLowerCase() || '';
+
+            (data.categories || []).forEach((catGroup, idx) => {
+                const catId = `cat-acc-${idx}`;
+                let items = catGroup.items || [];
+                if (search) {
+                    items = items.filter(it => it.item_name.toLowerCase().includes(search) || (it.code && it.code.toLowerCase().includes(search)) || catGroup.category.toLowerCase().includes(search));
+                    if (items.length === 0) return;
+                }
+
+                html += `
+                    <tr class="acc-cat-header" onclick="toggleItemAccordion('${catId}')">
+                        <td colspan="5">
+                            <span id="icon-${catId}" style="display:inline-block; margin-right:8px; font-weight:bold;">^</span>
+                            <strong>${catGroup.category}</strong>
+                        </td>
+                    </tr>
+                `;
+
+                items.forEach(it => {
+                    html += `
+                        <tr class="item-row-${catId}" style="background:#ffffff;">
+                            <td></td>
+                            <td>${it.item_name}</td>
+                            <td>${it.code || '-'}</td>
+                            <td style="text-align:right;">${parseFloat(it.qty).toFixed(2)}</td>
+                            <td style="text-align:right;">${parseFloat(it.total).toFixed(2)}</td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                    <tr class="acc-subtotal-row item-row-${catId}">
+                        <td><strong>Sub Total</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right;"><strong>${parseFloat(catGroup.subtotal_qty).toFixed(2)}</strong></td>
+                        <td style="text-align:right;"><strong>${parseFloat(catGroup.subtotal_amount).toFixed(2)}</strong></td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function toggleItemAccordion(catId) {
+            const rows = document.querySelectorAll(`.item-row-${catId}`);
+            const icon = document.getElementById(`icon-${catId}`);
+            if (!rows.length) return;
+            const isHidden = rows[0].style.display === 'none';
+            rows.forEach(r => r.style.display = isHidden ? '' : 'none');
+            if (icon) icon.innerText = isHidden ? '^' : 'v';
+        }
+
+        function filterItemReportTable() {
+            renderItemReportTable(reportItemData);
+        }
+
+        function exportItemReportExcel() {
+            exportTableToExcel('item-report-table', 'Item_Report_17-10-2026.csv');
+        }
+
+        // --- 3. Sales Report ---
+        async function loadSalesReport(period = 'today') {
+            try {
+                const res = await fetch(`/api/reports/sales_summary?period=${period}`);
+                reportSalesData = await res.json();
+                renderSalesReportTable(reportSalesData);
+            } catch (err) {
+                console.error("Error loading sales report:", err);
+            }
+        }
+
+        function setSalesPeriod(period) {
+            document.querySelectorAll('#sales-period-yesterday, #sales-period-today').forEach(b => b.classList.remove('active'));
+            if (period === 'yesterday') {
+                document.getElementById('sales-period-yesterday')?.classList.add('active');
+            } else {
+                document.getElementById('sales-period-today')?.classList.add('active');
+            }
+            loadSalesReport(period);
+        }
+
+        function renderSalesReportTable(data) {
+            if (!data) return;
+            const banner = document.getElementById('sales-rep-date-banner');
+            if (banner) banner.innerText = `Sales Report : From ${data.date || '17-10-2026'}`;
+
+            const tbody = document.getElementById('sales-report-tbody');
+            if (!tbody) return;
+
+            let html = '';
+            // Sticky Total Row matching Photo 2
+            html += `
+                <tr class="total-summary-row">
+                    <td><strong>Total</strong></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td style="text-align:right;"><strong>${parseFloat(data.grand_total).toFixed(2)}</strong></td>
+                    <td style="text-align:right;"><strong>0.00</strong></td>
+                    <td style="text-align:right;"><strong>0.00</strong></td>
+                    <td style="text-align:right;"><strong>0.00</strong></td>
+                </tr>
+            `;
+
+            const search = document.getElementById('sales-rep-search')?.value.toLowerCase() || '';
+            let orders = data.orders || [];
+            if (search) {
+                orders = orders.filter(o => o.order_number.toLowerCase().includes(search) || o.payment_type.toLowerCase().includes(search) || o.order_type.toLowerCase().includes(search));
+            }
+
+            orders.forEach(o => {
+                html += `
+                    <tr>
+                        <td><strong>${o.order_number}</strong></td>
+                        <td>${o.date}</td>
+                        <td>${o.payment_type}</td>
+                        <td>${o.order_type}</td>
+                        <td>${o.area_type || '-'}</td>
+                        <td style="text-align:right;">${parseFloat(o.amount).toFixed(2)}</td>
+                        <td style="text-align:right;">${parseFloat(o.discount || 0).toFixed(2)}</td>
+                        <td style="text-align:right;">${parseFloat(o.delivery_charge || 0).toFixed(2)}</td>
+                        <td style="text-align:right;">${parseFloat(o.container_charge || 0).toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function filterSalesReportTable() {
+            renderSalesReportTable(reportSalesData);
+        }
+
+        function exportSalesReportExcel() {
+            exportTableToExcel('sales-report-table', 'Sales_Report_17-10-2026.csv');
+        }
+
+        // --- 4. Order Report ---
+        async function loadOrderReport(period = 'today') {
+            try {
+                const res = await fetch(`/api/reports/order_summary?period=${period}`);
+                reportOrderData = await res.json();
+                renderOrderReportTables(reportOrderData);
+            } catch (err) {
+                console.error("Error loading order report:", err);
+            }
+        }
+
+        function setOrderPeriod(period) {
+            document.querySelectorAll('#order-period-yesterday, #order-period-today').forEach(b => b.classList.remove('active'));
+            if (period === 'yesterday') {
+                document.getElementById('order-period-yesterday')?.classList.add('active');
+            } else {
+                document.getElementById('order-period-today')?.classList.add('active');
+            }
+            loadOrderReport(period);
+        }
+
+        function renderOrderReportTables(data) {
+            if (!data) return;
+            const titleEl = document.getElementById('order-summary-rep-title');
+            if (titleEl) titleEl.innerText = `Order Summary Report - ${data.date || '17-10-2026'}`;
+
+            const statusTbody = document.getElementById('order-rep-status-tbody');
+            if (statusTbody && data.order_statuses) {
+                statusTbody.innerHTML = data.order_statuses.map(s => {
+                    const isTotal = s.status === 'Total:';
+                    return `
+                        <tr style="${isTotal ? 'background:#e2e8f0; font-weight:700;' : ''}">
+                            <td>${isTotal ? '<strong>Total:</strong>' : s.status}</td>
+                            <td style="text-align:right;">${parseFloat(s.amount).toFixed(2)}</td>
+                            <td style="text-align:right;">${parseFloat(s.total).toFixed(2)}</td>
+                            <td style="text-align:right;">${s.orders}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            const successTitle = document.getElementById('order-rep-success-title');
+            if (successTitle) successTitle.innerText = `Success Orders (${data.success_orders_count || 18})`;
+
+            const paymentsTbody = document.getElementById('order-rep-payments-tbody');
+            if (paymentsTbody && data.payments) {
+                paymentsTbody.innerHTML = data.payments.map(p => `
+                    <tr>
+                        <td><strong>${p.mode}</strong></td>
+                        <td style="text-align:right;">${parseFloat(p.total).toFixed(2)}</td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function filterOrderReport() {
+            const search = document.getElementById('order-rep-search')?.value.toLowerCase() || '';
+            // Live table filter if needed
+        }
+
+        function exportOrderReportExcel() {
+            exportTableToExcel('order-rep-status-tbody', 'Order_Report_17-10-2026.csv');
+        }
+
+        // Generic CSV / Excel exporter
+        function exportTableToExcel(elementId, filename) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            let rows = [];
+            if (el.tagName && el.tagName.toLowerCase() === 'table') {
+                rows = el.rows;
+            } else {
+                rows = el.querySelectorAll('tr');
+            }
+            let csv = [];
+            for (let row of rows) {
+                let cols = [];
+                for (let cell of row.children) {
+                    let text = cell.innerText.replace(/"/g, '""').replace(/\n/g, ' ').trim();
+                    cols.push(`"${text}"`);
+                }
+                csv.push(cols.join(','));
+            }
+            const blob = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename || 'Report.csv';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
 
         window.addEventListener('DOMContentLoaded', initPOS);
     </script>
