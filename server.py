@@ -2,7 +2,7 @@ import os
 import sys
 import json
 import socket
-from datetime import datetime
+from datetime import datetime, timedelta, date
 from typing import List, Optional
 
 import io
@@ -92,6 +92,41 @@ def print_escpos_raw(printer_ip: str, printer_port: int, raw_bytes: bytes):
             return True, "Printed successfully"
     except Exception as e:
         return False, str(e)
+
+def get_business_day_info():
+    """Return the active business date, cutoff hour, start/end timestamps, and friendly display."""
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT value FROM settings WHERE key = 'business_day_cutoff_hour'")
+    row = cursor.fetchone()
+    conn.close()
+    cutoff_hour = int(row[0]) if row and str(row[0]).isdigit() else 0
+
+    now = datetime.now()
+    if cutoff_hour > 0:
+        if now.hour < cutoff_hour:
+            b_date = (now - timedelta(days=1)).date()
+        else:
+            b_date = now.date()
+        start_dt = datetime(b_date.year, b_date.month, b_date.day, cutoff_hour, 0, 0)
+        end_dt = start_dt + timedelta(days=1) - timedelta(seconds=1)
+    else:
+        # Standard calendar day cutoff at 00:00:00 (12 AM Midnight)
+        b_date = now.date()
+        start_dt = datetime(b_date.year, b_date.month, b_date.day, 0, 0, 0)
+        end_dt = datetime(b_date.year, b_date.month, b_date.day, 23, 59, 59)
+
+    cutoff_lbl = "12:00 AM (Midnight)" if cutoff_hour == 0 else ("12:00 PM (Noon)" if cutoff_hour == 12 else f"{cutoff_hour:02d}:00")
+
+    return {
+        "business_date": b_date.strftime("%Y-%m-%d"),
+        "business_date_display": b_date.strftime("%a, %d %b %Y"),
+        "cutoff_hour": cutoff_hour,
+        "cutoff_label": cutoff_lbl,
+        "start_time": start_dt.strftime("%Y-%m-%d %H:%M:%S"),
+        "end_time": end_dt.strftime("%Y-%m-%d %H:%M:%S"),
+        "now": now.strftime("%Y-%m-%d %H:%M:%S")
+    }
 
 # ----------------- Request Models -----------------
 class OrderItemIn(BaseModel):
@@ -1264,11 +1299,48 @@ def get_assignee_summary():
         "sub_total": 3675.0
     }
 
-@app.get("/api/orders/all")
-def get_all_orders():
+@app.get("/api/business_day/info")
+def api_get_business_day():
+    return get_business_day_info()
+
+@app.post("/api/business_day/set_cutoff")
+def api_set_business_day_cutoff(cutoff_hour: int = 0):
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM orders ORDER BY id DESC LIMIT 100")
+    cursor.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('business_day_cutoff_hour', ?)", (str(cutoff_hour),))
+    conn.commit()
+    conn.close()
+    return get_business_day_info()
+
+@app.get("/api/orders/all")
+def get_all_orders(
+    scope: Optional[str] = "today",
+    date: Optional[str] = None,
+    order_type: Optional[str] = None
+):
+    conn = get_db()
+    cursor = conn.cursor()
+    b_info = get_business_day_info()
+
+    query = "SELECT * FROM orders WHERE 1=1"
+    params = []
+
+    if date:
+        query += " AND date(created_at) = ?"
+        params.append(date)
+    elif scope == "today":
+        query += " AND created_at >= ? AND created_at <= ?"
+        params.extend([b_info["start_time"], b_info["end_time"]])
+    elif scope == "past":
+        query += " AND created_at < ?"
+        params.append(b_info["start_time"])
+
+    if order_type and order_type != "ALL":
+        query += " AND order_type = ?"
+        params.append(order_type)
+
+    query += " ORDER BY id DESC LIMIT 200"
+    cursor.execute(query, tuple(params))
     orders = [dict(r) for r in cursor.fetchall()]
     for o in orders:
         cursor.execute("SELECT * FROM order_items WHERE order_id = ?", (o["id"],))
@@ -1276,11 +1348,60 @@ def get_all_orders():
     conn.close()
     return orders
 
-@app.get("/api/kots/all")
-def get_all_kots():
+@app.get("/api/orders/past_summary")
+def get_past_orders_summary(date: Optional[str] = None):
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM kots ORDER BY id DESC LIMIT 100")
+    target_date = date or (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+
+    cursor.execute("""
+        SELECT 
+            COUNT(*) as total_orders,
+            COALESCE(SUM(grand_total), 0) as total_sales,
+            COALESCE(SUM(subtotal), 0) as total_subtotal,
+            COALESCE(SUM(gst_amount), 0) as total_tax
+        FROM orders 
+        WHERE date(created_at) = ?
+    """, (target_date,))
+    summary = dict(cursor.fetchone())
+
+    cursor.execute("SELECT * FROM orders WHERE date(created_at) = ? ORDER BY id DESC", (target_date,))
+    orders = [dict(r) for r in cursor.fetchall()]
+    for o in orders:
+        cursor.execute("SELECT * FROM order_items WHERE order_id = ?", (o["id"],))
+        o["items"] = [dict(r) for r in cursor.fetchall()]
+
+    conn.close()
+    return {
+        "date": target_date,
+        "summary": summary,
+        "orders": orders
+    }
+
+@app.get("/api/kots/all")
+def get_all_kots(
+    scope: Optional[str] = "today",
+    date: Optional[str] = None
+):
+    conn = get_db()
+    cursor = conn.cursor()
+    b_info = get_business_day_info()
+
+    query = "SELECT * FROM kots WHERE 1=1"
+    params = []
+
+    if date:
+        query += " AND date(created_at) = ?"
+        params.append(date)
+    elif scope == "today":
+        query += " AND created_at >= ? AND created_at <= ?"
+        params.extend([b_info["start_time"], b_info["end_time"]])
+    elif scope == "past":
+        query += " AND created_at < ?"
+        params.append(b_info["start_time"])
+
+    query += " ORDER BY id DESC LIMIT 200"
+    cursor.execute(query, tuple(params))
     kots = [dict(r) for r in cursor.fetchall()]
     for k in kots:
         cursor.execute("SELECT * FROM order_items WHERE kot_id = ?", (k["id"],))
