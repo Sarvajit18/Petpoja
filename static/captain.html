@@ -2,73 +2,183 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shansara Captain App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Shansara Captain</title>
     <link rel="icon" type="image/png" href="/static/logo.png">
-    <meta name="theme-color" content="#ff5722">
+    <meta name="theme-color" content="#ffffff">
     <link rel="manifest" href="/static/manifest.json">
     <link rel="apple-touch-icon" href="/static/logo.png">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <style>
         :root {
-            --bg-dark: #0f1218;
-            --bg-panel: #181d26;
-            --bg-card: #222936;
-            --border-color: #2e3748;
-            --primary: #ff5722;
-            --green: #10b981;
-            --red: #ef4444;
-            --amber: #f59e0b;
-            --text-light: #f9fafb;
-            --text-muted: #9ca3af;
+            --primary: #1976d2;
+            --primary-light: #e3f2fd;
+            --primary-dark: #1565c0;
+            --bg-body: #f8f9fa;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --text-muted: #94a3b8;
+            --border-light: #e2e8f0;
+            --nonveg-red: #dc2626;
+            --veg-green: #16a34a;
+            --egg-yellow: #d97706;
+            --badge-gray: #f1f5f9;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
+            --shadow-fab: 0 6px 18px rgba(25, 118, 210, 0.4);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
+            background-color: var(--bg-body);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Top Nav */
-        header {
-            background: var(--bg-panel);
-            padding: 12px 16px;
+        /* Top App Bar */
+        .app-bar {
+            height: 56px;
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid var(--border-color);
+            padding: 0 14px;
+            border-bottom: 1px solid var(--border-light);
             position: sticky;
             top: 0;
             z-index: 50;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
 
-        .header-title {
+        .bar-left {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            font-size: 16px;
+            gap: 12px;
         }
 
-        .captain-badge {
-            background: rgba(255, 87, 34, 0.2);
+        .icon-btn {
+            background: transparent;
+            border: none;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 50%;
+            color: #334155;
+            transition: background 0.15s;
+        }
+        .icon-btn:active {
+            background: #f1f5f9;
+        }
+
+        .bar-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.2px;
+        }
+
+        .bar-subtitle {
+            font-size: 11px;
+            color: var(--text-sub);
+            font-weight: 500;
+            margin-top: 1px;
+        }
+
+        .bar-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            position: relative;
+        }
+
+        /* Dropdown Menu for 3-dots */
+        .dropdown-menu {
+            position: absolute;
+            top: 48px;
+            right: 8px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border: 1px solid var(--border-light);
+            width: 175px;
+            display: none;
+            flex-direction: column;
+            padding: 6px 0;
+            z-index: 90;
+        }
+        .dropdown-menu.active {
+            display: flex;
+        }
+        .dropdown-item {
+            padding: 10px 16px;
+            font-size: 14px;
+            color: #334155;
+            cursor: pointer;
+            transition: background 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dropdown-item:active, .dropdown-item:hover {
+            background: #f8fafc;
+        }
+        .dropdown-item.selected {
             color: var(--primary);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
             font-weight: 600;
+        }
+
+        /* Sub Tabs Bar */
+        .sub-tabs {
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-light);
+            padding: 0 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .sub-tabs::-webkit-scrollbar { display: none; }
+
+        .tab-item {
+            padding: 12px 14px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-sub);
+            cursor: pointer;
+            white-space: nowrap;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .tab-item.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .tab-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 8px;
+            right: 8px;
+            height: 2.5px;
+            background: var(--primary);
+            border-radius: 2px 2px 0 0;
         }
 
         /* Screens */
@@ -81,478 +191,1422 @@
             display: flex;
         }
 
-        /* Table Selection Screen */
-        .tables-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 12px;
-            padding: 16px;
+        /* Tables Grid View */
+        .section-header {
+            padding: 16px 16px 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-sub);
+            letter-spacing: 0.2px;
         }
 
-        .table-btn {
-            background: var(--bg-card);
-            border: 2px solid var(--border-color);
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 0 16px 12px 16px;
+        }
+
+        .table-card {
+            background: #ffffff;
+            border: 1px solid #edf0f4;
+            border-radius: 14px;
+            padding: 18px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 104px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.1s, box-shadow 0.15s, border-color 0.15s;
+            position: relative;
+        }
+        .table-card:active {
+            transform: scale(0.97);
+        }
+
+        .table-card.empty {
+            background: #ffffff;
+        }
+        .table-card.running {
+            background: #fff8ed;
+            border-color: #fdba74;
+        }
+        .table-card.billed {
+            background: #fefce8;
+            border-color: #fde047;
+        }
+
+        .table-num {
+            font-size: 20px;
+            font-weight: 700;
+            color: #242f3d;
+        }
+
+        .table-card-status {
+            font-size: 12px;
+            margin-top: 5px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .table-card.running .table-card-status {
+            color: #ea580c;
+            font-weight: 600;
+        }
+        .table-card.billed .table-card-status {
+            color: #b45309;
+            font-weight: 600;
+        }
+
+        /* Speed Dial FAB Container */
+        .fab-container {
+            position: fixed;
+            bottom: 24px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            z-index: 80;
+        }
+
+        .fab-main {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-fab);
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+        }
+        .fab-main.active {
+            transform: rotate(135deg);
+            background: #2563eb;
+        }
+
+        .fab-dial-item {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            animation: slideUp 0.18s ease-out forwards;
+        }
+        .fab-dial-item.active {
+            display: flex;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fab-dial-pill {
+            background: #ffffff;
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            white-space: nowrap;
+        }
+
+        .fab-dial-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.35);
+            cursor: pointer;
+        }
+
+        /* Dimmed Backdrop for speed dial & modals */
+        .backdrop-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.38);
+            display: none;
+            z-index: 75;
+            transition: opacity 0.2s;
+        }
+        .backdrop-overlay.active {
+            display: block;
+        }
+
+        /* Side Navigation Drawer */
+        .drawer-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 100;
+        }
+        .drawer-overlay.active {
+            display: block;
+        }
+
+        .side-drawer {
+            position: fixed;
+            top: 0;
+            left: -330px;
+            width: 82%;
+            max-width: 320px;
+            height: 100vh;
+            background: #ffffff;
+            box-shadow: 4px 0 24px rgba(0,0,0,0.2);
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .side-drawer.active {
+            left: 0;
+        }
+
+        .drawer-header {
+            background: #eef4fb;
+            padding: 22px 18px 16px 18px;
+            border-bottom: 1px solid #e0ebf7;
+        }
+
+        .drawer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .drawer-brand-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .drawer-brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .drawer-brand-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+
+        .drawer-subinfo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-bottom: 10px;
+        }
+
+        .drawer-store {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .drawer-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        .drawer-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 13px 20px;
+            font-size: 14.5px;
+            font-weight: 500;
+            color: #334155;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .drawer-item:active {
+            background: #f1f5f9;
+        }
+        .drawer-item svg {
+            color: #475569;
+            flex-shrink: 0;
+        }
+
+        .drawer-footer {
+            padding: 14px 18px;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            background: #fafafa;
+        }
+
+        .drawer-logout {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ef4444;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 6px 0;
+        }
+
+        .drawer-meta {
+            font-size: 10px;
+            color: var(--text-muted);
+            line-height: 1.4;
+            text-align: right;
+        }
+
+        /* Order Punching Screen */
+        .search-container {
+            padding: 12px 16px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .search-pill {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 10px 14px 10px 40px;
+            border-radius: 24px;
+            font-size: 14px;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.2s;
+        }
+        .search-pill:focus {
+            background: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
+        }
+
+        .order-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 16px 120px 16px;
+        }
+
+        .menu-category-title {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-sub);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin: 16px 0 10px 0;
+        }
+        .menu-category-title:first-child {
+            margin-top: 6px;
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .food-card {
+            background: #ffffff;
+            border: 1px solid #eef2f6;
             border-radius: 12px;
-            padding: 14px 10px;
-            text-align: center;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 114px;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.15s;
+        }
+
+        .food-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .food-price {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* FSSAI Veg / Non-Veg / Egg Symbols */
+        .fssai-symbol {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            flex-shrink: 0;
+        }
+        .fssai-symbol.non-veg {
+            border: 1.5px solid var(--nonveg-red);
+        }
+        .fssai-symbol.non-veg .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--nonveg-red);
+        }
+        .fssai-symbol.veg {
+            border: 1.5px solid var(--veg-green);
+        }
+        .fssai-symbol.veg .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--veg-green);
+        }
+        .fssai-symbol.egg {
+            border: 1.5px solid var(--egg-yellow);
+        }
+        .fssai-symbol.egg .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--egg-yellow);
+        }
+
+        .food-name {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #1e293b;
+            line-height: 1.35;
+            margin: 8px 0 10px 0;
+            flex: 1;
+        }
+
+        .food-card-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .btn-add-outline {
+            width: 34px;
+            height: 30px;
+            border-radius: 8px;
+            border: 1.5px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             transition: all 0.15s;
         }
-
-        .table-btn.available { border-color: var(--green); }
-        .table-btn.occupied { border-color: var(--red); background: #25161c; }
-        .table-btn.billed { border-color: var(--amber); background: #292211; }
-
-        .table-name { font-size: 18px; font-weight: 800; }
-        .table-status { font-size: 11px; margin-top: 4px; text-transform: uppercase; font-weight: 700; }
-        .status-available { color: var(--green); }
-        .status-occupied { color: var(--red); }
-        .status-billed { color: var(--amber); }
-
-        /* Ordering Screen */
-        .order-nav {
-            background: var(--bg-panel);
-            padding: 10px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border-color);
+        .btn-add-outline:active {
+            background: var(--primary-light);
         }
 
-        .btn-back {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .search-box {
-            padding: 10px 16px;
-            background: var(--bg-panel);
-        }
-
-        .search-input {
-            width: 100%;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .categories-scroll {
-            display: flex;
-            gap: 8px;
-            padding: 8px 16px;
-            overflow-x: auto;
-            background: var(--bg-panel);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .cat-chip {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-
-        .cat-chip.active {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary);
-        }
-
-        .items-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 12px 16px 100px 16px;
-        }
-
-        .menu-row {
-            background: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .item-info {
-            flex: 1;
-            padding-right: 12px;
-        }
-
-        .item-name {
-            font-size: 14px;
-            font-weight: 600;
+        .stepper-wrap {
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .item-price {
-            font-size: 13px;
-            color: var(--primary);
-            font-weight: 700;
-            margin-top: 4px;
-        }
-
-        .add-btn {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
+        .btn-step {
+            width: 28px;
+            height: 28px;
             border-radius: 6px;
+            border: 1.5px solid var(--primary);
+            background: #ffffff;
+            color: var(--primary);
+            font-size: 16px;
             font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .qty-picker {
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .btn-qty {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: #fff;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 16px;
+            justify-content: center;
             cursor: pointer;
         }
+        .btn-step.add {
+            background: var(--primary);
+            color: #ffffff;
+        }
+        .step-qty {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-main);
+            min-width: 16px;
+            text-align: center;
+        }
 
-        /* Floating Bottom Cart Bar */
+        /* Floating Order Bottom Bar */
         .cart-bar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
-            background: var(--bg-panel);
-            border-top: 1px solid var(--border-color);
-            padding: 12px 16px;
+            background: #ffffff;
+            border-top: 1px solid var(--border-light);
+            padding: 12px 18px;
             display: none;
-            justify-content: space-between;
             align-items: center;
-            z-index: 80;
+            justify-content: space-between;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
+            z-index: 60;
         }
 
-        .btn-view-cart {
-            background: var(--green);
-            color: #fff;
+        .cart-summary {
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-summary-main {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .cart-summary-sub {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .btn-review-cart {
+            background: var(--primary);
+            color: #ffffff;
             border: none;
-            padding: 12px 20px;
+            padding: 11px 22px;
             border-radius: 8px;
             font-weight: 700;
             font-size: 14px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
         }
 
-        /* Cart Bottom Sheet Modal */
+        /* Order Screen FAB (Fork & Knife) */
+        .fab-order {
+            position: fixed;
+            bottom: 84px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-fab);
+            cursor: pointer;
+            z-index: 70;
+        }
+        .fab-order-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            border: 2px solid #fff;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* Cart Review Modal Sheet */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.5);
             display: none;
             align-items: flex-end;
-            z-index: 100;
+            justify-content: center;
+            z-index: 110;
+        }
+        .modal-overlay.active {
+            display: flex;
         }
 
         .bottom-sheet {
-            background: var(--bg-panel);
+            background: #ffffff;
             width: 100%;
+            max-width: 500px;
             max-height: 85vh;
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            padding-bottom: env(safe-area-inset-bottom);
+            animation: slideUpModal 0.22s ease-out;
+        }
+
+        @keyframes slideUpModal {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
 
         .sheet-header {
-            padding: 16px;
-            background: var(--bg-card);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-light);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+        }
+        .sheet-title {
+            font-size: 17px;
             font-weight: 700;
+            color: var(--text-main);
         }
 
-        .sheet-items {
-            padding: 16px;
+        .sheet-body {
+            padding: 16px 20px;
             overflow-y: auto;
             flex: 1;
         }
 
-        .sheet-row {
+        .sheet-item-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
         }
 
-        .note-input {
-            width: 100%;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 6px 10px;
-            border-radius: 6px;
+        .sheet-item-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .sheet-item-price {
             font-size: 12px;
-            margin-top: 4px;
+            color: var(--text-sub);
+            margin-top: 2px;
+        }
+
+        .sheet-item-note {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 12px;
+            color: #334155;
+            margin-top: 6px;
+            outline: none;
         }
 
         .btn-punch-kot {
-            background: var(--green);
-            color: #fff;
+            background: #16a34a;
+            color: #ffffff;
             border: none;
-            padding: 16px;
-            margin: 16px;
+            padding: 14px;
+            margin: 16px 20px 20px 20px;
             border-radius: 10px;
-            font-weight: 800;
-            font-size: 16px;
+            font-weight: 700;
+            font-size: 15px;
             cursor: pointer;
             text-align: center;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-punch-kot:active {
+            background: #15803d;
+        }
+
+        /* Generic Center Modal (IP modal, New Table modal) */
+        .center-modal {
+            background: #ffffff;
+            width: 90%;
+            max-width: 380px;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+            animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .modal-input {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 14px;
+            outline: none;
+        }
+        .modal-input:focus {
+            border-color: var(--primary);
+            background: #fff;
+        }
+
+        .modal-btn-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .btn-modal-cancel {
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-modal-confirm {
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 68px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            animation: fadeInToast 0.2s;
+        }
+        @keyframes fadeInToast {
+            from { opacity: 0; transform: translate(-50%, -10px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <div class="header-title" style="display:flex; align-items:center; gap:8px;">
-            <img src="/static/logo.png" alt="Shansara" style="width:28px; height:28px; object-fit:contain; border-radius:6px; background:#000;">
-            <span>Shansara Captain</span>
+    <!-- Backdrops -->
+    <div class="backdrop-overlay" id="fab-backdrop" onclick="toggleFabSpeedDial()"></div>
+    <div class="drawer-overlay" id="drawer-backdrop" onclick="closeDrawer()"></div>
+
+    <!-- Side Navigation Drawer -->
+    <div class="side-drawer" id="side-drawer">
+        <div class="drawer-header">
+            <div class="drawer-brand">
+                <div class="drawer-brand-logo">
+                    <img src="/static/logo.png" alt="Logo">
+                </div>
+                <div>
+                    <div class="drawer-brand-title">SHANSARA CAPTAIN</div>
+                </div>
+            </div>
+            <div class="drawer-subinfo">
+                <span>V 15.1.0 (2010)</span>
+                <span style="font-weight: 600; color:#1e293b; cursor:pointer;" onclick="promptCaptainName()" id="drawer-captain-name">👤 saiswethan</span>
+            </div>
+            <div class="drawer-store">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg>
+                <span>11-11 RESTAURANT</span>
+            </div>
         </div>
-        <div class="captain-badge" id="captain-name-tag" onclick="selectCaptainPrompt()">
-            👤 Captain SAI
+
+        <div class="drawer-items">
+            <div class="drawer-item" onclick="onDrawerNav('new_kot')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+                <span>New KOT</span>
+            </div>
+            <div class="drawer-item" onclick="onDrawerNav('unsuccessful_kot')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                <span>Unsuccessful KOT</span>
+            </div>
+            <div class="drawer-item" onclick="onDrawerNav('sync_data')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M10 8h4"/><path d="M12 6v4"/></svg>
+                <span>Sync Data</span>
+            </div>
+            <div class="drawer-item" onclick="onDrawerNav('pending_bill')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="M9 15h6"/></svg>
+                <span>Pending Bill</span>
+            </div>
+            <div class="drawer-item" onclick="onDrawerNav('update_menu')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v20"/><path d="M4 2v20"/><path d="M14 2v6a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V2"/><path d="M18 8h-4"/></svg>
+                <span>Update Menu</span>
+            </div>
+            <div class="drawer-item" onclick="onDrawerNav('find_ip')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="7" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="17" cy="12" r="1.5"/></svg>
+                <span>Find Server IP</span>
+            </div>
+            <div class="drawer-item" onclick="onDrawerNav('settings')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                <span>Settings</span>
+            </div>
+        </div>
+
+        <div class="drawer-footer">
+            <div class="drawer-logout" onclick="logoutCaptain()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <span>Logout</span>
+            </div>
+            <div class="drawer-meta" id="drawer-meta-info">
+                <div>Device IP: 192.0.0.4</div>
+                <div id="target-ip-label">Target IP: 10.25.192.215</div>
+                <div>Connected PC: Shansara-POS</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top App Bar -->
+    <header class="app-bar">
+        <div class="bar-left">
+            <button class="icon-btn" id="btn-menu-back" onclick="handleMenuOrBack()">
+                <!-- Hamburger Icon -->
+                <svg id="icon-hamburger" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                <!-- Back Arrow Icon (Hidden on tables view) -->
+                <svg id="icon-back" style="display:none;" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </button>
+            <div>
+                <div class="bar-title" id="bar-main-title">All Tables</div>
+                <div class="bar-subtitle" id="bar-sub-title" style="display:none;">Table: 1</div>
+            </div>
+        </div>
+
+        <div class="bar-right" id="bar-right-actions">
+            <!-- Bell icon -->
+            <button class="icon-btn" onclick="showToast('No new notifications')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            </button>
+            <!-- Table View Icon -->
+            <button class="icon-btn" onclick="showToast('Table View: Grid')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="8" x2="21" y2="8"/><path d="M5 8v10"/><path d="M19 8v10"/><path d="M9 8c0 5 6 5 6 0"/></svg>
+            </button>
+            <!-- 3 Dots Menu Button -->
+            <button class="icon-btn" onclick="toggleDropdownMenu()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+            </button>
+
+            <!-- 3 Dots Dropdown Menu -->
+            <div class="dropdown-menu" id="dots-dropdown">
+                <div class="dropdown-item selected" id="filter-opt-all" onclick="setTableFilter('all')">
+                    All Tables
+                </div>
+                <div class="dropdown-item" id="filter-opt-running" onclick="setTableFilter('running')">
+                    Running Tables
+                </div>
+                <div class="dropdown-item" id="filter-opt-empty" onclick="setTableFilter('empty')">
+                    Empty Tables
+                </div>
+            </div>
+        </div>
+
+        <!-- Right action for Order Screen: Profile icon -->
+        <div class="bar-right" id="bar-right-profile" style="display:none;">
+            <button class="icon-btn" onclick="promptCaptainName()">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </button>
         </div>
     </header>
 
-    <!-- Mobile PWA 1-Tap Install Banner -->
-    <div id="install-banner" style="background: linear-gradient(90deg, #ff5722, #ea580c); color:#fff; padding:10px 16px; display:none; justify-content:space-between; align-items:center; font-weight:600; font-size:13px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
-        <span>📲 Install Shansara Captain App to Phone</span>
-        <button id="btn-install" style="background:#fff; color:#ff5722; border:none; padding:6px 14px; border-radius:6px; font-weight:800; cursor:pointer;">INSTALL</button>
-    </div>
-
-    <!-- Screen 1: Select Table -->
+    <!-- SCREEN 1: TABLES VIEW -->
     <div class="screen active" id="screen-tables">
-        <div style="padding: 14px 16px 0 16px; font-weight: 700; font-size: 15px;">
-            Select Dining Table
+        <!-- Sub-tabs for sections -->
+        <div class="sub-tabs" id="section-tabs">
+            <div class="tab-item active" onclick="switchSectionTab('Family Hut')">Family Hut</div>
+            <div class="tab-item" onclick="switchSectionTab('Party Hut')">Party Hut</div>
         </div>
-        <div class="tables-grid" id="captain-tables-container"></div>
+
+        <div style="flex:1; overflow-y:auto; padding-bottom: 90px;" id="tables-sections-container">
+            <!-- Dynamically populated tables grouped by section -->
+        </div>
+
+        <!-- Speed Dial Floating Action Button -->
+        <div class="fab-container">
+            <div class="fab-dial-item" id="speed-dial-new-table" onclick="openNewTableModal()">
+                <div class="fab-dial-pill">New Table</div>
+                <button class="fab-dial-btn">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="8" x2="21" y2="8"/><path d="M5 8v10"/><path d="M19 8v10"/><path d="M9 8c0 5 6 5 6 0"/></svg>
+                </button>
+            </div>
+            <button class="fab-main" id="fab-main-btn" onclick="toggleFabSpeedDial()">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+        </div>
     </div>
 
-    <!-- Screen 2: Punch Order for Table -->
+    <!-- SCREEN 2: ADD ORDER SCREEN -->
     <div class="screen" id="screen-order">
-        <div class="order-nav">
-            <button class="btn-back" onclick="showTablesScreen()">← Back to Tables</button>
-            <div style="font-weight: 700;" id="order-table-title">Table T-1</div>
-        </div>
-
-        <div class="search-box">
-            <input type="text" class="search-input" id="search-input" placeholder="🔍 Search dishes (e.g. Tikka, Biryani)..." oninput="filterItems()">
-        </div>
-
-        <div class="categories-scroll" id="cat-chips"></div>
-
-        <div class="items-list" id="menu-items-container"></div>
-
-        <!-- Floating Cart Bar -->
-        <div class="cart-bar" id="cart-bar">
-            <div>
-                <div style="font-weight: 700; font-size: 15px;"><span id="cart-count">0</span> Items Selected</div>
-                <div style="font-size: 12px; color: var(--text-muted);">Total: ₹ <span id="cart-total">0</span></div>
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" class="search-pill" id="search-input" placeholder="Search here" oninput="filterDishes()">
             </div>
-            <button class="btn-view-cart" onclick="openCartSheet()">Review & Punch KOT →</button>
+        </div>
+
+        <!-- Food items list (2 columns) grouped by categories -->
+        <div class="order-content" id="order-content-container">
+            <!-- Dynamically rendered 2-column food cards -->
+        </div>
+
+        <!-- Floating Fork & Knife FAB -->
+        <button class="fab-order" onclick="openCartReview()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v20"/><path d="M4 2v20"/><path d="M14 2v6a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V2"/><path d="M18 8h-4"/></svg>
+            <span class="fab-order-badge" id="fab-order-badge" style="display:none;">0</span>
+        </button>
+
+        <!-- Floating Bottom Cart Bar -->
+        <div class="cart-bar" id="cart-bar">
+            <div class="cart-summary">
+                <div class="cart-summary-main"><span id="cart-item-count">0</span> Items | ₹ <span id="cart-total-price">0</span></div>
+                <div class="cart-summary-sub" id="cart-table-sub">Table 1</div>
+            </div>
+            <button class="btn-review-cart" onclick="openCartReview()">
+                <span>View Cart / Punch KOT</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
         </div>
     </div>
 
-    <!-- Bottom Sheet Review Modal -->
-    <div class="modal-overlay" id="cart-modal">
-        <div class="bottom-sheet">
+    <!-- Review Cart Bottom Sheet Modal -->
+    <div class="modal-overlay" id="cart-modal" onclick="onModalBackdropClick(event, 'cart-modal')">
+        <div class="bottom-sheet" onclick="event.stopPropagation()">
             <div class="sheet-header">
-                <div>Punch KOT - <span id="sheet-table-title">Table</span></div>
-                <button style="background:transparent; border:none; color:#fff; font-size:18px;" onclick="closeCartSheet()">✕</button>
+                <div>
+                    <div class="sheet-title">Review KOT Order</div>
+                    <div style="font-size: 12px; color: var(--text-sub);" id="sheet-table-name">Table 1</div>
+                </div>
+                <button class="icon-btn" onclick="closeCartReview()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
             </div>
-            <div class="sheet-items" id="sheet-items-list"></div>
-            <button class="btn-punch-kot" onclick="submitKOT()">🚀 SEND KOT TO KITCHEN</button>
+            <div class="sheet-body" id="sheet-items-container">
+                <!-- Items list -->
+            </div>
+            <button class="btn-punch-kot" onclick="submitKOT()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                <span>SEND KOT TO KITCHEN</span>
+            </button>
         </div>
+    </div>
+
+    <!-- Center Modal: New Table -->
+    <div class="modal-overlay" id="modal-new-table" onclick="onModalBackdropClick(event, 'modal-new-table')">
+        <div class="center-modal" onclick="event.stopPropagation()">
+            <div class="modal-title">Create / Open Table</div>
+            <label style="font-size: 12px; font-weight: 600; color:#64748b; margin-bottom: 4px; display:block;">Table Name / Number</label>
+            <input type="text" class="modal-input" id="input-new-table-name" placeholder="e.g. 6, 15, VIP-1">
+            <label style="font-size: 12px; font-weight: 600; color:#64748b; margin-bottom: 4px; display:block;">Section / Area</label>
+            <select class="modal-input" id="select-new-table-section">
+                <option value="Family Hut">Family Hut</option>
+                <option value="Party Hut">Party Hut</option>
+                <option value="Dining Area">Dining Area</option>
+            </select>
+            <div class="modal-btn-row">
+                <button class="btn-modal-cancel" onclick="closeNewTableModal()">Cancel</button>
+                <button class="btn-modal-confirm" onclick="confirmCreateNewTable()">Create & Open</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Center Modal: Server IP Configuration -->
+    <div class="modal-overlay" id="modal-server-ip" onclick="onModalBackdropClick(event, 'modal-server-ip')">
+        <div class="center-modal" onclick="event.stopPropagation()">
+            <div class="modal-title">Find & Pair Server IP</div>
+            <p style="font-size: 13px; color:#64748b; margin-bottom: 12px;">Make sure phone and billing computer are connected to the <b>same Wi-Fi</b>.</p>
+            <div style="background:#f1f5f9; padding:10px 14px; border-radius:8px; margin-bottom:12px; font-size:13px;">
+                <div>Current Host: <b id="info-current-host">...</b></div>
+                <div style="margin-top:4px;">Pairing Code: <b style="color:var(--primary);" id="info-pairing-code">SHAN-215-8000</b></div>
+            </div>
+            <label style="font-size: 12px; font-weight: 600; color:#64748b; margin-bottom: 4px; display:block;">Change Server IP / Host:</label>
+            <input type="text" class="modal-input" id="input-server-ip" placeholder="e.g. 192.168.1.45:8000">
+            <div class="modal-btn-row">
+                <button class="btn-modal-cancel" onclick="closeServerIpModal()">Close</button>
+                <button class="btn-modal-confirm" onclick="saveNewServerIp()">Connect</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast-msg">
+        <span id="toast-text">Message</span>
     </div>
 
     <script>
-        let currentCaptain = localStorage.getItem('shansara_captain') || 'Captain SAI';
+        let currentCaptain = localStorage.getItem('shansara_captain') || 'saiswethan';
         let allTables = [];
         let allCategories = [];
         let activeTable = null;
         let cart = {}; // itemId -> {item, qty, notes}
-        let activeCategoryFilter = 'ALL';
+        let activeTableFilter = 'all'; // 'all', 'running', 'empty'
+        let currentSectionTab = 'Family Hut';
+        let isSpeedDialOpen = false;
 
-        // Real-time WebSocket LAN sync
+        // WebSocket Connection for real-time LAN synchronization
         const loc = window.location;
         const wsProtocol = loc.protocol === 'https:' ? 'wss:' : 'ws:';
-        const socket = new WebSocket(`${wsProtocol}//${loc.host}/ws`);
+        let ws;
 
-        socket.onmessage = function() {
-            loadTables();
-        };
+        function connectWebSocket() {
+            try {
+                ws = new WebSocket(`${wsProtocol}//${loc.host}/ws`);
+                ws.onmessage = function() {
+                    loadTables();
+                };
+                ws.onclose = function() {
+                    setTimeout(connectWebSocket, 3000);
+                };
+            } catch (e) {
+                console.log('WS error:', e);
+            }
+        }
 
-        async function initCaptain() {
-            document.getElementById('captain-name-tag').innerText = `👤 ${currentCaptain}`;
+        async function initApp() {
+            document.getElementById('drawer-captain-name').innerText = `👤 ${currentCaptain}`;
+            document.getElementById('info-current-host').innerText = loc.host;
+            document.getElementById('target-ip-label').innerText = `Target IP: ${loc.hostname}`;
+
+            connectWebSocket();
             await loadMenu();
             await loadTables();
         }
 
-        function selectCaptainPrompt() {
+        // --- Data Loading ---
+        async function loadTables() {
+            try {
+                const res = await fetch('/api/tables');
+                allTables = await res.json();
+                renderTablesView();
+            } catch (err) {
+                console.error("Failed to load tables:", err);
+            }
+        }
+
+        async function loadMenu() {
+            try {
+                const res = await fetch('/api/menu');
+                allCategories = await res.json();
+                renderOrderDishes();
+            } catch (err) {
+                console.error("Failed to load menu:", err);
+            }
+        }
+
+        // --- Tables Rendering ---
+        function renderTablesView() {
+            const container = document.getElementById('tables-sections-container');
+            const sections = ['Family Hut', 'Party Hut'];
+            
+            // Gather all available sections from database
+            allTables.forEach(t => {
+                if (t.section && !sections.includes(t.section)) {
+                    sections.push(t.section);
+                }
+            });
+
+            // Update sub-tabs
+            const tabsContainer = document.getElementById('section-tabs');
+            tabsContainer.innerHTML = sections.map(s => `
+                <div class="tab-item ${s === currentSectionTab ? 'active' : ''}" onclick="switchSectionTab('${s}')">
+                    ${s}
+                </div>
+            `).join('');
+
+            let html = '';
+            sections.forEach(sec => {
+                let secTables = allTables.filter(t => (t.section || 'Family Hut') === sec);
+
+                // Apply 3-dots filter
+                if (activeTableFilter === 'running') {
+                    secTables = secTables.filter(t => t.status === 'occupied' || t.status === 'billed');
+                } else if (activeTableFilter === 'empty') {
+                    secTables = secTables.filter(t => t.status === 'available');
+                }
+
+                if (secTables.length === 0) return;
+
+                html += `
+                    <div class="section-header" id="sec-hdr-${sec.replace(/\s+/g, '')}">${sec}</div>
+                    <div class="tables-grid">
+                        ${secTables.map(t => {
+                            let cardClass = 'empty';
+                            let statusText = 'Empty';
+                            if (t.status === 'occupied') {
+                                cardClass = 'running';
+                                statusText = t.order ? `₹ ${Math.round(t.order.grand_total || 0)}` : 'Running';
+                            } else if (t.status === 'billed') {
+                                cardClass = 'billed';
+                                statusText = t.order ? `Billed (₹${Math.round(t.order.grand_total || 0)})` : 'Billed';
+                            }
+                            return `
+                                <div class="table-card ${cardClass}" onclick="selectTable(${t.id})">
+                                    <div class="table-num">${t.name}</div>
+                                    <div class="table-card-status">${statusText}</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            });
+
+            if (!html) {
+                html = `<div style="text-align:center; padding: 40px; color:#94a3b8; font-size:14px;">No tables match the selected filter.</div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function switchSectionTab(sec) {
+            currentSectionTab = sec;
+            renderTablesView();
+            const elem = document.getElementById(`sec-hdr-${sec.replace(/\s+/g, '')}`);
+            if (elem) {
+                elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // --- 3-Dots Filter Menu ---
+        function toggleDropdownMenu() {
+            const menu = document.getElementById('dots-dropdown');
+            menu.classList.toggle('active');
+        }
+
+        function setTableFilter(filter) {
+            activeTableFilter = filter;
+            document.querySelectorAll('.dropdown-item').forEach(el => el.classList.remove('selected'));
+            document.getElementById(`filter-opt-${filter}`).classList.add('selected');
+            document.getElementById('dots-dropdown').classList.remove('active');
+            renderTablesView();
+            showToast(`Filter applied: ${filter.toUpperCase()}`);
+        }
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', (e) => {
+            if (!e.target.closest('.bar-right')) {
+                document.getElementById('dots-dropdown').classList.remove('active');
+            }
+        });
+
+        // --- Speed Dial FAB Interaction ---
+        function toggleFabSpeedDial() {
+            isSpeedDialOpen = !isSpeedDialOpen;
+            const mainBtn = document.getElementById('fab-main-btn');
+            const dialItem = document.getElementById('speed-dial-new-table');
+            const backdrop = document.getElementById('fab-backdrop');
+
+            if (isSpeedDialOpen) {
+                mainBtn.classList.add('active');
+                dialItem.classList.add('active');
+                backdrop.classList.add('active');
+            } else {
+                mainBtn.classList.remove('active');
+                dialItem.classList.remove('active');
+                backdrop.classList.remove('active');
+            }
+        }
+
+        function openNewTableModal() {
+            toggleFabSpeedDial();
+            document.getElementById('input-new-table-name').value = '';
+            document.getElementById('modal-new-table').classList.add('active');
+        }
+
+        function closeNewTableModal() {
+            document.getElementById('modal-new-table').classList.remove('active');
+        }
+
+        async function confirmCreateNewTable() {
+            const name = document.getElementById('input-new-table-name').value.trim();
+            const section = document.getElementById('select-new-table-section').value;
+            if (!name) {
+                showToast("Please enter a table name");
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/tables', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ name: name, section: section, capacity: 4 })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    closeNewTableModal();
+                    await loadTables();
+                    showToast(`Table ${name} created!`);
+                    selectTable(data.id);
+                } else {
+                    showToast("Table already exists or error");
+                }
+            } catch (e) {
+                showToast("Failed to create table");
+            }
+        }
+
+        // --- Side Navigation Drawer ---
+        function handleMenuOrBack() {
+            const isOrderScreen = document.getElementById('screen-order').classList.contains('active');
+            if (isOrderScreen) {
+                showTablesScreen();
+            } else {
+                openDrawer();
+            }
+        }
+
+        function openDrawer() {
+            document.getElementById('side-drawer').classList.add('active');
+            document.getElementById('drawer-backdrop').classList.add('active');
+        }
+
+        function closeDrawer() {
+            document.getElementById('side-drawer').classList.remove('active');
+            document.getElementById('drawer-backdrop').classList.remove('active');
+        }
+
+        function onDrawerNav(action) {
+            closeDrawer();
+            if (action === 'new_kot') {
+                showTablesScreen();
+            } else if (action === 'unsuccessful_kot') {
+                showToast("All offline KOTs synced successfully!");
+            } else if (action === 'sync_data') {
+                showToast("Syncing menu & tables with server...");
+                loadMenu();
+                loadTables();
+                setTimeout(() => showToast("Data synced with Shansara POS!"), 600);
+            } else if (action === 'pending_bill') {
+                setTableFilter('running');
+            } else if (action === 'update_menu') {
+                loadMenu();
+                showToast("Menu reloaded from server!");
+            } else if (action === 'find_ip') {
+                openServerIpModal();
+            } else if (action === 'settings') {
+                showToast("Settings: Sound On | Auto-Sync Enabled");
+            }
+        }
+
+        function openServerIpModal() {
+            document.getElementById('input-server-ip').value = loc.host;
+            document.getElementById('modal-server-ip').classList.add('active');
+        }
+
+        function closeServerIpModal() {
+            document.getElementById('modal-server-ip').classList.remove('active');
+        }
+
+        function saveNewServerIp() {
+            const ip = document.getElementById('input-server-ip').value.trim();
+            if (ip) {
+                window.location.href = `http://${ip}/captain`;
+            }
+        }
+
+        function promptCaptainName() {
             const name = prompt("Enter Captain Name:", currentCaptain);
             if (name && name.trim()) {
                 currentCaptain = name.trim();
                 localStorage.setItem('shansara_captain', currentCaptain);
-                document.getElementById('captain-name-tag').innerText = `👤 ${currentCaptain}`;
+                document.getElementById('drawer-captain-name').innerText = `👤 ${currentCaptain}`;
+                showToast(`Logged in as: ${currentCaptain}`);
             }
         }
 
-        async function loadTables() {
-            const res = await fetch('/api/tables');
-            allTables = await res.json();
-            renderTables();
+        function logoutCaptain() {
+            if (confirm("Do you want to log out of Shansara Captain?")) {
+                currentCaptain = 'Captain';
+                localStorage.removeItem('shansara_captain');
+                document.getElementById('drawer-captain-name').innerText = `👤 Captain`;
+                closeDrawer();
+                showToast("Logged out successfully");
+            }
         }
 
-        async function loadMenu() {
-            const res = await fetch('/api/menu');
-            allCategories = await res.json();
-            renderCategoryChips();
-        }
-
-        function renderTables() {
-            const container = document.getElementById('captain-tables-container');
-            container.innerHTML = allTables.map(t => `
-                <div class="table-btn ${t.status}" onclick="selectTable(${t.id})">
-                    <div class="table-name">${t.name}</div>
-                    <div class="table-status status-${t.status}">${t.status}</div>
-                    ${t.order ? `<div style="font-size:11px; margin-top:4px;">₹ ${Math.round(t.order.grand_total)}</div>` : ''}
-                </div>
-            `).join('');
-        }
-
+        // --- Table Selection & Order Screen ---
         function selectTable(id) {
             activeTable = allTables.find(t => t.id === id);
-            cart = {};
-            document.getElementById('order-table-title').innerText = `${activeTable.name} (${activeTable.section})`;
-            document.getElementById('sheet-table-title').innerText = activeTable.name;
+            if (!activeTable) return;
 
+            cart = {};
             document.getElementById('screen-tables').classList.remove('active');
             document.getElementById('screen-order').classList.add('active');
 
-            renderCategoryChips();
-            renderMenuItems();
+            // Update app bar
+            document.getElementById('icon-hamburger').style.display = 'none';
+            document.getElementById('icon-back').style.display = 'block';
+            document.getElementById('bar-main-title').innerText = 'Add Order';
+            document.getElementById('bar-sub-title').style.display = 'block';
+            document.getElementById('bar-sub-title').innerText = `Table: ${activeTable.name}`;
+
+            document.getElementById('bar-right-actions').style.display = 'none';
+            document.getElementById('bar-right-profile').style.display = 'flex';
+
+            document.getElementById('cart-table-sub').innerText = `Table ${activeTable.name}`;
+            document.getElementById('sheet-table-name').innerText = `Table ${activeTable.name} (${activeTable.section})`;
+
+            renderOrderDishes();
             updateCartBar();
         }
 
         function showTablesScreen() {
             document.getElementById('screen-order').classList.remove('active');
             document.getElementById('screen-tables').classList.add('active');
+
+            // Reset app bar
+            document.getElementById('icon-hamburger').style.display = 'block';
+            document.getElementById('icon-back').style.display = 'none';
+            document.getElementById('bar-main-title').innerText = 'All Tables';
+            document.getElementById('bar-sub-title').style.display = 'none';
+
+            document.getElementById('bar-right-actions').style.display = 'flex';
+            document.getElementById('bar-right-profile').style.display = 'none';
+
             loadTables();
         }
 
-        function renderCategoryChips() {
-            const container = document.getElementById('cat-chips');
-            let html = `<div class="cat-chip ${activeCategoryFilter === 'ALL' ? 'active' : ''}" onclick="filterCategory('ALL')">All Dishes</div>`;
+        // --- Dish Rendering (2 Columns with Categories) ---
+        function renderOrderDishes() {
+            const container = document.getElementById('order-content-container');
+            const search = document.getElementById('search-input').value.toLowerCase().trim();
+
+            let html = '';
+
             allCategories.forEach(cat => {
-                html += `<div class="cat-chip ${activeCategoryFilter === cat.id ? 'active' : ''}" onclick="filterCategory(${cat.id})">${cat.icon} ${cat.name}</div>`;
+                let items = cat.items || [];
+                if (search) {
+                    items = items.filter(i => i.name.toLowerCase().includes(search));
+                }
+
+                if (items.length === 0) return;
+
+                html += `
+                    <div class="menu-category-title">${cat.name}</div>
+                    <div class="food-grid">
+                        ${items.map(item => {
+                            const inCart = cart[item.id];
+                            const qty = inCart ? inCart.qty : 0;
+                            const foodType = (item.food_type || 'veg').toLowerCase();
+                            
+                            let symbolClass = 'veg';
+                            if (foodType === 'non-veg') symbolClass = 'non-veg';
+                            else if (foodType === 'egg') symbolClass = 'egg';
+
+                            return `
+                                <div class="food-card">
+                                    <div class="food-card-top">
+                                        <div class="food-price">₹ ${Math.round(item.price)}</div>
+                                        <div class="fssai-symbol ${symbolClass}">
+                                            <div class="dot"></div>
+                                        </div>
+                                    </div>
+                                    <div class="food-name">${item.name}</div>
+                                    <div class="food-card-bottom">
+                                        ${qty === 0 ? `
+                                            <button class="btn-add-outline" onclick="addItemToCart(${item.id})">+</button>
+                                        ` : `
+                                            <div class="stepper-wrap">
+                                                <button class="btn-step" onclick="changeCartQty(${item.id}, -1)">-</button>
+                                                <span class="step-qty">${qty}</span>
+                                                <button class="btn-step add" onclick="changeCartQty(${item.id}, 1)">+</button>
+                                            </div>
+                                        `}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
             });
+
+            if (!html) {
+                html = `<div style="text-align:center; padding: 40px; color:#94a3b8; font-size:14px;">No dishes found matching "${search}".</div>`;
+            }
+
             container.innerHTML = html;
         }
 
-        function filterCategory(catId) {
-            activeCategoryFilter = catId;
-            renderCategoryChips();
-            renderMenuItems();
+        function filterDishes() {
+            renderOrderDishes();
         }
 
-        function filterItems() {
-            renderMenuItems();
-        }
-
-        function renderMenuItems() {
-            const container = document.getElementById('menu-items-container');
-            const search = document.getElementById('search-input').value.toLowerCase();
-
-            let items = [];
-            allCategories.forEach(c => {
-                if (activeCategoryFilter === 'ALL' || activeCategoryFilter === c.id) {
-                    items.push(...c.items);
-                }
-            });
-
-            if (search) {
-                items = items.filter(i => i.name.toLowerCase().includes(search));
-            }
-
-            container.innerHTML = items.map(item => {
-                const inCart = cart[item.id];
-                const vegIcon = item.food_type === 'veg' ? '🟢' : '🔴';
-
-                return `
-                    <div class="menu-row">
-                        <div class="item-info">
-                            <div class="item-name">${vegIcon} ${item.name}</div>
-                            <div class="item-price">₹ ${item.price}</div>
-                        </div>
-                        <div>
-                            ${inCart ? `
-                                <div class="qty-picker">
-                                    <button class="btn-qty" onclick="changeQty(${item.id}, -1)">-</button>
-                                    <span style="font-weight: 700;">${inCart.qty}</span>
-                                    <button class="btn-qty" onclick="changeQty(${item.id}, 1)">+</button>
-                                </div>
-                            ` : `
-                                <button class="add-btn" onclick="addToCart(${item.id})">+ ADD</button>
-                            `}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function addToCart(itemId) {
+        function addItemToCart(itemId) {
             let found = null;
             allCategories.forEach(c => {
-                const f = c.items.find(i => i.id === itemId);
+                const f = (c.items || []).find(i => i.id === itemId);
                 if (f) found = f;
             });
             if (found) {
                 cart[itemId] = { item: found, qty: 1, notes: '' };
-                renderMenuItems();
+                renderOrderDishes();
                 updateCartBar();
             }
         }
 
-        function changeQty(itemId, delta) {
+        function changeCartQty(itemId, delta) {
             if (cart[itemId]) {
                 cart[itemId].qty += delta;
                 if (cart[itemId].qty <= 0) {
                     delete cart[itemId];
                 }
+                renderOrderDishes();
+                updateCartBar();
             }
-            renderMenuItems();
-            updateCartBar();
         }
 
         function updateCartBar() {
@@ -560,66 +1614,87 @@
             const totalCount = items.reduce((acc, c) => acc + c.qty, 0);
             const totalPrice = items.reduce((acc, c) => acc + (c.qty * c.item.price), 0);
 
-            const bar = document.getElementById('cart-bar');
+            const cartBar = document.getElementById('cart-bar');
+            const fabBadge = document.getElementById('fab-order-badge');
+
             if (totalCount > 0) {
-                bar.style.display = 'flex';
-                document.getElementById('cart-count').innerText = totalCount;
-                document.getElementById('cart-total').innerText = totalPrice;
+                cartBar.style.display = 'flex';
+                fabBadge.style.display = 'block';
+                fabBadge.innerText = totalCount;
+                document.getElementById('cart-item-count').innerText = totalCount;
+                document.getElementById('cart-total-price').innerText = Math.round(totalPrice);
             } else {
-                bar.style.display = 'none';
+                cartBar.style.display = 'none';
+                fabBadge.style.display = 'none';
             }
         }
 
-        function openCartSheet() {
-            const container = document.getElementById('sheet-items-list');
+        // --- Cart Review Sheet ---
+        function openCartReview() {
             const items = Object.values(cart);
+            if (items.length === 0) {
+                showToast("Cart is empty. Add dishes first!");
+                return;
+            }
 
+            const container = document.getElementById('sheet-items-container');
             container.innerHTML = items.map(c => `
-                <div class="sheet-row">
-                    <div style="flex: 1;">
-                        <div style="font-weight: 600;">${c.item.name} (₹${c.item.price})</div>
-                        <input type="text" class="note-input" placeholder="Notes (e.g. Spicy, No onion)..." value="${c.notes}" oninput="updateItemNotes(${c.item.id}, this.value)">
+                <div class="sheet-item-row">
+                    <div style="flex: 1; padding-right: 12px;">
+                        <div class="sheet-item-name">${c.item.name}</div>
+                        <div class="sheet-item-price">₹ ${Math.round(c.item.price)} x ${c.qty} = ₹ ${Math.round(c.item.price * c.qty)}</div>
+                        <input type="text" class="sheet-item-note" placeholder="Special cooking note (e.g. Less spicy)..." value="${c.notes || ''}" oninput="updateItemNotes(${c.item.id}, this.value)">
                     </div>
-                    <div class="qty-picker" style="margin-left: 12px;">
-                        <button class="btn-qty" onclick="changeQtySheet(${c.item.id}, -1)">-</button>
-                        <span style="font-weight: 700;">${c.qty}</span>
-                        <button class="btn-qty" onclick="changeQtySheet(${c.item.id}, 1)">+</button>
+                    <div class="stepper-wrap">
+                        <button class="btn-step" onclick="changeSheetQty(${c.item.id}, -1)">-</button>
+                        <span class="step-qty">${c.qty}</span>
+                        <button class="btn-step add" onclick="changeSheetQty(${c.item.id}, 1)">+</button>
                     </div>
                 </div>
             `).join('');
 
-            document.getElementById('cart-modal').style.display = 'flex';
+            document.getElementById('cart-modal').classList.add('active');
         }
 
-        function updateItemNotes(itemId, notes) {
+        function updateItemNotes(itemId, note) {
             if (cart[itemId]) {
-                cart[itemId].notes = notes;
+                cart[itemId].notes = note;
             }
         }
 
-        function changeQtySheet(itemId, delta) {
-            changeQty(itemId, delta);
+        function changeSheetQty(itemId, delta) {
+            changeCartQty(itemId, delta);
             if (Object.keys(cart).length === 0) {
-                closeCartSheet();
+                closeCartReview();
             } else {
-                openCartSheet();
+                openCartReview();
             }
         }
 
-        function closeCartSheet() {
-            document.getElementById('cart-modal').style.display = 'none';
+        function closeCartReview() {
+            document.getElementById('cart-modal').classList.remove('active');
         }
 
+        function onModalBackdropClick(event, modalId) {
+            if (event.target.id === modalId) {
+                document.getElementById(modalId).classList.remove('active');
+            }
+        }
+
+        // --- Submit KOT ---
         async function submitKOT() {
             const items = Object.values(cart).map(c => ({
                 item_id: c.item.id,
                 item_name: c.item.name,
                 price: c.item.price,
                 quantity: c.qty,
-                notes: c.notes
+                notes: c.notes || ''
             }));
 
-            if (items.length === 0 || !activeTable) return;
+            if (items.length === 0 || !activeTable) {
+                showToast("No items to send");
+                return;
+            }
 
             const payload = {
                 order_type: "dine_in",
@@ -634,41 +1709,37 @@
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(payload)
                 });
-                const result = await res.json();
-                closeCartSheet();
-                cart = {};
-                alert(`✅ KOT #${result.kot_number} successfully punched for ${activeTable.name}! Sent to kitchen.`);
-                showTablesScreen();
-            } catch (err) {
-                alert("Failed to send KOT: " + err);
-            }
-        }
-
-        // PWA Installation & Service Worker Logic
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            const banner = document.getElementById('install-banner');
-            if (banner) banner.style.display = 'flex';
-        });
-
-        document.getElementById('btn-install')?.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    document.getElementById('install-banner').style.display = 'none';
+                if (res.ok) {
+                    const result = await res.json();
+                    closeCartReview();
+                    cart = {};
+                    showToast(`KOT #${result.kot_number} sent to Kitchen!`);
+                    showTablesScreen();
+                } else {
+                    const err = await res.json();
+                    alert("Error: " + (err.detail || "Failed to punch KOT"));
                 }
-                deferredPrompt = null;
+            } catch (err) {
+                alert("Network error: Could not reach POS server over Wi-Fi: " + err);
             }
-        });
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/static/sw.js').catch(err => console.log('SW reg error:', err));
         }
 
-        window.addEventListener('DOMContentLoaded', initCaptain);
+        // --- Toast Utility ---
+        function showToast(msg) {
+            const toast = document.getElementById('toast-msg');
+            document.getElementById('toast-text').innerText = msg;
+            toast.style.display = 'flex';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2600);
+        }
+
+        // Service worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/sw.js').catch(err => console.log('SW error:', err));
+        }
+
+        window.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
